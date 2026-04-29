@@ -13,6 +13,9 @@ async def setup_database():
     yield
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
+    # Close pooled connections so the next test (with a fresh event loop)
+    # does not reuse connections bound to the old loop.
+    await engine.dispose()
 
 
 @pytest_asyncio.fixture
