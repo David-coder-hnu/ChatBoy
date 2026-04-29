@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import {
-  Zap, MessageCircle, Heart, Users, Activity,
-  ChevronRight, Sparkles, Clock
+  MessageCircle, Heart, Users, Activity,
+  ChevronRight, Sparkles
 } from 'lucide-react'
 import AppShell from '@/components/layout/AppShell'
 import { useAuthStore } from '@/stores/authStore'

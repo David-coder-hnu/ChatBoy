@@ -22,7 +22,7 @@ export default function RegisterPage() {
     try {
       const res = await api.post('/auth/register', { phone, password, nickname })
       setAuth(
-        { id: 'mock', phone, nickname: nickname || null, avatar_url: null, status: 'distilling' },
+        { id: 'mock', phone, nickname: nickname || null, avatar_url: null, bio: null, status: 'distilling' },
         res.data.access_token
       )
       navigate('/onboarding')

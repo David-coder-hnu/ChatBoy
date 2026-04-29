@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Upload, MessageSquare, Brain, Sparkles, ChevronRight, Loader2 } from 'lucide-react'
-import { api } from '@/lib/api'
+
 
 const questions = [
   {
@@ -40,7 +40,7 @@ const questions = [
 export default function OnboardingPage() {
   const [step, setStep] = useState<'questionnaire' | 'samples' | 'distilling' | 'complete'>('questionnaire')
   const [currentQ, setCurrentQ] = useState(0)
-  const [answers, setAnswers] = useState<Record<string, string>>({})
+  const [, setAnswers] = useState<Record<string, string>>({})
   const [chatSample, setChatSample] = useState('')
   const [progress, setProgress] = useState(0)
   const navigate = useNavigate()

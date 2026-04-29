@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { MessageCircle, Clock } from 'lucide-react'
+import { Clock } from 'lucide-react'
 import AppShell from '@/components/layout/AppShell'
 import { formatDate } from '@/lib/utils'
 

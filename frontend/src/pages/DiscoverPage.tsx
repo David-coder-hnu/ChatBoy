@@ -38,7 +38,7 @@ const mockProfiles = [
 ]
 
 export default function DiscoverPage() {
-  const [profiles, setProfiles] = useState(mockProfiles)
+  const [profiles] = useState(mockProfiles)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
   const [showDetail, setShowDetail] = useState(false)

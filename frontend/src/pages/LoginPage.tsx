@@ -22,7 +22,7 @@ export default function LoginPage() {
       const res = await api.post('/auth/login', { phone, password })
       // Mock user data since backend returns token
       setAuth(
-        { id: 'mock', phone, nickname: null, avatar_url: null, status: 'active' },
+        { id: 'mock', phone, nickname: null, avatar_url: null, bio: null, status: 'active' },
         res.data.access_token
       )
       navigate('/home')
