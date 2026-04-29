@@ -5,9 +5,9 @@ from app.db.session import engine
 from app.models.base import Base
 
 
-@pytest_asyncio.fixture(scope="session", autouse=True)
+@pytest_asyncio.fixture(autouse=True)
 async def setup_database():
-    """Create all tables before running tests, drop them after."""
+    """Create all tables before each test, drop them after."""
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     yield
