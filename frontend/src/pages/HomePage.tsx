@@ -10,7 +10,7 @@ import { useAuthStore } from '@/stores/authStore'
 
 export default function HomePage() {
   const { user } = useAuthStore()
-  const [cloneActive, setCloneActive] = useState(false)
+  const [onlineActive, setOnlineActive] = useState(false)
 
   return (
     <AppShell>
@@ -24,12 +24,12 @@ export default function HomePage() {
             <p className="text-text-secondary mt-1">你的在线状态今天已活跃 3 小时</p>
           </div>
           <div className="flex items-center gap-2 px-4 py-2 rounded-full glass border border-accent-cyan/20">
-            <div className={`w-2 h-2 rounded-full ${cloneActive ? 'bg-accent-cyan animate-pulse' : 'bg-text-ghost'}`} />
-            <span className="text-sm">{cloneActive ? '在线中' : '离线中'}</span>
+            <div className={`w-2 h-2 rounded-full ${onlineActive ? 'bg-accent-cyan animate-pulse' : 'bg-text-ghost'}`} />
+            <span className="text-sm">{onlineActive ? '在线中' : '离线中'}</span>
           </div>
         </div>
 
-        {/* Clone Status Card */}
+        {/* Online Status Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -42,26 +42,26 @@ export default function HomePage() {
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-cyan to-accent-magenta flex items-center justify-center">
                   <Sparkles size={28} className="text-white" />
                 </div>
-                {cloneActive && (
+                {onlineActive && (
                   <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-accent-cyan border-2 border-background animate-pulse" />
                 )}
               </div>
               <div>
                 <h2 className="font-display text-xl font-bold">在线状态</h2>
-                <p className="text-text-secondary text-sm">当前模式：{cloneActive ? '自动' : '手动'}</p>
+                <p className="text-text-secondary text-sm">当前模式：{onlineActive ? '自动' : '手动'}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <button
-                onClick={() => setCloneActive(!cloneActive)}
+                onClick={() => setOnlineActive(!onlineActive)}
                 className={`px-6 py-3 rounded-xl font-semibold transition-all ${
-                  cloneActive
+                  onlineActive
                     ? 'bg-accent-magenta/20 text-accent-magenta border border-accent-magenta/30 hover:bg-accent-magenta/30'
                     : 'bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/30 hover:bg-accent-cyan/30'
                 }`}
               >
-                {cloneActive ? '暂停自动' : '开启自动'}
+                {onlineActive ? '暂停自动' : '开启自动'}
               </button>
               <Link
                 to="/clone"
@@ -164,13 +164,13 @@ export default function HomePage() {
                     <MessageCircle size={18} className="text-accent-gold" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium text-sm">接管请求</p>
+                    <p className="font-medium text-sm">话题确认</p>
                     <p className="text-text-secondary text-xs mt-1">
-                      自动回复遇到了一个需要确认的问题，请求你暂时接管。
+                      有一个话题需要你的确认，系统建议你先看看再决定如何回复。
                     </p>
                     <div className="flex gap-2 mt-3">
                       <button className="px-4 py-2 rounded-lg bg-accent-cyan/20 text-accent-cyan text-xs font-medium hover:bg-accent-cyan/30 transition-colors">
-                        立即附身
+                        立即查看
                       </button>
                     </div>
                   </div>

@@ -43,7 +43,7 @@ export default function LandingPage() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-accent-cyan/30 mb-8">
               <Sparkles size={16} className="text-accent-cyan" />
-              <span className="text-sm text-accent-cyan">AI数字孪生社交平台</span>
+              <span className="text-sm text-accent-cyan">新一代社交平台</span>
             </div>
 
             <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 leading-tight">
@@ -53,7 +53,7 @@ export default function LandingPage() {
             </h1>
 
             <p className="text-text-secondary text-lg md:text-xl mb-10 max-w-xl mx-auto leading-relaxed">
-              让AI完全克隆你的 personality，替你社交、匹配、聊天、约会。
+              在这里，你的在线状态会延续你的 personality，替你维系关系、发现共鸣。
               当你离线时，另一个你在平台上继续生活。
             </p>
 
@@ -81,22 +81,22 @@ export default function LandingPage() {
             {[
               {
                 icon: Zap,
-                title: 'AI完全克隆',
-                desc: '通过深度问卷和聊天样本，AI精确蒸馏你的 personality、聊天风格和情感模式。',
+                title: '深度个性延续',
+                desc: '通过深度问卷和聊天样本，平台精确理解你的 personality、聊天风格和情感模式。',
                 color: 'text-accent-cyan',
                 glow: 'glow-cyan',
               },
               {
                 icon: Heart,
                 title: '替你培养感情',
-                desc: '你的在线分身会在你离线时继续聊天、匹配、培养关系，时机成熟时邀请你批准约会。',
+                desc: '你的在线状态会在你离线时继续聊天、匹配、培养关系，时机成熟时邀请你批准约会。',
                 color: 'text-accent-magenta',
                 glow: 'glow-magenta',
               },
               {
                 icon: Shield,
                 title: '悬疑社交体验',
-                desc: '对方永远不知道屏幕那头是真人还是克隆。只有双方都同意时，真实身份才会揭晓。',
+                desc: '对方永远不知道屏幕那头是真人还是在线状态。只有双方都同意时，真实身份才会揭晓。',
                 color: 'text-accent-gold',
                 glow: 'glow-gold',
               },
@@ -144,5 +144,3 @@ export default function LandingPage() {
     </div>
   )
 }
-
-

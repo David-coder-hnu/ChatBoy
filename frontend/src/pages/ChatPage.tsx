@@ -11,7 +11,6 @@ const mockConversations = [
     last_message: '哈哈，真的很有趣，刚才聊到了电影...',
     last_message_time: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
     unread: 2,
-    sender_type: 'clone',
     intimacy: 65,
   },
   {
@@ -20,7 +19,6 @@ const mockConversations = [
     last_message: '周末一起去 hiking 吗？',
     last_message_time: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
     unread: 0,
-    sender_type: 'human',
     intimacy: 42,
   },
   {
@@ -29,7 +27,6 @@ const mockConversations = [
     last_message: '我最近在画一幅新的插画...',
     last_message_time: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
     unread: 1,
-    sender_type: 'clone',
     intimacy: 28,
   },
 ]

@@ -1,8 +1,8 @@
 """
 Calibration API — 用户校准机制
 
-允许用户测试和精调克隆体的回复风格。
-用户给出一个场景 → 系统生成克隆回复 → 用户提供"真实回复" → 
+允许用户测试和精调在线状态的回复风格。
+用户给出一个场景 → 系统生成回复 → 用户提供"真实回复" → 
 系统对比差异并生成精调建议 → 可选地更新 system prompt。
 """
 
@@ -24,7 +24,7 @@ class CalibrationTestRequest(BaseModel):
 
 class CalibrationFeedbackRequest(BaseModel):
     scenario: str
-    clone_response: str
+    generated_response: str
     user_response: str  # 用户认为的真实回复
     issues: list[str] | None = None  # 用户指出的问题
 
@@ -34,12 +34,12 @@ class CalibrationRefineRequest(BaseModel):
 
 
 @router.post("/test")
-async def test_clone_response(
+async def test_generated_response(
     req: CalibrationTestRequest,
     user_id: str = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
-    """Test how the clone would respond to a given scenario"""
+    """Test how the online state would respond to a given scenario"""
     from sqlalchemy import select
     from app.models.clone_profile import CloneProfile
 
@@ -59,7 +59,7 @@ async def test_clone_response(
 
     return {
         "scenario": req.scenario,
-        "clone_response": response,
+        "generated_response": response,
         "profile_score": float(profile.completion_score),
     }
 
@@ -70,7 +70,7 @@ async def submit_calibration_feedback(
     user_id: str = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
-    """Submit user feedback on clone response vs real response"""
+    """Submit user feedback on generated response vs real response"""
     from sqlalchemy import select
     from app.models.clone_profile import CloneProfile
 
@@ -80,7 +80,7 @@ async def submit_calibration_feedback(
         return {"error": "No clone profile found."}
 
     # Use LLM to analyze the gap between clone response and user response
-    analysis = await _analyze_gap(req.scenario, req.clone_response, req.user_response)
+    analysis = await _analyze_gap(req.scenario, req.generated_response, req.user_response)
 
     return {
         "analysis": analysis,
@@ -90,12 +90,12 @@ async def submit_calibration_feedback(
 
 
 @router.post("/refine")
-async def refine_clone_prompt(
+async def refine_system_prompt(
     req: CalibrationRefineRequest,
     user_id: str = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
-    """Refine the clone's system prompt based on multiple calibration tests"""
+    """Refine the system prompt based on multiple calibration tests"""
     from sqlalchemy import select
     from app.models.clone_profile import CloneProfile
 
@@ -121,14 +121,14 @@ async def refine_clone_prompt(
     }
 
 
-async def _analyze_gap(scenario: str, clone_response: str, user_response: str) -> dict:
-    """Use LLM to analyze the stylistic gap between clone and user"""
-    prompt = f"""你是一个风格分析专家。请对比以下两个回复，分析克隆回复与真实回复的差异。
+async def _analyze_gap(scenario: str, generated_response: str, user_response: str) -> dict:
+    """Use LLM to analyze the stylistic gap between generated and user response"""
+    prompt = f"""你是一个风格分析专家。请对比以下两个回复，分析系统生成回复与用户真实回复的差异。
 
 场景：{scenario}
 
-克隆回复：
-{clone_response}
+系统生成回复：
+{generated_response}
 
 真实回复（用户本人）：
 {user_response}
@@ -139,7 +139,7 @@ async def _analyze_gap(scenario: str, clone_response: str, user_response: str) -
   "style_gaps": [
     {{
       "dimension": "差异维度（语气/emoji/句式/用词/情感深度/反应速度）",
-      "clone_behavior": "克隆体的表现",
+      "generated_behavior": "系统生成的表现",
       "user_behavior": "用户真实表现",
       "severity": "high/medium/low"
     }}
@@ -178,7 +178,7 @@ async def _generate_refinement(current_prompt: str, test_results: list) -> dict:
     for i, tr in enumerate(test_results):
         feedback_summary.append(f"""测试 {i+1}:
 场景: {tr.scenario}
-克隆回复: {tr.clone_response}
+系统生成回复: {tr.generated_response}
 用户真实回复: {tr.user_response}
 用户指出问题: {', '.join(tr.issues or [])}
 """)

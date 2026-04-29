@@ -89,7 +89,7 @@ export default function ProfilePage() {
             </div>
           </div>
           <div className="space-y-2">
-            {['端到端加密聊天', '克隆身份永不暴露', '随时删除所有数据'].map((item) => (
+            {['端到端加密聊天', '身份隐私保护', '随时删除所有数据'].map((item) => (
               <div key={item} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface/50">
                 <div className="w-1.5 h-1.5 rounded-full bg-accent-cyan" />
                 <span className="text-sm text-text-secondary">{item}</span>

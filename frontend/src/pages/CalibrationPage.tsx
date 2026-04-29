@@ -5,7 +5,7 @@ import { api } from '@/lib/api'
 
 interface TestResult {
   scenario: string
-  cloneResponse: string
+  generatedResponse: string
   userResponse: string
   analysis: {
     overall_match: number
@@ -29,22 +29,22 @@ const sampleScenarios = [
 
 export default function CalibrationPage() {
   const [scenario, setScenario] = useState('')
-  const [cloneResponse, setCloneResponse] = useState('')
+  const [generatedResponse, setGeneratedResponse] = useState('')
   const [userResponse, setUserResponse] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [results, setResults] = useState<TestResult[]>([])
   const [currentAnalysis, setCurrentAnalysis] = useState<TestResult['analysis']>(null)
 
-  const testClone = async () => {
+  const testStyle = async () => {
     if (!scenario.trim()) return
     setIsLoading(true)
-    setCloneResponse('')
+    setGeneratedResponse('')
     setCurrentAnalysis(null)
 
     try {
       const res = await api.post('/calibration/test', { scenario })
-      setCloneResponse(res.data.clone_response)
+      setGeneratedResponse(res.data.generated_response)
     } catch (err: any) {
       console.error('Test failed:', err)
     } finally {
@@ -53,13 +53,13 @@ export default function CalibrationPage() {
   }
 
   const submitFeedback = async () => {
-    if (!cloneResponse || !userResponse.trim()) return
+    if (!generatedResponse || !userResponse.trim()) return
     setIsAnalyzing(true)
 
     try {
       const res = await api.post('/calibration/feedback', {
         scenario,
-        clone_response: cloneResponse,
+        generated_response: generatedResponse,
         user_response: userResponse,
       })
 
@@ -68,7 +68,7 @@ export default function CalibrationPage() {
 
       const newResult: TestResult = {
         scenario,
-        cloneResponse,
+        generatedResponse,
         userResponse,
         analysis,
       }
@@ -80,7 +80,7 @@ export default function CalibrationPage() {
     }
   }
 
-  const refineClone = async () => {
+  const refineStyle = async () => {
     if (results.length < 2) return
     setIsLoading(true)
 
@@ -88,7 +88,7 @@ export default function CalibrationPage() {
       const res = await api.post('/calibration/refine', {
         test_results: results.map((r) => ({
           scenario: r.scenario,
-          clone_response: r.cloneResponse,
+          generated_response: r.generatedResponse,
           user_response: r.userResponse,
           issues: r.analysis?.style_gaps?.map((g) => g.dimension) || [],
         })),
@@ -122,11 +122,11 @@ export default function CalibrationPage() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 mb-4">
             <FlaskConical size={16} className="text-accent-cyan" />
-            <span className="text-accent-cyan text-sm font-medium">克隆校准实验室</span>
+            <span className="text-accent-cyan text-sm font-medium">风格校准实验室</span>
           </div>
-          <h1 className="font-display text-3xl font-bold mb-2">让克隆更像你</h1>
+          <h1 className="font-display text-3xl font-bold mb-2">让你的回复更自然</h1>
           <p className="text-text-secondary">
-            测试克隆的回复风格，提供真实回复作为对比，AI 会学习差异并自动优化
+            测试在线状态的回复风格，提供真实回复作为对比，AI 会学习差异并自动优化
           </p>
         </div>
 
@@ -157,7 +157,7 @@ export default function CalibrationPage() {
           </div>
 
           <button
-            onClick={testClone}
+            onClick={testStyle}
             disabled={!scenario.trim() || isLoading}
             className="w-full py-3 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-magenta text-white font-semibold transition-all hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
@@ -166,15 +166,15 @@ export default function CalibrationPage() {
             ) : (
               <>
                 <Sparkles size={18} />
-                测试克隆回复
+                测试回复风格
               </>
             )}
           </button>
         </motion.div>
 
-        {/* Clone Response */}
+        {/* Generated Response */}
         <AnimatePresence>
-          {cloneResponse && (
+          {generatedResponse && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -183,10 +183,10 @@ export default function CalibrationPage() {
             >
               <div className="flex items-center gap-2 mb-4">
                 <Bot size={18} className="text-accent-magenta" />
-                <span className="font-medium text-accent-magenta">克隆体回复</span>
+                <span className="font-medium text-accent-magenta">系统生成的回复</span>
               </div>
               <div className="p-4 rounded-xl bg-surface border border-accent-magenta/20 text-text-primary leading-relaxed">
-                {cloneResponse}
+                {generatedResponse}
               </div>
             </motion.div>
           )}
@@ -194,7 +194,7 @@ export default function CalibrationPage() {
 
         {/* User Real Response */}
         <AnimatePresence>
-          {cloneResponse && (
+          {generatedResponse && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -269,7 +269,7 @@ export default function CalibrationPage() {
                       </div>
                       <div className="grid grid-cols-2 gap-2 text-xs">
                         <div className="text-text-ghost">
-                          <span className="text-accent-magenta">克隆: </span>
+                          <span className="text-accent-magenta">系统: </span>
                           {gap.clone_behavior}
                         </div>
                         <div className="text-text-ghost">
@@ -331,12 +331,12 @@ export default function CalibrationPage() {
 
             {results.length >= 3 && (
               <button
-                onClick={refineClone}
+                onClick={refineStyle}
                 disabled={isLoading}
                 className="w-full py-3 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-magenta text-white font-semibold transition-all hover:scale-[1.02] disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 <ArrowRight size={18} />
-                基于 {results.length} 次测试精调克隆
+                基于 {results.length} 次测试精调风格
               </button>
             )}
           </motion.div>

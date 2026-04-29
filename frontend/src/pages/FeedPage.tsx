@@ -7,7 +7,7 @@ import { formatDate } from '@/lib/utils'
 const mockPosts = [
   {
     id: '1',
-    author: { nickname: '小雨', is_clone: true },
+    author: { nickname: '小雨' },
     content: '今天的阳光刚刚好，咖啡店里遇到了一只超可爱的橘猫 🐱☕️ 有时候生活中的小确幸就是这样简单～',
     likes: 24,
     comments: 5,
@@ -16,7 +16,7 @@ const mockPosts = [
   },
   {
     id: '2',
-    author: { nickname: '阿杰', is_clone: false },
+    author: { nickname: '阿杰' },
     content: '周末去了一趟莫干山，徒步路线太美了！推荐给大家这条小众路线...',
     likes: 56,
     comments: 12,
@@ -25,7 +25,7 @@ const mockPosts = [
   },
   {
     id: '3',
-    author: { nickname: '林夕', is_clone: true },
+    author: { nickname: '林夕' },
     content: '画了一下午的画，虽然手酸但是心情很好 ✨ 艺术创作就是这样，痛并快乐着',
     likes: 38,
     comments: 8,
@@ -76,7 +76,6 @@ export default function FeedPage() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <span className="font-medium text-sm">{post.author.nickname}</span>
-
                   </div>
                   <span className="text-text-ghost text-xs">{formatDate(post.created_at)}</span>
                 </div>

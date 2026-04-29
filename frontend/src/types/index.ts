@@ -37,7 +37,6 @@ export interface Message {
   id: string
   conversation_id: string
   sender_id: string
-  sender_type: 'human' | 'clone'
   content: string
   created_at: string
 }
@@ -45,7 +44,6 @@ export interface Message {
 export interface Post {
   id: string
   author_id: string
-  author_type: 'human' | 'clone'
   content: string
   likes_count: number
   comments_count: number

@@ -9,40 +9,39 @@ import { formatDate } from '@/lib/utils'
 
 interface Message {
   id: string
-  sender_type: 'human' | 'clone'
+  is_from_me: boolean
   content: string
   created_at: string
-  is_takeover_notification?: boolean
 }
 
 const mockMessages: Message[] = [
   {
     id: '1',
-    sender_type: 'clone',
+    is_from_me: false,
     content: '嗨，你好呀！我是通过匹配发现你的，感觉我们兴趣很相似 ✨',
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
   },
   {
     id: '2',
-    sender_type: 'human',
+    is_from_me: true,
     content: '哈哈真的吗？你平时喜欢做什么？',
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 1.5).toISOString(),
   },
   {
     id: '3',
-    sender_type: 'clone',
+    is_from_me: false,
     content: '我喜欢摄影和咖啡！周末经常带着相机去街拍，然后在咖啡馆修图。你呢？',
     created_at: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
   },
   {
     id: '4',
-    sender_type: 'human',
+    is_from_me: true,
     content: '我也喜欢拍照！不过我更多是用手机拍生活碎片 😂',
     created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
   },
   {
     id: '5',
-    sender_type: 'clone',
+    is_from_me: false,
     content: '手机摄影也超棒的！重要的是记录下来的那个瞬间～ 你最近拍了什么好看的照片吗？',
     created_at: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
   },
@@ -53,8 +52,8 @@ export default function ChatRoomPage() {
   const navigate = useNavigate()
   const [messages, setMessages] = useState<Message[]>(mockMessages)
   const [input, setInput] = useState('')
-  const [isTakeover, setIsTakeover] = useState(false)
-  const [showTakeoverHint, setShowTakeoverHint] = useState(false)
+  const [isManualMode, setIsManualMode] = useState(false)
+  const [showModeHint, setShowModeHint] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -65,7 +64,7 @@ export default function ChatRoomPage() {
     if (!input.trim()) return
     const newMsg: Message = {
       id: Date.now().toString(),
-      sender_type: 'human',
+      is_from_me: true,
       content: input,
       created_at: new Date().toISOString(),
     }
@@ -73,12 +72,12 @@ export default function ChatRoomPage() {
     setInput('')
   }
 
-  const toggleTakeover = () => {
-    if (!isTakeover) {
-      setShowTakeoverHint(true)
-      setTimeout(() => setShowTakeoverHint(false), 3000)
+  const toggleMode = () => {
+    if (!isManualMode) {
+      setShowModeHint(true)
+      setTimeout(() => setShowModeHint(false), 3000)
     }
-    setIsTakeover(!isTakeover)
+    setIsManualMode(!isManualMode)
   }
 
   return (
@@ -121,11 +120,11 @@ export default function ChatRoomPage() {
               key={msg.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`flex ${msg.sender_type === 'human' ? 'justify-end' : 'justify-start'}`}
+              className={`flex ${msg.is_from_me ? 'justify-end' : 'justify-start'}`}
             >
               <div
                 className={`max-w-[75%] px-4 py-3 rounded-2xl ${
-                  msg.sender_type === 'human'
+                  msg.is_from_me
                     ? 'bg-accent-cyan/20 text-text-primary rounded-br-md'
                     : 'glass border border-white/5 rounded-bl-md'
                 }`}
@@ -142,39 +141,39 @@ export default function ChatRoomPage() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Takeover hint */}
+      {/* Mode hint */}
       <AnimatePresence>
-        {showTakeoverHint && (
+        {showModeHint && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             className="px-4 py-2 bg-accent-cyan/10 border-t border-accent-cyan/20 text-center"
           >
-            <p className="text-accent-cyan text-sm">你已附身到孪生，现在由你亲自聊天</p>
+            <p className="text-accent-cyan text-sm">已切换为手动模式，现在由你亲自回复</p>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Input area */}
       <div className="glass border-t border-white/5 p-4 shrink-0">
-        {!isTakeover && (
+        {!isManualMode && (
           <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-xl bg-accent-gold/5 border border-accent-gold/10">
             <Sparkles size={14} className="text-accent-gold" />
-            <span className="text-xs text-accent-gold">自动回复中</span>
+            <span className="text-xs text-accent-gold">智能辅助已开启</span>
           </div>
         )}
 
         <div className="flex items-center gap-3">
           <button
-            onClick={toggleTakeover}
+            onClick={toggleMode}
             className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-              isTakeover
+              isManualMode
                 ? 'bg-accent-cyan text-white glow-cyan'
                 : 'glass border border-white/10 text-text-secondary hover:text-accent-cyan'
             }`}
           >
-            {isTakeover ? <User size={20} /> : <Hand size={20} />}
+            {isManualMode ? <User size={20} /> : <Hand size={20} />}
           </button>
 
           <div className="flex-1 relative">

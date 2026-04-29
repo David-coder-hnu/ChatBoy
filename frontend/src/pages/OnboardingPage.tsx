@@ -167,7 +167,7 @@ export default function OnboardingPage() {
       setProgress(100)
       setStep('complete')
     } catch (err: any) {
-      setDistillError(err.response?.data?.detail || '蒸馏失败，请重试')
+      setDistillError(err.response?.data?.detail || '创建失败，请重试')
       setStep('samples')
     }
   }
@@ -294,7 +294,7 @@ export default function OnboardingPage() {
               <div className="flex items-start gap-3 p-4 rounded-xl bg-accent-gold/5 border border-accent-gold/20 mb-6">
                 <Upload size={18} className="text-accent-gold shrink-0 mt-0.5" />
                 <div className="text-sm text-text-secondary space-y-1">
-                  <p>样本越多，克隆越精准。建议提供：</p>
+                  <p>样本越多，匹配越精准。建议提供：</p>
                   <ul className="list-disc list-inside text-text-ghost space-y-0.5">
                     <li>日常闲聊片段</li>
                     <li>表达情绪时的对话</li>
@@ -314,7 +314,7 @@ export default function OnboardingPage() {
                 disabled={getTotalChars() < 20}
                 className="w-full py-3.5 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-magenta text-white font-semibold transition-all hover:scale-[1.02] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                开始蒸馏
+                开始创建
               </button>
             </motion.div>
           )}
@@ -344,8 +344,8 @@ export default function OnboardingPage() {
                 </div>
               </div>
 
-              <h2 className="font-display text-2xl font-bold mb-2">正在深度蒸馏...</h2>
-              <p className="text-text-secondary mb-6">AI 正在分析你的人格 DNA 和聊天指纹</p>
+              <h2 className="font-display text-2xl font-bold mb-2">正在深度创建...</h2>
+              <p className="text-text-secondary mb-6">AI 正在分析你的人格特征和聊天风格</p>
 
               <div className="h-2 bg-surface rounded-full overflow-hidden">
                 <motion.div
@@ -360,7 +360,7 @@ export default function OnboardingPage() {
                 <motion.p animate={{ opacity: progress > 30 ? 1 : 0.3 }}>分析聊天 DNA（句法、emoji、标点）...</motion.p>
                 <motion.p animate={{ opacity: progress > 45 ? 1 : 0.3 }}>深度语义风格分析...</motion.p>
                 <motion.p animate={{ opacity: progress > 60 ? 1 : 0.3 }}>合成记忆种子与情感触发器...</motion.p>
-                <motion.p animate={{ opacity: progress > 75 ? 1 : 0.3 }}>锻造 System Prompt...</motion.p>
+                <motion.p animate={{ opacity: progress > 75 ? 1 : 0.3 }}>锻造个性化回复引擎...</motion.p>
                 <motion.p animate={{ opacity: progress > 90 ? 1 : 0.3 }}>多轮验证与校准...</motion.p>
               </div>
             </motion.div>
@@ -382,9 +382,9 @@ export default function OnboardingPage() {
                 <Sparkles size={40} className="text-white" />
               </motion.div>
 
-              <h2 className="font-display text-3xl font-bold mb-3">克隆就绪</h2>
+              <h2 className="font-display text-3xl font-bold mb-3">准备就绪</h2>
               <p className="text-text-secondary mb-8 max-w-sm mx-auto">
-                你的数字分身已创建完成。现在你可以在 SoulClone 上开始社交了。
+                你的在线状态已创建完成。现在你可以在 SoulClone 上开始社交了。
               </p>
 
               {validationResult ? (

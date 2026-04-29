@@ -85,8 +85,8 @@ export default function ClonePage() {
                 <FlaskConical size={22} className="text-accent-cyan" />
               </div>
               <div>
-                <h3 className="font-medium mb-0.5">克隆校准实验室</h3>
-                <p className="text-text-secondary text-sm">测试克隆回复风格，提供反馈让 AI 更精准模仿你</p>
+                <h3 className="font-medium mb-0.5">风格校准实验室</h3>
+                <p className="text-text-secondary text-sm">测试回复风格，提供反馈让 AI 更精准模仿你</p>
               </div>
             </div>
             <ArrowRight size={20} className="text-text-ghost" />
