@@ -11,6 +11,7 @@ import ChatRoomPage from '@/pages/ChatRoomPage'
 import FeedPage from '@/pages/FeedPage'
 import ProfilePage from '@/pages/ProfilePage'
 import ClonePage from '@/pages/ClonePage'
+import CalibrationPage from '@/pages/CalibrationPage'
 
 function App() {
   const { isAuthenticated, user } = useAuthStore()
@@ -29,6 +30,7 @@ function App() {
         <Route path="/feed" element={isAuthenticated ? <FeedPage /> : <Navigate to="/login" />} />
         <Route path="/profile" element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" />} />
         <Route path="/clone" element={isAuthenticated ? <ClonePage /> : <Navigate to="/login" />} />
+        <Route path="/calibrate" element={isAuthenticated ? <CalibrationPage /> : <Navigate to="/login" />} />
       </Routes>
     </div>
   )

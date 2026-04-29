@@ -65,7 +65,7 @@ export default function ChatRoomPage() {
     if (!input.trim()) return
     const newMsg: Message = {
       id: Date.now().toString(),
-      sender_type: isTakeover ? 'human' : 'clone',
+      sender_type: 'human',
       content: input,
       created_at: new Date().toISOString(),
     }
@@ -99,7 +99,7 @@ export default function ChatRoomPage() {
           <div>
             <h2 className="font-medium">小雨</h2>
             <div className="flex items-center gap-1 text-text-ghost text-xs">
-              <Sparkles size={10} className="text-accent-cyan" />
+              <Sparkles size={10} className="text-accent-gold" />
               <span>身份未知</span>
             </div>
           </div>
@@ -159,9 +159,9 @@ export default function ChatRoomPage() {
       {/* Input area */}
       <div className="glass border-t border-white/5 p-4 shrink-0">
         {!isTakeover && (
-          <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-xl bg-accent-cyan/5 border border-accent-cyan/10">
-            <Sparkles size={14} className="text-accent-cyan" />
-            <span className="text-xs text-accent-cyan">自动回复中</span>
+          <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-xl bg-accent-gold/5 border border-accent-gold/10">
+            <Sparkles size={14} className="text-accent-gold" />
+            <span className="text-xs text-accent-gold">自动回复中</span>
           </div>
         )}
 

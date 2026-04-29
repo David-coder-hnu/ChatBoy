@@ -1,13 +1,14 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.db.session import init_db
 from app.middleware.auth import AuthMiddleware
-from app.api.v1 import auth, users, distillation, clones, matches, conversations, messages, posts, feed, notifications, date_invites
+from app.api.v1 import auth, users, distillation, clones, matches, conversations, messages, posts, feed, notifications, date_invites, calibration
 from app.websocket.manager import manager
+from app.websocket.chat_handler import ChatHandler
 
 
 @asynccontextmanager
@@ -47,6 +48,7 @@ app.include_router(posts.router, prefix="/api/v1/posts", tags=["posts"])
 app.include_router(feed.router, prefix="/api/v1/feed", tags=["feed"])
 app.include_router(notifications.router, prefix="/api/v1/notifications", tags=["notifications"])
 app.include_router(date_invites.router, prefix="/api/v1/date-invites", tags=["date-invites"])
+app.include_router(calibration.router, prefix="/api/v1/calibration", tags=["calibration"])
 
 
 @app.get("/health")
@@ -55,13 +57,28 @@ async def health():
 
 
 @app.websocket("/ws/chat")
-async def websocket_chat(websocket: WebSocket):
-    # Accept without auth for now; production should validate token
-    await manager.connect(websocket, "anonymous")
+async def websocket_chat(websocket: WebSocket, token: str = Query(...)):
+    from app.dependencies import get_current_user_id
+    
     try:
-        while True:
-            data = await websocket.receive_json()
-            # Echo back for now; production routes to chat_handler
-            await manager.send_personal_message(data, "anonymous")
-    except WebSocketDisconnect:
-        manager.disconnect(websocket, "anonymous")
+        from app.core.security import decode_token
+        payload = decode_token(token)
+        if not payload or "sub" not in payload:
+            await websocket.close(code=4001, reason="Unauthorized")
+            return
+        user_id = payload["sub"]
+    except Exception:
+        await websocket.close(code=4001, reason="Unauthorized")
+        return
+    
+    await manager.connect(websocket, user_id)
+    
+    from app.db.session import async_session
+    async with async_session() as db:
+        handler = ChatHandler(db)
+        try:
+            while True:
+                data = await websocket.receive_json()
+                await handler.handle_message(user_id, data)
+        except WebSocketDisconnect:
+            manager.disconnect(websocket, user_id)

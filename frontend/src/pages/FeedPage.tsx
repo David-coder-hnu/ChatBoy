@@ -90,7 +90,7 @@ export default function FeedPage() {
                 {post.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2 py-0.5 rounded-lg bg-surface text-text-secondary text-xs"
+                    className="px-2.5 py-1 rounded-lg bg-accent-cyan/10 text-accent-cyan text-xs border border-accent-cyan/20"
                   >
                     #{tag}
                   </span>

@@ -78,7 +78,7 @@ export default function HomePage() {
               { icon: MessageCircle, label: '今日消息', value: '24', color: 'text-accent-cyan' },
               { icon: Heart, label: '新匹配', value: '3', color: 'text-accent-magenta' },
               { icon: Users, label: '深入聊天', value: '2', color: 'text-accent-gold' },
-              { icon: Activity, label: '社区互动', value: '7', color: 'text-green-400' },
+              { icon: Activity, label: '社区互动', value: '7', color: 'text-accent-gold' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <stat.icon size={20} className={`mx-auto mb-2 ${stat.color}`} />

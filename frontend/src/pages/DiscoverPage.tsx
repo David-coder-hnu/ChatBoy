@@ -50,7 +50,7 @@ export default function DiscoverPage() {
     setTimeout(() => {
       setCurrentIndex((p) => p + 1)
       setDirection(0)
-    }, 200)
+    }, 300)
   }
 
   if (!current) {

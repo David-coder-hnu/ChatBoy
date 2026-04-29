@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Sparkles, ArrowRight, Zap, Shield, Heart } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 export default function LandingPage() {
   return (
@@ -144,6 +145,4 @@ export default function LandingPage() {
   )
 }
 
-function cn(...classes: (string | false | undefined)[]) {
-  return classes.filter(Boolean).join(' ')
-}
+

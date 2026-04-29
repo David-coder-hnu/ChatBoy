@@ -17,14 +17,29 @@ async def start_distillation(
 ):
     """Start AI distillation process for current user"""
     service = DistillationService()
-    profile = await service.distill_user(
+    result = await service.distill_user(
         user_id=user_id,
         questionnaire=data.questionnaire_answers,
         chat_samples=data.chat_samples or [],
         social_import=data.social_import,
         db=db,
     )
-    return {"status": "completed", "profile_id": str(profile.id)}
+    profile = result["profile"]
+    validation = result["validation"]
+    overall_score = result["overall_score"]
+    
+    return {
+        "status": "completed",
+        "profile_id": str(profile.id),
+        "overall_score": overall_score,
+        "validation": {
+            "consistency_score": validation.get("consistency_score", 0),
+            "stability_score": validation.get("stability_score", 0),
+            "safety_score": validation.get("safety_score", 0),
+            "plausibility_score": validation.get("plausibility_score", 0),
+            "critical_gaps": validation.get("critical_gaps", []),
+        },
+    }
 
 
 @router.get("/status")
@@ -39,7 +54,7 @@ async def get_distillation_status(
     result = await db.execute(select(CloneProfile).where(CloneProfile.user_id == user_id))
     profile = result.scalar_one_or_none()
     if not profile:
-        return {"status": "not_started", "completion_score": 0.0}
+        return {"status": "not_started", "completion_score": 0.0, "is_activated": False}
 
     return {
         "status": "completed" if profile.is_activated else "in_progress",

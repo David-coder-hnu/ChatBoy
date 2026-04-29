@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Sparkles, Sliders, Activity, MessageSquare, Brain } from 'lucide-react'
+import { Sparkles, Sliders, Activity, MessageSquare, Brain, FlaskConical, ArrowRight } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import AppShell from '@/components/layout/AppShell'
 
 export default function ClonePage() {
+  const navigate = useNavigate()
   const [autonomy, setAutonomy] = useState(7)
   const [active, setActive] = useState(false)
 
@@ -66,6 +68,28 @@ export default function ClonePage() {
               {autonomy > 3 && autonomy <= 7 && '平衡：会主动维护和推进关系'}
               {autonomy > 7 && '激进：非常主动，积极寻求新匹配'}
             </p>
+          </div>
+        </motion.div>
+
+        {/* Calibration CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="glass rounded-2xl p-5 mb-6 border border-accent-cyan/20 cursor-pointer hover:border-accent-cyan/40 transition-colors"
+          onClick={() => navigate('/calibrate')}
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center">
+                <FlaskConical size={22} className="text-accent-cyan" />
+              </div>
+              <div>
+                <h3 className="font-medium mb-0.5">克隆校准实验室</h3>
+                <p className="text-text-secondary text-sm">测试克隆回复风格，提供反馈让 AI 更精准模仿你</p>
+              </div>
+            </div>
+            <ArrowRight size={20} className="text-text-ghost" />
           </div>
         </motion.div>
 

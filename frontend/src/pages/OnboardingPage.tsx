@@ -1,49 +1,102 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Upload, MessageSquare, Brain, Sparkles, ChevronRight, Loader2 } from 'lucide-react'
+import { Upload, MessageSquare, Brain, Sparkles, ChevronRight, Loader2, AlertCircle, CheckCircle, RefreshCw } from 'lucide-react'
 import { api } from '@/lib/api'
 
 
+// Expanded questionnaire with 12 questions covering more dimensions
 const questions = [
   {
     id: 'values',
     question: '如果必须在以下三者中选择一个最看重的，你会选？',
     options: ['真诚与信任', '自由与冒险', '稳定与安全感'],
+    category: '价值观',
   },
   {
-    id: 'social',
+    id: 'social_energy',
     question: '你在陌生聚会中通常...',
     options: ['主动找人聊天', '等别人来找你', '找个角落观察'],
+    category: '社交能量',
   },
   {
     id: 'conflict',
     question: '当和伴侣发生分歧时，你倾向于...',
     options: ['立即沟通解决', '先冷静再谈', '避免冲突忍过去'],
+    category: '冲突处理',
   },
   {
-    id: 'expression',
+    id: 'love_language',
     question: '你表达喜欢的方式更偏向...',
     options: ['言语肯定', '实际行动', '肢体接触', '精心准备礼物'],
+    category: '爱的语言',
   },
   {
     id: 'humor',
     question: '你的幽默风格更接近...',
     options: [' sarcastic 讽刺', 'self-deprecating 自嘲', 'absurd 无厘头', 'witty 机智'],
+    category: '幽默风格',
   },
   {
-    id: 'ideal',
+    id: 'ideal_scene',
     question: '想象一个让你心动的人，TA此刻在做什么？',
     options: ['专注地工作/创作', '和朋友开怀大笑', '独自看书思考', '户外运动探险'],
+    category: '理想场景',
+  },
+  {
+    id: 'texting_style',
+    question: '你平时回消息的习惯是...',
+    options: ['秒回，看到就回', '想好了再回，几分钟', '忙完再回，可能很久', '看心情，忽快忽慢'],
+    category: '聊天节奏',
+  },
+  {
+    id: 'emotional_depth',
+    question: '和不熟的人聊天，你更愿意聊...',
+    options: ['日常琐事和趣事', '兴趣爱好和观点', '情感经历和心事', '抽象想法和幻想'],
+    category: '情感深度',
+  },
+  {
+    id: 'emoji_usage',
+    question: '你使用 emoji / 表情包 的频率...',
+    options: ['几乎每条都有', '偶尔用，看心情', '很少用，用文字表达', '完全不用'],
+    category: '表情习惯',
+  },
+  {
+    id: 'vulnerability',
+    question: '在什么情况下你会向别人敞开心扉？',
+    options: ['只有非常信任的人', '喝到微醺的时候', '深夜 emo 的时候', '基本上不会对人说'],
+    category: '脆弱暴露',
+  },
+  {
+    id: 'first_move',
+    question: '遇到有好感的人，你会...',
+    options: ['主动搭讪/发消息', '暗示等对方主动', '默默关注不敢行动', '直接表白不拖泥带水'],
+    category: '主动程度',
+  },
+  {
+    id: 'alone_time',
+    question: '独处时，你通常感到...',
+    options: ['充电，很享受', '有点寂寞但能忍', '必须找点事做', '很焦虑想找人陪'],
+    category: '独处模式',
   },
 ]
+
+interface ValidationResult {
+  consistency_score: number
+  stability_score: number
+  safety_score: number
+  plausibility_score: number
+  critical_gaps: string[]
+}
 
 export default function OnboardingPage() {
   const [step, setStep] = useState<'questionnaire' | 'samples' | 'distilling' | 'complete'>('questionnaire')
   const [currentQ, setCurrentQ] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string>>({})
-  const [chatSample, setChatSample] = useState('')
+  const [chatSamples, setChatSamples] = useState<string[]>([''])
   const [progress, setProgress] = useState(0)
+  const [distillError, setDistillError] = useState('')
+  const [validationResult, setValidationResult] = useState<ValidationResult | null>(null)
   const navigate = useNavigate()
 
   const handleAnswer = (answer: string) => {
@@ -55,19 +108,46 @@ export default function OnboardingPage() {
     }
   }
 
-  const [distillError, setDistillError] = useState('')
+  const addChatSample = () => {
+    setChatSamples((prev) => [...prev, ''])
+  }
+
+  const updateChatSample = (index: number, value: string) => {
+    setChatSamples((prev) => {
+      const next = [...prev]
+      next[index] = value
+      return next
+    })
+  }
+
+  const removeChatSample = (index: number) => {
+    setChatSamples((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  const getTotalChars = () => chatSamples.reduce((sum, s) => sum + s.length, 0)
 
   const startDistillation = async () => {
+    const validSamples = chatSamples.filter(s => s.trim().length > 10)
+    if (validSamples.length === 0) {
+      setDistillError('请至少提供一段有效的聊天样本（10字以上）')
+      return
+    }
+
     setStep('distilling')
     setDistillError('')
     setProgress(0)
 
     try {
-      await api.post('/distillation/start', {
+      const res = await api.post('/distillation/start', {
         questionnaire_answers: answers,
-        chat_samples: chatSample ? [chatSample] : [],
+        chat_samples: validSamples,
         social_import: null,
       })
+
+      const data = res.data
+      if (data.validation) {
+        setValidationResult(data.validation)
+      }
 
       // Poll for completion
       for (let i = 0; i <= 60; i++) {
@@ -84,6 +164,7 @@ export default function OnboardingPage() {
           // continue polling
         }
       }
+      setProgress(100)
       setStep('complete')
     } catch (err: any) {
       setDistillError(err.response?.data?.detail || '蒸馏失败，请重试')
@@ -93,6 +174,12 @@ export default function OnboardingPage() {
 
   const handleComplete = () => {
     navigate('/home')
+  }
+
+  const getScoreColor = (score: number) => {
+    if (score >= 85) return 'text-accent-cyan'
+    if (score >= 70) return 'text-accent-gold'
+    return 'text-accent-magenta'
   }
 
   return (
@@ -113,13 +200,13 @@ export default function OnboardingPage() {
               exit={{ opacity: 0, x: -20 }}
               className="glass-elevated rounded-3xl p-8"
             >
-              <div className="flex items-center gap-3 mb-8">
+              <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-accent-cyan/10 flex items-center justify-center">
                   <Brain size={20} className="text-accent-cyan" />
                 </div>
                 <div>
                   <h2 className="font-display text-xl font-bold">人格探测</h2>
-                  <p className="text-text-secondary text-sm">问题 {currentQ + 1} / {questions.length}</p>
+                  <p className="text-text-secondary text-sm">问题 {currentQ + 1} / {questions.length} · {questions[currentQ].category}</p>
                 </div>
               </div>
 
@@ -166,35 +253,66 @@ export default function OnboardingPage() {
                 </div>
                 <div>
                   <h2 className="font-display text-xl font-bold">聊天样本</h2>
-                  <p className="text-text-secondary text-sm">粘贴一段你的真实聊天记录</p>
+                  <p className="text-text-secondary text-sm">提供 {chatSamples.length} 段真实对话 · 共 {getTotalChars()} 字</p>
                 </div>
               </div>
 
-              <div className="mb-6">
-                <textarea
-                  value={chatSample}
-                  onChange={(e) => setChatSample(e.target.value)}
-                  placeholder="比如：&#10;我：今天天气好好啊，想出去走走&#10;朋友：是啊，去哪？&#10;我：不知道诶，随便逛逛吧 ✨"
-                  className="w-full h-48 px-4 py-3 rounded-xl bg-surface border border-white/10 text-text-primary placeholder-text-ghost focus:outline-none focus:border-accent-magenta/50 transition-colors resize-none"
-                />
-                <p className="text-text-ghost text-xs mt-2">
-                  这段对话将帮助AI精确提取你的语气、emoji习惯和聊天节奏
-                </p>
+              <div className="space-y-4 mb-6">
+                {chatSamples.map((sample, index) => (
+                  <div key={index} className="relative">
+                    <textarea
+                      value={sample}
+                      onChange={(e) => updateChatSample(index, e.target.value)}
+                      placeholder={index === 0 
+                        ? "粘贴一段你和朋友的真实聊天记录，包含双方的对话...\n\n示例：\n我：今天天气好好啊，想出去走走\n朋友：是啊，去哪？\n我：不知道诶，随便逛逛吧 ✨"
+                        : "再添加一段不同场景的聊天..."
+                      }
+                      className="w-full h-40 px-4 py-3 rounded-xl bg-surface border border-white/10 text-text-primary placeholder-text-ghost focus:outline-none focus:border-accent-magenta/50 transition-colors resize-none"
+                    />
+                    {chatSamples.length > 1 && (
+                      <button
+                        onClick={() => removeChatSample(index)}
+                        className="absolute top-2 right-2 p-1 rounded-lg bg-surface/80 text-text-ghost hover:text-accent-magenta transition-colors"
+                      >
+                        <AlertCircle size={14} />
+                      </button>
+                    )}
+                  </div>
+                ))}
               </div>
 
-              <div className="flex items-center gap-3 p-4 rounded-xl bg-accent-gold/5 border border-accent-gold/20 mb-6">
-                <Upload size={18} className="text-accent-gold shrink-0" />
-                <p className="text-sm text-text-secondary">
-                  可选：授权导入微博/小红书文本以获得更精确的克隆
-                </p>
+              {chatSamples.length < 3 && (
+                <button
+                  onClick={addChatSample}
+                  className="w-full py-2 rounded-xl border border-dashed border-white/20 text-text-secondary hover:border-accent-cyan/50 hover:text-accent-cyan transition-colors flex items-center justify-center gap-2 mb-4"
+                >
+                  <RefreshCw size={14} />
+                  添加更多聊天样本（推荐3段不同场景）
+                </button>
+              )}
+
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-accent-gold/5 border border-accent-gold/20 mb-6">
+                <Upload size={18} className="text-accent-gold shrink-0 mt-0.5" />
+                <div className="text-sm text-text-secondary space-y-1">
+                  <p>样本越多，克隆越精准。建议提供：</p>
+                  <ul className="list-disc list-inside text-text-ghost space-y-0.5">
+                    <li>日常闲聊片段</li>
+                    <li>表达情绪时的对话</li>
+                    <li>暧昧/好感场景（如有）</li>
+                  </ul>
+                </div>
               </div>
 
               {distillError && (
-                <p className="text-accent-magenta text-sm mb-4">{distillError}</p>
+                <p className="text-accent-magenta text-sm mb-4 flex items-center gap-2">
+                  <AlertCircle size={14} />
+                  {distillError}
+                </p>
               )}
               <button
                 onClick={startDistillation}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-magenta text-white font-semibold transition-all hover:scale-[1.02] hover:shadow-lg"
+                disabled={getTotalChars() < 20}
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-magenta text-white font-semibold transition-all hover:scale-[1.02] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 开始蒸馏
               </button>
@@ -226,8 +344,8 @@ export default function OnboardingPage() {
                 </div>
               </div>
 
-              <h2 className="font-display text-2xl font-bold mb-2">正在蒸馏...</h2>
-              <p className="text-text-secondary mb-6">AI正在分析你的人格DNA</p>
+              <h2 className="font-display text-2xl font-bold mb-2">正在深度蒸馏...</h2>
+              <p className="text-text-secondary mb-6">AI 正在分析你的人格 DNA 和聊天指纹</p>
 
               <div className="h-2 bg-surface rounded-full overflow-hidden">
                 <motion.div
@@ -238,10 +356,12 @@ export default function OnboardingPage() {
               <p className="text-accent-cyan font-mono text-sm mt-3">{progress}%</p>
 
               <div className="mt-8 space-y-2 text-sm text-text-secondary">
-                <motion.p animate={{ opacity: progress > 20 ? 1 : 0.3 }}>提取人格核心...</motion.p>
-                <motion.p animate={{ opacity: progress > 40 ? 1 : 0.3 }}>分析聊天DNA...</motion.p>
-                <motion.p animate={{ opacity: progress > 60 ? 1 : 0.3 }}>合成记忆种子...</motion.p>
-                <motion.p animate={{ opacity: progress > 80 ? 1 : 0.3 }}>锻造System Prompt...</motion.p>
+                <motion.p animate={{ opacity: progress > 15 ? 1 : 0.3 }}>提取人格核心...</motion.p>
+                <motion.p animate={{ opacity: progress > 30 ? 1 : 0.3 }}>分析聊天 DNA（句法、emoji、标点）...</motion.p>
+                <motion.p animate={{ opacity: progress > 45 ? 1 : 0.3 }}>深度语义风格分析...</motion.p>
+                <motion.p animate={{ opacity: progress > 60 ? 1 : 0.3 }}>合成记忆种子与情感触发器...</motion.p>
+                <motion.p animate={{ opacity: progress > 75 ? 1 : 0.3 }}>锻造 System Prompt...</motion.p>
+                <motion.p animate={{ opacity: progress > 90 ? 1 : 0.3 }}>多轮验证与校准...</motion.p>
               </div>
             </motion.div>
           )}
@@ -262,23 +382,60 @@ export default function OnboardingPage() {
                 <Sparkles size={40} className="text-white" />
               </motion.div>
 
-              <h2 className="font-display text-3xl font-bold mb-3">准备就绪</h2>
+              <h2 className="font-display text-3xl font-bold mb-3">克隆就绪</h2>
               <p className="text-text-secondary mb-8 max-w-sm mx-auto">
-                个人资料已完善。现在你可以在SoulClone上开始社交了。
+                你的数字分身已创建完成。现在你可以在 SoulClone 上开始社交了。
               </p>
 
-              <div className="grid grid-cols-3 gap-4 mb-8">
-                {[
-                  { label: '人格完整度', value: '97%' },
-                  { label: '风格匹配度', value: '94%' },
-                  { label: '记忆种子', value: '已植入' },
-                ].map((stat) => (
-                  <div key={stat.label} className="p-4 rounded-2xl bg-surface border border-white/5">
-                    <p className="text-accent-cyan font-display text-xl font-bold">{stat.value}</p>
-                    <p className="text-text-ghost text-xs mt-1">{stat.label}</p>
+              {validationResult ? (
+                <div className="space-y-4 mb-8">
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { label: '风格一致性', score: validationResult.consistency_score, icon: CheckCircle },
+                      { label: '人格稳定性', score: validationResult.stability_score, icon: CheckCircle },
+                      { label: '安全性', score: validationResult.safety_score, icon: CheckCircle },
+                      { label: '真实感', score: validationResult.plausibility_score, icon: CheckCircle },
+                    ].map((stat) => (
+                      <div key={stat.label} className="p-3 rounded-2xl bg-surface border border-white/5 text-left">
+                        <div className="flex items-center gap-2 mb-1">
+                          <stat.icon size={14} className={getScoreColor(stat.score)} />
+                          <span className="text-text-ghost text-xs">{stat.label}</span>
+                        </div>
+                        <p className={`font-display text-xl font-bold ${getScoreColor(stat.score)}`}>
+                          {stat.score}%
+                        </p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+
+                  {validationResult.critical_gaps.length > 0 && (
+                    <div className="p-4 rounded-xl bg-accent-magenta/5 border border-accent-magenta/20 text-left">
+                      <p className="text-accent-magenta text-sm font-medium mb-2 flex items-center gap-2">
+                        <AlertCircle size={14} />
+                        可进一步提升的方面
+                      </p>
+                      <ul className="space-y-1">
+                        {validationResult.critical_gaps.map((gap, i) => (
+                          <li key={i} className="text-text-secondary text-sm">· {gap}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="grid grid-cols-3 gap-4 mb-8">
+                  {[
+                    { label: '人格完整度', value: '已完成' },
+                    { label: '风格匹配', value: '已分析' },
+                    { label: '记忆种子', value: '已植入' },
+                  ].map((stat) => (
+                    <div key={stat.label} className="p-4 rounded-2xl bg-surface border border-white/5">
+                      <p className="text-accent-cyan font-display text-xl font-bold">{stat.value}</p>
+                      <p className="text-text-ghost text-xs mt-1">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <button
                 onClick={handleComplete}
