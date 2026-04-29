@@ -54,8 +54,8 @@ export default function RegisterPage() {
               <Sparkles size={14} className="text-accent-cyan" />
               <span className="text-xs text-accent-cyan">免费创建</span>
             </div>
-            <h1 className="font-display text-3xl font-bold mb-2">创建你的孪生</h1>
-            <p className="text-text-secondary">只需几分钟，让另一个你诞生</p>
+            <h1 className="font-display text-3xl font-bold mb-2">注册账号</h1>
+            <p className="text-text-secondary">只需几分钟，开启社交之旅</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">

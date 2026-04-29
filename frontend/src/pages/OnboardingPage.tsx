@@ -262,9 +262,9 @@ export default function OnboardingPage() {
                 <Sparkles size={40} className="text-white" />
               </motion.div>
 
-              <h2 className="font-display text-3xl font-bold mb-3">你的孪生已诞生</h2>
+              <h2 className="font-display text-3xl font-bold mb-3">准备就绪</h2>
               <p className="text-text-secondary mb-8 max-w-sm mx-auto">
-                AI已成功克隆你的人格。现在，你的数字孪生可以代替你在SoulClone上社交了。
+                个人资料已完善。现在你可以在SoulClone上开始社交了。
               </p>
 
               <div className="grid grid-cols-3 gap-4 mb-8">

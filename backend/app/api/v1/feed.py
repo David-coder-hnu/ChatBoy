@@ -15,4 +15,18 @@ async def get_feed(
     """Get community feed"""
     service = FeedService(db)
     posts = await service.get_feed(user_id)
-    return {"items": posts}
+    # Hide author_type to preserve anonymity
+    sanitized = []
+    for post in posts:
+        p = {
+            "id": str(post.id),
+            "author_id": str(post.author_id),
+            "content": post.content,
+            "media_urls": post.media_urls,
+            "tags": post.tags,
+            "likes_count": post.likes_count,
+            "comments_count": post.comments_count,
+            "created_at": post.created_at.isoformat() if post.created_at else None,
+        }
+        sanitized.append(p)
+    return {"items": sanitized}

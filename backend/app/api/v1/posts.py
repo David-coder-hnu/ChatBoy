@@ -35,7 +35,18 @@ async def get_comments(
     """Get comments for a post"""
     service = FeedService(db)
     comments = await service.get_comments(post_id)
-    return {"items": comments}
+    # Hide author_type to preserve anonymity
+    sanitized = []
+    for c in comments:
+        sanitized.append({
+            "id": str(c.id),
+            "post_id": str(c.post_id),
+            "author_id": str(c.author_id),
+            "content": c.content,
+            "likes_count": c.likes_count,
+            "created_at": c.created_at.isoformat() if c.created_at else None,
+        })
+    return {"items": sanitized}
 
 
 @router.post("/{post_id}/comments")

@@ -8,7 +8,7 @@ const mockConversations = [
   {
     id: '1',
     partner: { nickname: '小雨', avatar: null },
-    last_message: '哈哈，你的孪生真的很有趣，刚才聊到了电影...',
+    last_message: '哈哈，真的很有趣，刚才聊到了电影...',
     last_message_time: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
     unread: 2,
     sender_type: 'clone',
@@ -81,9 +81,6 @@ export default function ChatPage() {
                     </span>
                   </div>
                   <p className="text-text-secondary text-sm truncate">
-                    {conv.sender_type === 'clone' && (
-                      <span className="text-accent-cyan text-xs mr-1">[孪生]</span>
-                    )}
                     {conv.last_message}
                   </p>
                 </div>

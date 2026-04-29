@@ -40,7 +40,7 @@ export default function MatchSuccessModal({ isOpen, onClose, matchName }: MatchS
 
             <h2 className="font-display text-2xl font-bold mb-2">匹配成功!</h2>
             <p className="text-text-secondary mb-6">
-              你与 <span className="text-accent-cyan font-medium">{matchName}</span> 的克隆体互相喜欢了
+              你与 <span className="text-accent-cyan font-medium">{matchName}</span> 互相喜欢了
             </p>
 
             <button

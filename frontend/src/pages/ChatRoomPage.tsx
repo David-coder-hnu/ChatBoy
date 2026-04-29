@@ -130,12 +130,7 @@ export default function ChatRoomPage() {
                     : 'glass border border-white/5 rounded-bl-md'
                 }`}
               >
-                {msg.sender_type === 'clone' && !isTakeover && (
-                  <div className="flex items-center gap-1 mb-1">
-                    <Sparkles size={10} className="text-accent-cyan" />
-                    <span className="text-[10px] text-accent-cyan">孪生代发</span>
-                  </div>
-                )}
+
                 <p className="text-sm leading-relaxed">{msg.content}</p>
                 <p className="text-[10px] text-text-ghost mt-1 text-right">
                   {formatDate(msg.created_at)}
@@ -166,7 +161,7 @@ export default function ChatRoomPage() {
         {!isTakeover && (
           <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-xl bg-accent-cyan/5 border border-accent-cyan/10">
             <Sparkles size={14} className="text-accent-cyan" />
-            <span className="text-xs text-accent-cyan">你的孪生正在替你聊天</span>
+            <span className="text-xs text-accent-cyan">自动回复中</span>
           </div>
         )}
 
@@ -188,7 +183,7 @@ export default function ChatRoomPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-              placeholder={isTakeover ? '以真人身份发送...' : '以孪生身份发送...'}
+              placeholder='说点什么...'
               className="w-full px-4 py-3 rounded-xl bg-surface border border-white/10 text-text-primary placeholder-text-ghost focus:outline-none focus:border-accent-cyan/50 transition-colors pr-12"
             />
             <button

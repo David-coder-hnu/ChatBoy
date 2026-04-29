@@ -21,11 +21,11 @@ export default function HomePage() {
             <h1 className="font-display text-2xl md:text-3xl font-bold">
               你好, <span className="text-gradient">{user?.nickname || '探索者'}</span>
             </h1>
-            <p className="text-text-secondary mt-1">你的孪生今天已经活跃了 3 小时</p>
+            <p className="text-text-secondary mt-1">你的在线状态今天已活跃 3 小时</p>
           </div>
           <div className="flex items-center gap-2 px-4 py-2 rounded-full glass border border-accent-cyan/20">
             <div className={`w-2 h-2 rounded-full ${cloneActive ? 'bg-accent-cyan animate-pulse' : 'bg-text-ghost'}`} />
-            <span className="text-sm">{cloneActive ? '孪生在线' : '孪生离线'}</span>
+            <span className="text-sm">{cloneActive ? '在线中' : '离线中'}</span>
           </div>
         </div>
 
@@ -47,8 +47,8 @@ export default function HomePage() {
                 )}
               </div>
               <div>
-                <h2 className="font-display text-xl font-bold">{user?.nickname || '你'}的孪生</h2>
-                <p className="text-text-secondary text-sm">当前心情：愉悦</p>
+                <h2 className="font-display text-xl font-bold">在线状态</h2>
+                <p className="text-text-secondary text-sm">当前模式：{cloneActive ? '自动' : '手动'}</p>
               </div>
             </div>
 
@@ -61,7 +61,7 @@ export default function HomePage() {
                     : 'bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/30 hover:bg-accent-cyan/30'
                 }`}
               >
-                {cloneActive ? '暂停孪生' : '激活孪生'}
+                {cloneActive ? '暂停自动' : '开启自动'}
               </button>
               <Link
                 to="/clone"
@@ -99,7 +99,7 @@ export default function HomePage() {
             className="glass rounded-3xl p-6"
           >
             <div className="flex items-center justify-between mb-6">
-              <h3 className="font-display text-lg font-bold">孪生活动</h3>
+              <h3 className="font-display text-lg font-bold">最近活动</h3>
               <Link to="/clone" className="text-accent-cyan text-sm hover:underline flex items-center gap-1">
                 查看全部 <ChevronRight size={14} />
               </Link>
@@ -144,7 +144,7 @@ export default function HomePage() {
                   <div className="flex-1">
                     <p className="font-medium text-sm">约会邀请请求</p>
                     <p className="text-text-secondary text-xs mt-1">
-                      你的孪生认为与 小雨 的感情已足够深入，提议周末见面。你需要批准或修改。
+                      系统认为与 小雨 的感情已足够深入，提议周末见面。你需要批准或修改。
                     </p>
                     <div className="flex gap-2 mt-3">
                       <button className="px-4 py-2 rounded-lg bg-accent-cyan/20 text-accent-cyan text-xs font-medium hover:bg-accent-cyan/30 transition-colors">
@@ -166,7 +166,7 @@ export default function HomePage() {
                   <div className="flex-1">
                     <p className="font-medium text-sm">接管请求</p>
                     <p className="text-text-secondary text-xs mt-1">
-                      你的孪生在聊天中遇到了一个无法确定如何回应的问题，请求你暂时接管。
+                      自动回复遇到了一个需要确认的问题，请求你暂时接管。
                     </p>
                     <div className="flex gap-2 mt-3">
                       <button className="px-4 py-2 rounded-lg bg-accent-cyan/20 text-accent-cyan text-xs font-medium hover:bg-accent-cyan/30 transition-colors">

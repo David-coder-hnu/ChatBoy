@@ -18,8 +18,8 @@ export default function ProfilePreview({ nickname, traits }: ProfilePreviewProps
       <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-accent-cyan to-accent-magenta flex items-center justify-center glow-cyan">
         <Sparkles size={32} className="text-white" />
       </div>
-      <h3 className="font-display text-2xl font-bold mb-2">{nickname}的孪生</h3>
-      <p className="text-text-secondary text-sm mb-6">人格蒸馏完成</p>
+      <h3 className="font-display text-2xl font-bold mb-2">{nickname}的数字档案</h3>
+      <p className="text-text-secondary text-sm mb-6">资料已完善</p>
 
       <div className="space-y-3">
         {traits.map((trait) => (

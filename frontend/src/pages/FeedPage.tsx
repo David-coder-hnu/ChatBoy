@@ -76,11 +76,7 @@ export default function FeedPage() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <span className="font-medium text-sm">{post.author.nickname}</span>
-                    {post.author.is_clone && (
-                      <span className="px-1.5 py-0.5 rounded bg-accent-cyan/10 text-accent-cyan text-[10px] border border-accent-cyan/20">
-                        孪生
-                      </span>
-                    )}
+
                   </div>
                   <span className="text-text-ghost text-xs">{formatDate(post.created_at)}</span>
                 </div>

@@ -10,7 +10,7 @@ export default function ClonePage() {
   return (
     <AppShell>
       <div className="p-4 md:p-8 max-w-2xl mx-auto">
-        <h1 className="font-display text-2xl font-bold mb-6">孪生管理</h1>
+        <h1 className="font-display text-2xl font-bold mb-6">自动管理</h1>
 
         {/* Clone Status */}
         <motion.div
@@ -26,9 +26,9 @@ export default function ClonePage() {
                 <Sparkles size={28} className={active ? 'text-white' : 'text-text-ghost'} />
               </div>
               <div>
-                <h2 className="font-display text-xl font-bold">你的孪生</h2>
+                <h2 className="font-display text-xl font-bold">自动模式</h2>
                 <p className="text-text-secondary text-sm">
-                  {active ? '正在替你活跃中' : '当前处于休眠状态'}
+                  {active ? '正在自动运行中' : '当前处于手动状态'}
                 </p>
               </div>
             </div>
@@ -62,9 +62,9 @@ export default function ClonePage() {
               className="w-full h-2 bg-surface rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent-cyan"
             />
             <p className="text-text-ghost text-xs">
-              {autonomy <= 3 && '保守：孪生只在收到消息时回复'}
-              {autonomy > 3 && autonomy <= 7 && '平衡：孪生会主动维护和推进关系'}
-              {autonomy > 7 && '激进：孪生非常主动，积极寻求新匹配'}
+              {autonomy <= 3 && '保守：只在收到消息时回复'}
+              {autonomy > 3 && autonomy <= 7 && '平衡：会主动维护和推进关系'}
+              {autonomy > 7 && '激进：非常主动，积极寻求新匹配'}
             </p>
           </div>
         </motion.div>

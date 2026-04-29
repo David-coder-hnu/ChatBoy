@@ -61,7 +61,7 @@ export default function LandingPage() {
                 to="/register"
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-accent-cyan to-accent-magenta text-white font-semibold text-lg transition-all hover:scale-105 hover:shadow-lg hover:shadow-accent-cyan/25"
               >
-                创建你的孪生
+                开始使用
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
@@ -88,7 +88,7 @@ export default function LandingPage() {
               {
                 icon: Heart,
                 title: '替你培养感情',
-                desc: '你的数字孪生会在你离线时继续聊天、匹配、培养关系，时机成熟时邀请你批准约会。',
+                desc: '你的在线分身会在你离线时继续聊天、匹配、培养关系，时机成熟时邀请你批准约会。',
                 color: 'text-accent-magenta',
                 glow: 'glow-magenta',
               },
@@ -129,7 +129,7 @@ export default function LandingPage() {
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
               准备好遇见<span className="text-gradient">另一个自己</span>了吗？
             </h2>
-            <p className="text-text-secondary mb-8">只需5分钟，让你的数字孪生诞生。</p>
+            <p className="text-text-secondary mb-8">只需5分钟，开启你的社交之旅。</p>
             <Link
               to="/register"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-accent-cyan to-accent-magenta text-white font-semibold transition-all hover:scale-105"
