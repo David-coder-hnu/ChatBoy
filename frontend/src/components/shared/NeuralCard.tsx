@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
+import { motion, useMotionValue, useTransform, useSpring, useMotionTemplate } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 interface NeuralCardProps {
@@ -20,6 +20,9 @@ export default function NeuralCard({ icon, title, desc, accent, index, className
 
   const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), { stiffness: 300, damping: 30 })
   const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), { stiffness: 300, damping: 30 })
+
+  // Apply perspective via transform function for true 3D depth
+  const transform = useMotionTemplate`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return
@@ -43,15 +46,11 @@ export default function NeuralCard({ icon, title, desc, accent, index, className
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: '-80px' }}
       transition={{ delay: index * 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      data-framer-initial
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: 'preserve-3d',
-        perspective: 1000,
-      }}
+      style={{ transform }}
       className={cn(
         'group relative cursor-default rounded-3xl p-8 overflow-hidden',
         'bg-surface/60 backdrop-blur-xl border border-white/[0.06]',

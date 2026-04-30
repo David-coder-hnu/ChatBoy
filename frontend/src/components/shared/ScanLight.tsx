@@ -10,22 +10,27 @@ export default function ScanLight({ children, className, speed = 'normal' }: Sca
   const duration = speed === 'slow' ? '4s' : speed === 'fast' ? '2s' : '3s'
 
   return (
-    <div className={cn('relative overflow-hidden', className)}>
+    <span className={cn('relative inline-block', className)}>
       {children}
-      <div
-        className="pointer-events-none absolute inset-0 mix-blend-overlay"
-        style={{
-          background: `linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.25) 45%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.25) 55%, transparent 60%)`,
-          backgroundSize: '200% 100%',
-          animation: `scanlight ${duration} ease-in-out infinite`,
-        }}
-      />
+      <span
+        className="pointer-events-none absolute inset-0 overflow-hidden rounded-lg"
+        aria-hidden="true"
+      >
+        <span
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.15) 45%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.15) 55%, transparent 70%)`,
+            backgroundSize: '200% 100%',
+            animation: `scanlight ${duration} ease-in-out infinite`,
+          }}
+        />
+      </span>
       <style>{`
         @keyframes scanlight {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
         }
       `}</style>
-    </div>
+    </span>
   )
 }
