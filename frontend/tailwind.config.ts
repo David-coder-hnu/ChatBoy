@@ -49,7 +49,8 @@ export default {
         info: '#00F0FF',
       },
       fontFamily: {
-        display: ['Space Grotesk', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
+        display: ['Sora', 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', 'serif'],
+        heading: ['Noto Serif SC', 'Sora', 'PingFang SC', 'Microsoft YaHei', 'serif'],
         body: ['Inter', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
       },

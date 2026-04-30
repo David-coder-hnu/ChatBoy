@@ -24,6 +24,17 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Display font for English, Serif for Chinese — design aesthetic */
+  .font-display {
+    font-family: 'Sora', 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif;
+    letter-spacing: -0.02em;
+  }
+
+  /* Chinese heading font */
+  .font-heading {
+    font-family: 'Noto Serif SC', 'Sora', 'PingFang SC', 'Microsoft YaHei', serif;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     text-wrap: balance;
   }

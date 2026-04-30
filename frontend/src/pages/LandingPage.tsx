@@ -141,6 +141,14 @@ export default function LandingPage() {
           ))}
         </div>
 
+        {/* Dark vignette overlay for text readability */}
+        <div
+          className="absolute inset-0 pointer-events-none z-[3]"
+          style={{
+            background: 'radial-gradient(ellipse 80% 60% at 30% 50%, rgba(5,5,8,0.85) 0%, rgba(5,5,8,0.4) 50%, rgba(5,5,8,0.1) 100%)',
+          }}
+        />
+
         <div className="relative z-10 mx-auto flex min-h-[100dvh] max-w-7xl flex-col lg:flex-row items-center justify-center px-6 gap-12 lg:gap-8">
           {/* Left: Copy */}
           <div className="flex-1 flex flex-col items-start text-left max-w-xl">
@@ -155,7 +163,7 @@ export default function LandingPage() {
             </HeroBadge>
 
             <HeroTitle delay={0.4}>
-              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.15] tracking-tight">
+              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.15] tracking-tight drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)]">
                 <ScanLight>你的灵魂</ScanLight>
                 <br />
                 <span className="text-accent-cyan">不止一个容器</span>
@@ -163,7 +171,7 @@ export default function LandingPage() {
             </HeroTitle>
 
             <HeroSubtitle delay={0.9}>
-              <p className="text-text-secondary text-lg md:text-xl mb-10 max-w-md leading-relaxed">
+              <p className="text-text-secondary text-lg md:text-xl mb-10 max-w-md leading-relaxed drop-shadow-[0_1px_12px_rgba(0,0,0,0.5)]">
                 当你的数字分身在线上替你社交、培养关系时，
                 现实中的你正在做什么？
               </p>

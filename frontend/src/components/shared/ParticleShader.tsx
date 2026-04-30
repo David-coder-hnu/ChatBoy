@@ -2,7 +2,7 @@ import { useRef, useMemo, useCallback } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-const PARTICLE_COUNT = 3000
+const PARTICLE_COUNT = 800
 
 const vertexShader = `
   uniform float uTime;
@@ -52,13 +52,13 @@ const fragmentShader = `
     if (d > 0.5) discard;
 
     float alpha = 1.0 - smoothstep(0.2, 0.5, d);
-    // Cyan-gold tint
-    vec3 color = mix(vec3(0.0, 0.94, 1.0), vec3(1.0, 0.75, 0.04), vSize);
-    // Glow near mouse
-    float glow = smoothstep(3.0, 0.0, vDist) * 0.5;
-    color += vec3(0.0, 0.94, 1.0) * glow;
+    // Subtle cyan-white tint (darker for readability)
+    vec3 color = mix(vec3(0.0, 0.7, 0.8), vec3(0.6, 0.5, 0.9), vSize * 0.3);
+    // Subtle glow near mouse
+    float glow = smoothstep(3.0, 0.0, vDist) * 0.2;
+    color += vec3(0.0, 0.6, 0.7) * glow;
 
-    gl_FragColor = vec4(color, alpha * 0.85);
+    gl_FragColor = vec4(color, alpha * 0.35);
   }
 `
 
@@ -77,7 +77,7 @@ function Particles() {
       pos[i * 3] = (Math.random() - 0.5) * 12
       pos[i * 3 + 1] = (Math.random() - 0.5) * 8
       pos[i * 3 + 2] = (Math.random() - 0.5) * 6
-      siz[i] = Math.random() * 2.0 + 0.5
+      siz[i] = Math.random() * 1.2 + 0.3
       vel[i * 3] = Math.random() * 2 - 1
       vel[i * 3 + 1] = Math.random() * 2 - 1
       vel[i * 3 + 2] = Math.random() * 2 - 1
@@ -132,7 +132,7 @@ function Particles() {
           uniforms={uniforms}
           transparent
           depthWrite={false}
-          blending={THREE.AdditiveBlending}
+          blending={THREE.NormalBlending}
         />
       </points>
     </>
