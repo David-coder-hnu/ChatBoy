@@ -9,6 +9,17 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          three: ['three', '@react-three/fiber'],
+          gsap: ['gsap', '@gsap/react'],
+          vendor: ['framer-motion', 'lucide-react'],
+        },
+      },
+    },
+  },
   server: {
     port: 5173,
     proxy: {

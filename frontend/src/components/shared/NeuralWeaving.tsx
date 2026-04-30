@@ -103,11 +103,13 @@ export default function NeuralWeaving({ className }: { className?: string }) {
             <div
               key={node.title}
               ref={(el) => { nodesRef.current[i] = el }}
-              className="glass-elevated absolute mx-auto max-w-xl rounded-2xl p-8 md:p-10"
+              className="glass-elevated absolute w-[90vw] max-w-2xl rounded-2xl p-8 md:p-10"
               style={{
+                left: '50%',
+                top: `${i * 320 + 80}px`,
+                transform: 'translateX(-50%)',
                 borderColor: `${node.color}20`,
                 perspective: '1000px',
-                transformStyle: 'preserve-3d',
               }}
             >
               {/* Glow border accent */}
