@@ -36,13 +36,13 @@ export default function ClonePage() {
     <AppShell>
       <div className="p-4 md:p-8 max-w-2xl mx-auto relative">
         <div className="fixed inset-0 mesh-gradient pointer-events-none" />
-        <div className="fixed top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-cyan/3 rounded-full blur-[150px] pointer-events-none animate-breathe" />
+        <div className="fixed top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-cyan/2 rounded-full blur-[150px] pointer-events-none animate-breathe" />
 
         <div className="relative z-10">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="font-display text-2xl font-bold tracking-tight">克隆仪表板</h1>
+              <h1 className="font-sans text-2xl font-bold">克隆仪表板</h1>
               <p className="text-text-secondary text-sm mt-0.5">管理你的 AI 数字孪生</p>
             </div>
           </div>
@@ -53,12 +53,11 @@ export default function ClonePage() {
             animate={{ opacity: 1, y: 0 }}
             className="glass-elevated rounded-3xl p-6 md:p-8 mb-6 relative overflow-hidden"
           >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-accent-cyan/5 rounded-full blur-[80px] pointer-events-none" />
-            <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-accent-magenta/5 rounded-full blur-[60px] pointer-events-none" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-accent-cyan/3 rounded-full blur-[80px] pointer-events-none" />
 
             <div className="relative z-10 flex flex-col items-center text-center">
               <Avatar size="xl" ring="cyan" status="ai-twin-online" fallback="AI" />
-              <h2 className="font-display text-xl font-bold mt-4">你的数字孪生</h2>
+              <h2 className="font-sans text-xl font-bold mt-4">你的数字孪生</h2>
               <Badge variant="cyan" size="sm" className="mt-2">AI 孪生在线</Badge>
 
               {/* Stats Row */}
@@ -95,7 +94,7 @@ export default function ClonePage() {
                     <Sparkles size={28} className={active ? 'text-white' : 'text-text-disabled'} />
                   </motion.div>
                   <div>
-                    <h2 className="font-display text-xl font-bold tracking-tight">自动模式</h2>
+                    <h2 className="font-sans text-xl font-bold">自动模式</h2>
                     <div className="flex items-center gap-2 mt-1">
                       <motion.div
                         animate={active ? { scale: [1, 1.4, 1] } : {}}

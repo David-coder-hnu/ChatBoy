@@ -21,7 +21,7 @@ export default function ProfilePage() {
     <AppShell>
       <div className="p-4 md:p-8 max-w-2xl mx-auto relative">
         <div className="fixed inset-0 mesh-gradient pointer-events-none" />
-        <div className="fixed top-1/4 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-cyan/3 rounded-full blur-[150px] pointer-events-none animate-breathe" />
+        <div className="fixed top-1/4 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-cyan/2 rounded-full blur-[150px] pointer-events-none animate-breathe" />
 
         <div className="relative z-10">
           {/* Profile Header */}
@@ -30,8 +30,7 @@ export default function ProfilePage() {
             animate={{ opacity: 1, y: 0 }}
             className="glass-elevated rounded-3xl p-6 md:p-8 mb-6 text-center relative overflow-hidden"
           >
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-accent-cyan/5 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-48 h-48 bg-accent-magenta/5 rounded-full blur-[60px] pointer-events-none" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-accent-cyan/3 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="relative z-10">
               <motion.div
@@ -48,7 +47,7 @@ export default function ProfilePage() {
                 </motion.div>
               </motion.div>
 
-              <h1 className="font-display text-2xl font-bold tracking-tight">{user?.nickname || '用户'}</h1>
+              <h1 className="font-sans text-2xl font-bold">{user?.nickname || '用户'}</h1>
               <p className="text-text-secondary mt-1">{user?.bio || '还没有简介'}</p>
 
               <div className="flex items-center justify-center gap-5 mt-4 text-text-secondary text-sm">
@@ -99,7 +98,7 @@ export default function ProfilePage() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: 'spring', stiffness: 300, delay: i * 0.08 + 0.2 }}
-                  className="font-mono text-2xl font-bold text-gradient-aurora"
+                  className="font-mono text-2xl font-bold text-accent-cyan"
                 >
                   {stat.value}
                 </motion.p>

@@ -40,12 +40,12 @@ export default function ChatPage() {
     <AppShell>
       <div className="p-4 md:p-8 max-w-2xl mx-auto relative">
         <div className="fixed inset-0 mesh-gradient pointer-events-none" />
-        <div className="fixed top-1/3 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-accent-cyan/3 rounded-full blur-[150px] pointer-events-none animate-breathe" />
+        <div className="fixed top-1/3 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-accent-cyan/2 rounded-full blur-[150px] pointer-events-none animate-breathe" />
 
         <div className="relative z-10">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="font-display text-2xl font-bold tracking-tight">消息</h1>
+              <h1 className="font-sans text-2xl font-bold">消息</h1>
               <p className="text-text-secondary text-sm mt-0.5">{mockConversations.length} 个对话</p>
             </div>
             <motion.button

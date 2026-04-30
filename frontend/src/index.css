@@ -17,8 +17,15 @@
     background-color: #050508;
     color: #e8e8ec;
     overflow-x: hidden;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+    font-optical-sizing: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
   }
 
   ::selection {
@@ -43,14 +50,7 @@
 }
 
 @layer utilities {
-  /* ───────── Text Gradient ───────── */
-  .text-gradient-aurora {
-    background: linear-gradient(135deg, #00F0FF 0%, #FF006E 50%, #FFBE0B 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
+  /* ───────── Text Shimmer ───────── */
   .text-shimmer {
     background: linear-gradient(90deg, #8B8B9A 0%, #E8E8EC 50%, #8B8B9A 100%);
     background-size: 200% 100%;

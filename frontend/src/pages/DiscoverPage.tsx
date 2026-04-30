@@ -76,7 +76,7 @@ export default function DiscoverPage() {
           >
             <Sparkles size={48} className="text-accent-cyan mb-4" />
           </motion.div>
-          <h2 className="font-display text-2xl font-bold tracking-tight">今日推荐已看完</h2>
+          <h2 className="font-sans text-2xl font-bold">今日推荐已看完</h2>
           <p className="text-text-secondary mt-2">明天再来发现新的灵魂吧</p>
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -96,10 +96,10 @@ export default function DiscoverPage() {
       <div className="p-4 md:p-8 max-w-lg mx-auto h-[calc(100vh-80px)] md:h-auto flex flex-col relative">
         {/* Background ambient */}
         <div className="fixed inset-0 mesh-gradient pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-accent-cyan/5 rounded-full blur-[100px] pointer-events-none animate-breathe" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-accent-cyan/3 rounded-full blur-[100px] pointer-events-none animate-breathe" />
 
         <div className="flex items-center justify-between mb-6 relative z-10">
-          <h1 className="font-display text-2xl font-bold tracking-tight">发现</h1>
+          <h1 className="font-sans text-2xl font-bold">发现</h1>
           <div className="flex items-center gap-2 text-text-secondary text-sm glass px-3 py-1.5 rounded-full">
             <MapPin size={14} />
             <span>上海</span>
@@ -142,7 +142,7 @@ export default function DiscoverPage() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 }}
-                      className="font-display text-3xl font-bold text-white tracking-tight"
+                      className="font-sans text-3xl font-bold text-white"
                     >
                       {current.nickname}
                     </motion.h2>

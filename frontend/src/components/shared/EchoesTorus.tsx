@@ -100,7 +100,7 @@ export default function EchoesTorus() {
         className="relative z-10 mb-4 text-center"
       >
         <h2 className="font-display text-2xl font-bold text-white md:text-3xl">
-          准备好遇见<span className="text-gradient">另一个自己</span>了吗？
+          准备好遇见<span className="text-accent-cyan">另一个自己</span>了吗？
         </h2>
       </motion.div>
 

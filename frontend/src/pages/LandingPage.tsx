@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, Zap, ChevronDown, MessageCircle, Users, Fingerprint, Brain } from 'lucide-react'
 
-import CursorTrail from '@/components/shared/CursorTrail'
 import ParticleShader from '@/components/shared/ParticleShader'
 import NeuralCard from '@/components/shared/NeuralCard'
 import ScanLight from '@/components/shared/ScanLight'
@@ -118,7 +117,6 @@ function HeroBentoDemo() {
 export default function LandingPage() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background">
-      <CursorTrail />
 
       {/* ═══════════════════════ HERO ═══════════════════════ */}
       <section className="relative min-h-[100dvh] w-full overflow-hidden">
@@ -157,10 +155,10 @@ export default function LandingPage() {
             </HeroBadge>
 
             <HeroTitle delay={0.4}>
-              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.1] tracking-tight">
+              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.15] tracking-tight">
                 <ScanLight>你的灵魂</ScanLight>
                 <br />
-                <span className="text-gradient">不止一个容器</span>
+                <span className="text-accent-cyan">不止一个容器</span>
               </h1>
             </HeroTitle>
 
@@ -219,8 +217,8 @@ export default function LandingPage() {
             data-framer-initial
           >
             <p className="text-accent-cyan text-xs font-mono uppercase tracking-[0.2em] mb-4">Core Capabilities</p>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-              探索<span className="text-gradient">无限可能</span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
+              探索<span className="text-accent-cyan">无限可能</span>
             </h2>
             <p className="text-text-secondary max-w-md text-base">
               SoulClone 不只是社交工具——它是你人格的数字延续。
@@ -282,7 +280,7 @@ export default function LandingPage() {
           >
             <p className="text-accent-cyan text-xs font-mono uppercase tracking-[0.2em] mb-4">Protocol Matrix</p>
             <h2 className="font-display text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-              核心<span className="text-gradient">协议</span>
+              核心<span className="text-accent-cyan">协议</span>
             </h2>
             <p className="text-text-secondary max-w-md text-base">
               三大底层协议，确保 AI 克隆体真实可靠。

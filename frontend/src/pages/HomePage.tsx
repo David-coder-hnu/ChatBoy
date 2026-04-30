@@ -30,8 +30,7 @@ export default function HomePage() {
     <AppShell>
       <div className="p-4 md:p-8 max-w-5xl mx-auto relative">
         {/* Ambient background */}
-        <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-accent-cyan/3 rounded-full blur-[150px] pointer-events-none" />
-        <div className="fixed bottom-0 right-1/4 w-[400px] h-[400px] bg-accent-magenta/3 rounded-full blur-[120px] pointer-events-none" />
+        <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-accent-cyan/2 rounded-full blur-[150px] pointer-events-none" />
 
         <div className="relative z-10">
           {/* Header */}
@@ -41,8 +40,8 @@ export default function HomePage() {
             className="flex items-center justify-between mb-8"
           >
             <div>
-              <h1 className="font-display text-2xl md:text-3xl font-bold">
-                你好, <span className="text-gradient">{user?.nickname || '探索者'}</span>
+              <h1 className="font-sans text-2xl md:text-3xl font-bold">
+                你好, <span className="text-accent-cyan">{user?.nickname || '探索者'}</span>
               </h1>
               <p className="text-text-secondary mt-1">你的在线状态今天已活跃 3 小时</p>
             </div>
@@ -77,8 +76,7 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             className="glass-elevated rounded-3xl p-6 md:p-8 mb-8 relative overflow-hidden border border-white/5"
           >
-            <div className="absolute top-0 right-0 w-72 h-72 bg-accent-cyan/5 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-accent-magenta/5 rounded-full blur-[60px] pointer-events-none" />
+            <div className="absolute top-0 right-0 w-72 h-72 bg-accent-cyan/3 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div className="flex items-center gap-4">
@@ -104,7 +102,7 @@ export default function HomePage() {
                   )}
                 </div>
                 <div>
-                  <h2 className="font-display text-xl font-bold">在线状态</h2>
+                  <h2 className="font-sans text-xl font-bold">在线状态</h2>
                   <p className="text-text-secondary text-sm">当前模式：{onlineActive ? '自动' : '手动'}</p>
                 </div>
               </div>
@@ -149,7 +147,7 @@ export default function HomePage() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: i * 0.08 + 0.2, type: 'spring' }}
-                    className="font-display text-2xl font-bold"
+                    className="font-sans text-2xl font-bold"
                   >
                     {stat.value}
                   </motion.p>
@@ -168,12 +166,12 @@ export default function HomePage() {
               transition={{ delay: 0.1 }}
               className="glass rounded-3xl p-6 relative overflow-hidden border border-white/5"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-accent-cyan/5 rounded-full blur-[50px] pointer-events-none" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-accent-cyan/3 rounded-full blur-[50px] pointer-events-none" />
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
                     <Zap size={18} className="text-accent-cyan" />
-                    <h3 className="font-display text-lg font-bold">最近活动</h3>
+                    <h3 className="font-sans text-lg font-bold">最近活动</h3>
                   </div>
                   <Link to="/clone" className="text-accent-cyan text-sm hover:text-accent-cyan/80 transition-colors flex items-center gap-1 group">
                     查看全部 <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -209,12 +207,12 @@ export default function HomePage() {
               transition={{ delay: 0.2 }}
               className="glass rounded-3xl p-6 relative overflow-hidden border border-white/5"
             >
-              <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent-magenta/5 rounded-full blur-[50px] pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent-magenta/3 rounded-full blur-[50px] pointer-events-none" />
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
                     <Bell size={18} className="text-accent-gold" />
-                    <h3 className="font-display text-lg font-bold">待处理</h3>
+                    <h3 className="font-sans text-lg font-bold">待处理</h3>
                   </div>
                   <motion.span
                     initial={{ scale: 0 }}

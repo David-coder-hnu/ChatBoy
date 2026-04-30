@@ -103,8 +103,7 @@ export default function CalibrationPage() {
     <div className="min-h-screen px-4 py-8 relative overflow-hidden bg-background">
       <div className="fixed inset-0 mesh-gradient pointer-events-none" />
 
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-accent-cyan/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/3 w-[400px] h-[400px] bg-accent-magenta/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-accent-cyan/3 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-2xl mx-auto relative z-10">
         {/* Header */}
@@ -122,7 +121,7 @@ export default function CalibrationPage() {
             <Beaker size={16} className="text-accent-cyan" />
             <span className="text-accent-cyan text-sm font-medium">风格校准实验室</span>
           </motion.div>
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-2">让你的回复更自然</h1>
+          <h1 className="font-sans text-3xl md:text-4xl font-bold mb-2">让你的回复更自然</h1>
           <p className="text-text-secondary max-w-md mx-auto">
             测试在线状态的回复风格，提供真实回复作为对比，系统会学习差异并自动优化
           </p>
@@ -260,7 +259,7 @@ export default function CalibrationPage() {
                   <motion.span
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className={`font-display text-xl font-bold ${
+                    className={`font-sans text-xl font-bold ${
                       currentAnalysis.overall_match >= 80 ? 'text-accent-cyan' :
                       currentAnalysis.overall_match >= 60 ? 'text-accent-gold' : 'text-accent-magenta'
                     }`}

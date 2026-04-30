@@ -55,11 +55,11 @@ export default function FeedPage() {
     <AppShell>
       <div className="p-4 md:p-8 max-w-xl mx-auto relative">
         <div className="fixed inset-0 mesh-gradient pointer-events-none" />
-        <div className="fixed top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-cyan/3 rounded-full blur-[150px] pointer-events-none animate-breathe" />
+        <div className="fixed top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-cyan/2 rounded-full blur-[150px] pointer-events-none animate-breathe" />
 
         <div className="relative z-10">
           <div className="flex items-center justify-between mb-6">
-            <h1 className="font-display text-2xl font-bold tracking-tight">社区</h1>
+            <h1 className="font-sans text-2xl font-bold">社区</h1>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

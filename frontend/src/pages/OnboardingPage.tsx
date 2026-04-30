@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Upload, MessageSquare, Brain, Sparkles, ChevronRight, Loader2, AlertCircle, CheckCircle, RefreshCw } from 'lucide-react'
 import { api } from '@/lib/api'
 import AnimatedBackground from '@/components/shared/AnimatedBackground'
-import CursorTrail from '@/components/shared/CursorTrail'
 
 const questions = [
   { id: 'values', question: '如果必须在以下三者中选择一个最看重的，你会选？', options: ['真诚与信任', '自由与冒险', '稳定与安全感'], category: '价值观' },
@@ -101,11 +100,9 @@ export default function OnboardingPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden bg-background">
-      <CursorTrail />
       <AnimatedBackground opacity={0.4} />
 
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-accent-cyan/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-magenta/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-accent-cyan/3 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="w-full max-w-lg relative z-10">
         <AnimatePresence mode="wait">
@@ -123,7 +120,7 @@ export default function OnboardingPage() {
                   <Brain size={20} className="text-accent-cyan" />
                 </div>
                 <div>
-                  <h2 className="font-display text-xl font-bold">人格探测</h2>
+                  <h2 className="font-sans text-xl font-bold">人格探测</h2>
                   <p className="text-text-secondary text-sm">问题 {currentQ + 1} / {questions.length} · {questions[currentQ].category}</p>
                 </div>
               </div>
@@ -180,7 +177,7 @@ export default function OnboardingPage() {
                   <MessageSquare size={20} className="text-accent-magenta" />
                 </div>
                 <div>
-                  <h2 className="font-display text-xl font-bold">聊天样本</h2>
+                  <h2 className="font-sans text-xl font-bold">聊天样本</h2>
                   <p className="text-text-secondary text-sm">提供 {chatSamples.length} 段真实对话 · 共 {getTotalChars()} 字</p>
                 </div>
               </div>
@@ -285,7 +282,7 @@ export default function OnboardingPage() {
                 </div>
               </div>
 
-              <h2 className="font-display text-2xl font-bold mb-2">正在深度创建...</h2>
+              <h2 className="font-sans text-2xl font-bold mb-2">正在深度创建...</h2>
               <p className="text-text-secondary mb-6">正在分析你的人格特征和聊天风格</p>
 
               <div className="h-2.5 bg-surface rounded-full overflow-hidden">
@@ -334,7 +331,7 @@ export default function OnboardingPage() {
                 <Sparkles size={40} className="text-white" />
               </motion.div>
 
-              <h2 className="font-display text-3xl font-bold mb-3">准备就绪</h2>
+              <h2 className="font-sans text-3xl font-bold mb-3">准备就绪</h2>
               <p className="text-text-secondary mb-8 max-w-sm mx-auto">
                 你的在线状态已创建完成。现在你可以在 SoulClone 上开始社交了。
               </p>
@@ -359,7 +356,7 @@ export default function OnboardingPage() {
                           <stat.icon size={14} className={getScoreColor(stat.score)} />
                           <span className="text-text-ghost text-xs">{stat.label}</span>
                         </div>
-                        <p className={`font-display text-xl font-bold ${getScoreColor(stat.score)}`}>
+                        <p className={`font-sans text-xl font-bold ${getScoreColor(stat.score)}`}>
                           {stat.score}%
                         </p>
                       </motion.div>
@@ -394,7 +391,7 @@ export default function OnboardingPage() {
                       transition={{ delay: i * 0.1 }}
                       className="p-4 rounded-2xl bg-surface border border-white/5"
                     >
-                      <p className="text-accent-cyan font-display text-xl font-bold">{stat.value}</p>
+                      <p className="text-accent-cyan font-sans text-xl font-bold">{stat.value}</p>
                       <p className="text-text-ghost text-xs mt-1">{stat.label}</p>
                     </motion.div>
                   ))}

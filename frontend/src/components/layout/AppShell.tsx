@@ -27,7 +27,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             >
               <span className="text-white font-bold text-sm">SC</span>
             </motion.div>
-            <span className="font-display font-bold text-xl text-gradient">SoulClone</span>
+            <span className="font-display font-bold text-xl text-white">SoulClone</span>
           </Link>
         </div>
         <nav className="flex-1 px-4 space-y-1">

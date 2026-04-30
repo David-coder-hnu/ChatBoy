@@ -103,8 +103,7 @@ export default function ChatRoomPage() {
     <div className="h-screen flex flex-col bg-background relative overflow-hidden">
       {/* Ambient glow */}
       <div className="fixed inset-0 mesh-gradient pointer-events-none" />
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-cyan/3 rounded-full blur-[150px] pointer-events-none animate-breathe" />
-      <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-accent-magenta/3 rounded-full blur-[120px] pointer-events-none animate-breathe" style={{ animationDelay: '2s' }} />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-cyan/2 rounded-full blur-[150px] pointer-events-none animate-breathe" />
 
       {/* Header: Top Navigation (glass) */}
       <div className="glass border-b border-white/[0.06] px-4 py-3 flex items-center gap-3 shrink-0 z-20">
@@ -173,7 +172,7 @@ export default function ChatRoomPage() {
                     msg.is_from_me && !msg.is_ai_twin
                       ? 'bg-accent-cyan/10 backdrop-blur-lg border border-accent-cyan/25 text-text-primary rounded-br-sm'
                       : msg.is_ai_twin
-                      ? 'bg-gradient-to-r from-cyan-500/5 to-magenta-500/5 backdrop-blur-xl border border-gradient-to-r from-cyan-400/20 to-magenta-400/20 text-text-primary rounded-br-sm'
+                      ? 'bg-gradient-to-r from-cyan-500/5 to-magenta-500/5 backdrop-blur-xl border border-cyan-400/20 text-text-primary rounded-br-sm'
                       : 'glass border border-white/[0.08] rounded-bl-sm'
                   }`}
                 >

@@ -42,8 +42,8 @@ export default function LoginPage() {
       <div className="absolute inset-0 noise-overlay pointer-events-none" />
 
       {/* Ambient glow orbs */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent-cyan/5 rounded-full blur-[150px] pointer-events-none animate-breathe" />
-      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent-magenta/5 rounded-full blur-[150px] pointer-events-none animate-breathe" style={{ animationDelay: '2s' }} />
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent-cyan/3 rounded-full blur-[150px] pointer-events-none animate-breathe" />
+      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent-magenta/3 rounded-full blur-[150px] pointer-events-none animate-breathe" style={{ animationDelay: '2s' }} />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -74,8 +74,7 @@ export default function LoginPage() {
           />
 
           {/* Caustic glows */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-accent-cyan/5 rounded-full blur-[80px] pointer-events-none" />
-          <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-accent-magenta/5 rounded-full blur-[60px] pointer-events-none" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-accent-cyan/3 rounded-full blur-[80px] pointer-events-none" />
 
           <div className="text-center mb-8 relative z-10">
             <motion.div
@@ -90,7 +89,7 @@ export default function LoginPage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-3xl font-bold mb-2 tracking-tight"
+              className="font-sans text-3xl font-bold mb-2"
             >
               欢迎回来
             </motion.h1>
