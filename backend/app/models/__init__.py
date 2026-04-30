@@ -19,6 +19,8 @@ from app.models.emotion_state import EmotionState
 from app.models.clone_action_log import CloneActionLog
 from app.models.clone_profile_version import CloneProfileVersion
 from app.models.memory_embedding import MemoryEmbedding
+from app.models.calibration_test import CalibrationTest
+from app.models.calibration_refinement import CalibrationRefinement
 
 __all__ = [
     "Base",
@@ -42,4 +44,6 @@ __all__ = [
     "CloneActionLog",
     "CloneProfileVersion",
     "MemoryEmbedding",
+    "CalibrationTest",
+    "CalibrationRefinement",
 ]
