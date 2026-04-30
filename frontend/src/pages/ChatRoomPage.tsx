@@ -170,10 +170,10 @@ export default function ChatRoomPage() {
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   className={`px-4 py-3 rounded-2xl ${
                     msg.is_from_me && !msg.is_ai_twin
-                      ? 'bg-accent-cyan/10 backdrop-blur-lg border border-accent-cyan/25 text-text-primary rounded-br-sm'
+                      ? 'bg-accent-cyan/10 border border-accent-cyan/25 text-text-primary rounded-br-sm'
                       : msg.is_ai_twin
-                      ? 'bg-gradient-to-r from-cyan-500/5 to-magenta-500/5 backdrop-blur-xl border border-cyan-400/20 text-text-primary rounded-br-sm'
-                      : 'glass border border-white/[0.08] rounded-bl-sm'
+                      ? 'bg-gradient-to-r from-cyan-500/5 to-magenta-500/5 border border-cyan-400/20 text-text-primary rounded-br-sm'
+                      : 'bg-bg-600 border border-white/[0.08] rounded-bl-sm'
                   }`}
                 >
                   <p className="text-sm leading-relaxed">{msg.content}</p>
@@ -195,7 +195,7 @@ export default function ChatRoomPage() {
               exit={{ opacity: 0, y: 5 }}
               className="flex justify-start"
             >
-              <div className="glass border border-white/[0.08] rounded-2xl rounded-bl-sm px-4 py-3">
+              <div className="bg-bg-600 border border-white/[0.08] rounded-2xl rounded-bl-sm px-4 py-3">
                 <div className="flex items-center gap-1.5">
                   <motion.div
                     animate={{ y: [0, -4, 0] }}
@@ -262,7 +262,7 @@ export default function ChatRoomPage() {
             className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-150 ease-spring ${
               isManualMode
                 ? 'bg-gradient-to-br from-accent-cyan to-accent-magenta text-white glow-cyan-md'
-                : 'glass border border-white/[0.08] text-text-secondary hover:text-accent-cyan hover:border-accent-cyan/30'
+                : 'bg-bg-600 border border-white/[0.08] text-text-secondary hover:text-accent-cyan hover:border-accent-cyan/30'
             }`}
           >
             {isManualMode ? <User size={20} /> : <Hand size={20} />}
@@ -276,7 +276,7 @@ export default function ChatRoomPage() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
               placeholder="说点什么..."
-              className="w-full px-4 py-3 rounded-xl bg-[rgba(15,15,20,0.4)] backdrop-blur-xl border border-white/10 text-text-primary placeholder-text-placeholder focus:outline-none focus:border-cyan-400/60 focus:shadow-[0_0_16px_rgba(0,240,255,0.4)] focus:bg-[rgba(24,24,32,0.6)] transition-all duration-200 ease-liquid pr-12"
+              className="w-full px-4 py-3 rounded-xl bg-bg-500 border border-white/10 text-text-primary placeholder-text-placeholder focus:outline-none focus:border-cyan-400/60 focus:shadow-[0_0_16px_rgba(0,240,255,0.4)] focus:bg-bg-600 transition-all duration-200 ease-liquid pr-12"
             />
             <motion.button
               whileHover={{ scale: 1.1 }}

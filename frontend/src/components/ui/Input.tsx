@@ -13,7 +13,7 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, variant = 'default', inputSize = 'md', error, errorMessage, prefixIcon, suffixIcon, ...props }, ref) => {
     const baseStyles =
-      'w-full bg-[rgba(15,15,20,0.4)] backdrop-blur-xl text-text-primary placeholder-text-placeholder text-sm font-normal transition-all duration-200 ease-liquid focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed'
+      'w-full bg-bg-500 text-text-primary placeholder-text-placeholder text-sm font-normal transition-all duration-200 ease-liquid focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed'
 
     const sizeStyles = {
       sm: 'h-9 px-3 text-sm rounded-md',
@@ -25,7 +25,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const stateStyles = error
       ? 'border-error/60 focus:border-error focus:shadow-[0_0_16px_rgba(255,23,68,0.4)]'
-      : 'border-white/10 hover:border-white/15 focus:border-cyan-400/60 focus:shadow-[0_0_16px_rgba(0,240,255,0.4)] focus:bg-[rgba(24,24,32,0.6)]'
+      : 'border-white/10 hover:border-white/15 focus:border-cyan-400/60 focus:shadow-[0_0_16px_rgba(0,240,255,0.4)] focus:bg-bg-600'
 
     const variantStyles = {
       default: 'border',

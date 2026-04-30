@@ -51,7 +51,7 @@ export default function ChatPage() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="p-2.5 rounded-xl glass hover:border-white/15 transition-all duration-150 ease-spring"
+              className="p-2.5 rounded-xl bg-bg-600 border border-white/[0.08] hover:border-white/15 transition-all duration-150 ease-spring"
             >
               <Search size={18} className="text-text-secondary" />
             </motion.button>
@@ -67,7 +67,7 @@ export default function ChatPage() {
               >
                 <Link
                   to={`/chat/${conv.id}`}
-                  className="flex items-center gap-4 p-4 rounded-2xl glass hover:bg-white/5 transition-all duration-250 ease-liquid group border border-transparent hover:border-white/5"
+                  className="flex items-center gap-4 p-4 rounded-2xl bg-bg-600 border border-white/[0.05] hover:bg-bg-500 transition-all duration-250 ease-liquid group hover:border-white/10"
                 >
                   {/* Avatar */}
                   <div className="relative shrink-0">
@@ -124,7 +124,7 @@ export default function ChatPage() {
             transition={{ delay: 0.5 }}
             className="mt-8 text-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-text-tertiary text-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-bg-600 border border-white/[0.08] text-text-tertiary text-sm">
               <MessageSquare size={14} />
               滑动查看更多对话
             </div>

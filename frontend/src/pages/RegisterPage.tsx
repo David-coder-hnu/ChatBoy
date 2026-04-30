@@ -219,7 +219,7 @@ export default function RegisterPage() {
               ].map((s) => (
                 <button
                   key={s.name}
-                  className="w-11 h-11 rounded-full glass flex items-center justify-center text-text-secondary hover:text-text-primary hover:border-white/15 transition-all duration-150 ease-spring active:scale-95"
+                  className="w-11 h-11 rounded-full bg-bg-600 border border-white/[0.08] flex items-center justify-center text-text-secondary hover:text-text-primary hover:border-white/15 transition-all duration-150 ease-spring active:scale-95"
                   title={s.name}
                 >
                   <span className="text-sm font-semibold">{s.icon}</span>

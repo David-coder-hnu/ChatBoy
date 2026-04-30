@@ -113,7 +113,7 @@ export default function OnboardingPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="glass-elevated rounded-3xl p-8 border border-white/5"
+              className="bg-bg-500 border border-white/[0.06] rounded-2xl p-8"
             >
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-accent-cyan/10 flex items-center justify-center">
@@ -170,7 +170,7 @@ export default function OnboardingPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="glass-elevated rounded-3xl p-8 border border-white/5"
+              className="bg-bg-500 border border-white/[0.06] rounded-2xl p-8"
             >
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-accent-magenta/10 flex items-center justify-center">
@@ -262,7 +262,7 @@ export default function OnboardingPage() {
               key="distilling"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="glass-elevated rounded-3xl p-12 text-center border border-white/5"
+              className="bg-bg-500 border border-white/[0.06] rounded-2xl p-12 text-center"
             >
               <div className="relative w-32 h-32 mx-auto mb-8">
                 <motion.div
@@ -320,7 +320,7 @@ export default function OnboardingPage() {
               key="complete"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="glass-elevated rounded-3xl p-12 text-center border border-white/5"
+              className="bg-bg-500 border border-white/[0.06] rounded-2xl p-12 text-center"
             >
               <motion.div
                 initial={{ scale: 0, rotate: -20 }}

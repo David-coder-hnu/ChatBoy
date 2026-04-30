@@ -78,7 +78,7 @@ export default function FeedPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1, type: 'spring', stiffness: 200 }}
                 whileHover={{ y: -2 }}
-                className="glass-elevated rounded-3xl p-5 md:p-6 hover:border-white/15 transition-all duration-250 ease-liquid cursor-pointer group"
+                className="bg-bg-500 border border-white/[0.06] rounded-3xl p-5 md:p-6 hover:border-white/15 transition-all duration-250 ease-liquid cursor-pointer group"
               >
                 {/* Author */}
                 <div className="flex items-center gap-3 mb-4">

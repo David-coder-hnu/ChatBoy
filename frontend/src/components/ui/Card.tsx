@@ -9,10 +9,10 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant = 'glass', hoverable = true, selectable, selected, children, ...props }, ref) => {
+  ({ className, variant = 'flat', hoverable = true, selectable, selected, children, ...props }, ref) => {
     const variantStyles = {
       glass: [
-        'bg-[rgba(15,15,20,0.4)] backdrop-blur-xl backdrop-saturate-[120%]',
+        'bg-[rgba(15,15,20,0.35)] backdrop-blur-xl backdrop-saturate-[120%]',
         'border border-white/[0.08] rounded-2xl p-6',
         hoverable && 'hover:border-white/[0.12] hover:shadow-[0_0_16px_rgba(0,240,255,0.1)]',
       ],
@@ -23,8 +23,8 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       ],
       flat: [
         'bg-bg-500',
-        'border border-white/[0.05] rounded-xl p-5',
-        hoverable && 'hover:border-white/[0.10]',
+        'border border-white/[0.06] rounded-2xl p-6',
+        hoverable && 'hover:border-white/[0.10] hover:bg-bg-600',
       ],
       liquid: [
         'bg-[rgba(15,15,20,0.3)] backdrop-blur-md backdrop-saturate-[180%]',

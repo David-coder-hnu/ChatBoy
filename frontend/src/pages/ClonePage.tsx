@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Sparkles, Sliders, Activity, MessageSquare, Brain, FlaskConical, ArrowRight, Power, Zap } from 'lucide-react'
+import { Sparkles, Sliders, Activity, MessageSquare, Brain, FlaskConical, Power, Zap } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import AppShell from '@/components/layout/AppShell'
 import { Button } from '@/components/ui/Button'
@@ -34,7 +34,7 @@ export default function ClonePage() {
 
   return (
     <AppShell>
-      <div className="p-4 md:p-8 max-w-2xl mx-auto relative">
+      <div className="p-4 md:p-8 max-w-6xl mx-auto relative">
         <div className="fixed inset-0 mesh-gradient pointer-events-none" />
         <div className="fixed top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-cyan/2 rounded-full blur-[150px] pointer-events-none animate-breathe" />
 
@@ -47,38 +47,62 @@ export default function ClonePage() {
             </div>
           </div>
 
-          {/* Clone Identity Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="glass-elevated rounded-3xl p-6 md:p-8 mb-6 relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-accent-cyan/3 rounded-full blur-[80px] pointer-events-none" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Left Column — Identity */}
+            <div className="lg:col-span-4 space-y-6">
+              {/* Clone Identity Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-bg-500 border border-white/[0.06] rounded-2xl p-6 md:p-8 relative overflow-hidden"
+              >
+                <div className="relative z-10 flex flex-col items-center text-center">
+                  <Avatar size="xl" ring="cyan" status="ai-twin-online" fallback="AI" />
+                  <h2 className="font-sans text-xl font-bold mt-4">你的数字孪生</h2>
+                  <Badge variant="cyan" size="sm" className="mt-2">AI 孪生在线</Badge>
 
-            <div className="relative z-10 flex flex-col items-center text-center">
-              <Avatar size="xl" ring="cyan" status="ai-twin-online" fallback="AI" />
-              <h2 className="font-sans text-xl font-bold mt-4">你的数字孪生</h2>
-              <Badge variant="cyan" size="sm" className="mt-2">AI 孪生在线</Badge>
-
-              {/* Stats Row */}
-              <div className="grid grid-cols-3 gap-4 w-full mt-6">
-                {stats.map((stat) => (
-                  <div key={stat.label} className="text-center">
-                    <p className="font-mono text-2xl font-bold text-text-primary">{stat.value}</p>
-                    <p className="text-xs text-text-secondary mt-0.5">{stat.label}</p>
+                  {/* Stats Row */}
+                  <div className="grid grid-cols-3 gap-4 w-full mt-6">
+                    {stats.map((stat) => (
+                      <div key={stat.label} className="text-center">
+                        <p className="font-mono text-2xl font-bold text-text-primary">{stat.value}</p>
+                        <p className="text-xs text-text-secondary mt-0.5">{stat.label}</p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+                </div>
+              </motion.div>
 
-          {/* Clone Status & Control */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="glass-elevated rounded-3xl p-6 md:p-8 mb-6 relative overflow-hidden"
-          >
+              {/* Calibration CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                whileHover={{ scale: 1.01, y: -2 }}
+                className="bg-bg-600 border border-accent-cyan/20 rounded-xl p-5 cursor-pointer hover:border-accent-cyan/40 hover:bg-bg-500 transition-all duration-250 ease-liquid group"
+                onClick={() => navigate('/calibrate')}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center group-hover:bg-accent-cyan/20 transition-colors duration-150">
+                    <FlaskConical size={22} className="text-accent-cyan" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium">风格校准实验室</h3>
+                    <p className="text-text-secondary text-sm">测试回复风格，提供反馈让系统更精准模仿你</p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Right Column — Controls & Stats */}
+            <div className="lg:col-span-8 space-y-6">
+              {/* Clone Status & Control */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="bg-bg-500 border border-white/[0.06] rounded-2xl p-6 md:p-8 relative overflow-hidden"
+              >
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-4">
@@ -161,36 +185,13 @@ export default function ClonePage() {
             </div>
           </motion.div>
 
-          {/* Calibration CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            whileHover={{ scale: 1.01, y: -2 }}
-            className="glass rounded-2xl p-5 mb-6 border border-accent-cyan/20 cursor-pointer hover:border-accent-cyan/40 transition-all duration-250 ease-liquid group"
-            onClick={() => navigate('/calibrate')}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center group-hover:bg-accent-cyan/20 transition-colors duration-150">
-                  <FlaskConical size={22} className="text-accent-cyan" />
-                </div>
-                <div>
-                  <h3 className="font-medium">风格校准实验室</h3>
-                  <p className="text-text-secondary text-sm">测试回复风格，提供反馈让系统更精准模仿你</p>
-                </div>
-              </div>
-              <ArrowRight size={20} className="text-text-tertiary group-hover:text-accent-cyan group-hover:translate-x-1 transition-all duration-150 ease-spring" />
-            </div>
-          </motion.div>
-
           {/* Personality + Stats Grid */}
           <div className="grid md:grid-cols-2 gap-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="glass rounded-2xl p-5"
+              className="bg-bg-600 border border-white/[0.05] rounded-xl p-5"
             >
               <div className="flex items-center gap-2 mb-4">
                 <Brain size={18} className="text-accent-cyan" />
@@ -225,7 +226,7 @@ export default function ClonePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="glass rounded-2xl p-5"
+              className="bg-bg-600 border border-white/[0.05] rounded-xl p-5"
             >
               <div className="flex items-center gap-2 mb-4">
                 <Activity size={18} className="text-accent-magenta" />
@@ -259,7 +260,7 @@ export default function ClonePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="glass rounded-2xl p-5 mt-4"
+            className="bg-bg-600 border border-white/[0.05] rounded-xl p-5"
           >
             <h3 className="font-medium mb-4">今日活动</h3>
             <div className="space-y-3">
@@ -278,6 +279,8 @@ export default function ClonePage() {
               ))}
             </div>
           </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </AppShell>

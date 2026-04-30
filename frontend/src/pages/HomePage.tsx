@@ -49,7 +49,7 @@ export default function HomePage() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative p-2.5 rounded-xl glass border border-white/5 hover:border-white/10 transition-colors"
+                className="relative p-2.5 rounded-xl bg-bg-600 border border-white/[0.08] hover:border-white/15 transition-colors"
               >
                 <Bell size={20} className="text-text-secondary" />
                 <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-accent-magenta" />
@@ -57,7 +57,7 @@ export default function HomePage() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-full glass border border-accent-cyan/20 cursor-pointer hover:border-accent-cyan/40 transition-colors"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-bg-600 border border-accent-cyan/20 cursor-pointer hover:border-accent-cyan/40 transition-colors"
                 onClick={() => setOnlineActive(!onlineActive)}
               >
                 <motion.div
@@ -74,9 +74,8 @@ export default function HomePage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-elevated rounded-3xl p-6 md:p-8 mb-8 relative overflow-hidden border border-white/5"
+            className="bg-bg-500 border border-white/[0.06] rounded-2xl p-6 md:p-8 mb-8 relative overflow-hidden"
           >
-            <div className="absolute top-0 right-0 w-72 h-72 bg-accent-cyan/3 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div className="flex items-center gap-4">
@@ -122,7 +121,7 @@ export default function HomePage() {
                 </motion.button>
                 <Link
                   to="/clone"
-                  className="px-6 py-3 rounded-xl glass text-text-primary font-semibold hover:bg-white/5 transition-colors border border-white/5"
+                  className="px-6 py-3 rounded-xl bg-bg-600 border border-white/[0.08] text-text-primary font-semibold hover:bg-bg-500 transition-colors"
                 >
                   管理
                 </Link>
@@ -138,7 +137,7 @@ export default function HomePage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08, type: 'spring', stiffness: 200 }}
                   whileHover={{ y: -4, scale: 1.02 }}
-                  className="text-center p-4 rounded-2xl glass hover:bg-white/5 transition-all cursor-default group"
+                  className="text-center p-4 rounded-2xl bg-bg-600 border border-white/[0.05] hover:bg-bg-500 transition-all cursor-default group"
                 >
                   <div className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform`}>
                     <stat.icon size={18} className={stat.color} />
@@ -164,7 +163,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="glass rounded-3xl p-6 relative overflow-hidden border border-white/5"
+              className="bg-bg-500 border border-white/[0.06] rounded-2xl p-6 relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-accent-cyan/3 rounded-full blur-[50px] pointer-events-none" />
               <div className="relative z-10">
@@ -205,7 +204,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="glass rounded-3xl p-6 relative overflow-hidden border border-white/5"
+              className="bg-bg-500 border border-white/[0.06] rounded-2xl p-6 relative overflow-hidden"
             >
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent-magenta/3 rounded-full blur-[50px] pointer-events-none" />
               <div className="relative z-10">

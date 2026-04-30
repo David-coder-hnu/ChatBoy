@@ -5,7 +5,7 @@ export default function PostSkeleton() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="glass rounded-3xl p-5 md:p-6 space-y-4"
+      className="bg-bg-500 border border-white/[0.06] rounded-3xl p-5 md:p-6 space-y-4"
     >
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-surface animate-pulse" />

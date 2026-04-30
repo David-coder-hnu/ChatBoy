@@ -100,7 +100,7 @@ export default function DiscoverPage() {
 
         <div className="flex items-center justify-between mb-6 relative z-10">
           <h1 className="font-sans text-2xl font-bold">发现</h1>
-          <div className="flex items-center gap-2 text-text-secondary text-sm glass px-3 py-1.5 rounded-full">
+          <div className="flex items-center gap-2 text-text-secondary text-sm bg-bg-600 border border-white/[0.08] px-3 py-1.5 rounded-full">
             <MapPin size={14} />
             <span>上海</span>
           </div>
@@ -245,7 +245,7 @@ export default function DiscoverPage() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => handleSwipe('left')}
-            className="w-16 h-16 rounded-full glass flex items-center justify-center text-text-secondary hover:text-accent-magenta hover:border-accent-magenta/30 hover:shadow-[0_0_16px_rgba(255,0,110,0.3)] transition-all duration-150 ease-spring"
+            className="w-16 h-16 rounded-full bg-bg-600 border border-white/[0.08] flex items-center justify-center text-text-secondary hover:text-accent-magenta hover:border-accent-magenta/30 hover:shadow-[0_0_16px_rgba(255,0,110,0.3)] transition-all duration-150 ease-spring"
           >
             <X size={28} />
           </motion.button>
@@ -254,7 +254,7 @@ export default function DiscoverPage() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setShowDetail(!showDetail)}
-            className="w-12 h-12 rounded-full glass flex items-center justify-center text-text-secondary hover:text-accent-gold hover:border-accent-gold/30 hover:shadow-[0_0_16px_rgba(255,190,11,0.3)] transition-all duration-150 ease-spring"
+            className="w-12 h-12 rounded-full bg-bg-600 border border-white/[0.08] flex items-center justify-center text-text-secondary hover:text-accent-gold hover:border-accent-gold/30 hover:shadow-[0_0_16px_rgba(255,190,11,0.3)] transition-all duration-150 ease-spring"
           >
             <Info size={20} />
           </motion.button>
@@ -263,7 +263,7 @@ export default function DiscoverPage() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => handleSwipe('right')}
-            className="w-16 h-16 rounded-full glass border border-accent-cyan/30 flex items-center justify-center text-accent-cyan hover:bg-accent-cyan/10 hover:shadow-[0_0_16px_rgba(0,240,255,0.3)] transition-all duration-150 ease-spring"
+            className="w-16 h-16 rounded-full bg-bg-600 border border-accent-cyan/30 flex items-center justify-center text-accent-cyan hover:bg-accent-cyan/10 hover:shadow-[0_0_16px_rgba(0,240,255,0.3)] transition-all duration-150 ease-spring"
           >
             <Heart size={28} />
           </motion.button>

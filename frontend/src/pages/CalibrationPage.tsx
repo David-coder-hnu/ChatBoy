@@ -132,7 +132,7 @@ export default function CalibrationPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="glass-elevated rounded-3xl p-6 mb-6 border border-white/5"
+          className="bg-bg-500 border border-white/[0.06] rounded-3xl p-6 mb-6"
         >
           <label className="block text-sm font-medium mb-3 text-text-secondary">输入一个对话场景</label>
           <textarea
@@ -181,7 +181,7 @@ export default function CalibrationPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="glass-elevated rounded-3xl p-6 mb-6 border border-white/5"
+              className="bg-bg-500 border border-white/[0.06] rounded-3xl p-6 mb-6"
             >
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 rounded-lg bg-accent-magenta/10 flex items-center justify-center">
@@ -203,7 +203,7 @@ export default function CalibrationPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="glass-elevated rounded-3xl p-6 mb-6 border border-white/5"
+              className="bg-bg-500 border border-white/[0.06] rounded-3xl p-6 mb-6"
             >
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 rounded-lg bg-accent-cyan/10 flex items-center justify-center">
@@ -225,7 +225,7 @@ export default function CalibrationPage() {
                 whileTap={{ scale: 0.98 }}
                 onClick={submitFeedback}
                 disabled={!userResponse.trim() || isAnalyzing}
-                className="w-full h-10 rounded-full bg-cyan-500/15 backdrop-blur-md border border-cyan-400/40 text-cyan-400 font-medium transition-all duration-150 ease-spring hover:bg-cyan-500/25 hover:shadow-[0_0_16px_rgba(0,240,255,0.4)] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full h-10 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-400 font-medium transition-all duration-150 ease-spring hover:bg-cyan-500/20 hover:shadow-[0_0_16px_rgba(0,240,255,0.3)] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {isAnalyzing ? (
                   <RefreshCw size={18} className="animate-spin" />
@@ -247,7 +247,7 @@ export default function CalibrationPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="glass-elevated rounded-3xl p-6 mb-6 border border-white/5"
+              className="bg-bg-500 border border-white/[0.06] rounded-3xl p-6 mb-6"
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
@@ -322,7 +322,7 @@ export default function CalibrationPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="glass-elevated rounded-3xl p-6 mb-6 border border-white/5"
+            className="bg-bg-500 border border-white/[0.06] rounded-3xl p-6 mb-6"
           >
             <div className="flex items-center justify-between mb-4">
               <span className="font-medium">已完成的测试 ({results.length})</span>

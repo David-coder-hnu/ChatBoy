@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 
 export default function TypingIndicator() {
   return (
-    <div className="flex items-center gap-1 px-4 py-2 glass rounded-2xl rounded-bl-md w-fit">
+    <div className="flex items-center gap-1 px-4 py-2 bg-bg-600 border border-white/[0.08] rounded-2xl rounded-bl-md w-fit">
       {[0, 1, 2].map((i) => (
         <motion.div
           key={i}

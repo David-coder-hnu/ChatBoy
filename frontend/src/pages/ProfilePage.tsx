@@ -19,101 +19,118 @@ export default function ProfilePage() {
 
   return (
     <AppShell>
-      <div className="p-4 md:p-8 max-w-2xl mx-auto relative">
+      <div className="p-4 md:p-8 max-w-5xl mx-auto relative">
         <div className="fixed inset-0 mesh-gradient pointer-events-none" />
         <div className="fixed top-1/4 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-cyan/2 rounded-full blur-[150px] pointer-events-none animate-breathe" />
 
         <div className="relative z-10">
-          {/* Profile Header */}
+          {/* Profile Header — Full width hero */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-elevated rounded-3xl p-6 md:p-8 mb-6 text-center relative overflow-hidden"
+            className="bg-bg-500 border border-white/[0.06] rounded-2xl p-6 md:p-10 mb-6 relative overflow-hidden"
           >
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-accent-cyan/3 rounded-full blur-[100px] pointer-events-none" />
 
-            <div className="relative z-10">
+            <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: 'spring', stiffness: 300 }}
-                className="relative w-24 h-24 mx-auto mb-4"
+                className="relative w-24 h-24 shrink-0"
               >
                 <Avatar size="xl" ring="gradient" fallback={user?.nickname?.[0] || '?'} />
                 <motion.div
                   whileHover={{ scale: 1.1 }}
-                  className="absolute -bottom-1 -right-1 w-8 h-8 rounded-xl glass-strong flex items-center justify-center cursor-pointer hover:border-accent-cyan/30 transition-colors duration-150"
+                  className="absolute -bottom-1 -right-1 w-8 h-8 rounded-xl bg-bg-600 border border-white/[0.10] flex items-center justify-center cursor-pointer hover:border-accent-cyan/30 transition-colors duration-150"
                 >
                   <Camera size={14} className="text-text-secondary" />
                 </motion.div>
               </motion.div>
 
-              <h1 className="font-sans text-2xl font-bold">{user?.nickname || '用户'}</h1>
-              <p className="text-text-secondary mt-1">{user?.bio || '还没有简介'}</p>
+              <div className="flex-1 text-center md:text-left">
+                <h1 className="font-sans text-2xl font-bold">{user?.nickname || '用户'}</h1>
+                <p className="text-text-secondary mt-1">{user?.bio || '还没有简介'}</p>
 
-              <div className="flex items-center justify-center gap-5 mt-4 text-text-secondary text-sm">
-                <span className="flex items-center gap-1.5">
-                  <MapPin size={14} className="text-text-tertiary" />
-                  上海
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Calendar size={14} className="text-text-tertiary" />
-                  加入于 2024
-                </span>
+                <div className="flex items-center justify-center md:justify-start gap-5 mt-4 text-text-secondary text-sm">
+                  <span className="flex items-center gap-1.5">
+                    <MapPin size={14} className="text-text-tertiary" />
+                    上海
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Calendar size={14} className="text-text-tertiary" />
+                    加入于 2024
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-center md:justify-start gap-3 mt-5">
+                  <Button variant="ghost" size="sm" className="flex items-center gap-2">
+                    <Edit size={16} />
+                    编辑资料
+                  </Button>
+                  <Button variant="ghost" size="sm" className="flex items-center gap-2">
+                    <Settings size={16} />
+                    设置
+                  </Button>
+                </div>
               </div>
 
-              <div className="flex items-center justify-center gap-3 mt-6">
-                <Button variant="ghost" size="sm" className="flex items-center gap-2">
-                  <Edit size={16} />
-                  编辑资料
-                </Button>
-                <Button variant="ghost" size="sm" className="flex items-center gap-2">
-                  <Settings size={16} />
-                  设置
-                </Button>
+              {/* Stats inline on desktop */}
+              <div className="hidden lg:grid grid-cols-2 gap-3 shrink-0">
+                {stats.slice(0, 4).map((stat) => (
+                  <div key={stat.label} className="text-center px-4 py-2">
+                    <p className="font-mono text-xl font-bold text-accent-cyan">{stat.value}</p>
+                    <p className="text-text-tertiary text-xs">{stat.label}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            {stats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ delay: i * 0.08, type: 'spring', stiffness: 200 }}
-                whileHover={{ y: -4, scale: 1.03 }}
-                onHoverStart={() => setHoverStat(stat.label)}
-                onHoverEnd={() => setHoverStat(null)}
-                className="glass rounded-2xl p-4 text-center transition-all duration-250 ease-liquid cursor-default"
-              >
-                <motion.div
-                  animate={hoverStat === stat.label ? { rotate: [0, -10, 10, 0] } : {}}
-                  transition={{ duration: 0.5 }}
-                >
-                  <stat.icon size={18} className={`mx-auto mb-2 ${stat.color}`} />
-                </motion.div>
-                <motion.p
-                  key={stat.value}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 300, delay: i * 0.08 + 0.2 }}
-                  className="font-mono text-2xl font-bold text-accent-cyan"
-                >
-                  {stat.value}
-                </motion.p>
-                <p className="text-text-tertiary text-xs mt-1">{stat.label}</p>
-              </motion.div>
-            ))}
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left — Stats (mobile visible, desktop hidden since in header) */}
+            <div className="lg:hidden">
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                {stats.map((stat, i) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ delay: i * 0.08, type: 'spring', stiffness: 200 }}
+                    whileHover={{ y: -4, scale: 1.03 }}
+                    onHoverStart={() => setHoverStat(stat.label)}
+                    onHoverEnd={() => setHoverStat(null)}
+                    className="bg-bg-500 border border-white/[0.06] rounded-2xl p-4 text-center transition-all duration-250 ease-liquid cursor-default hover:bg-bg-600"
+                  >
+                    <motion.div
+                      animate={hoverStat === stat.label ? { rotate: [0, -10, 10, 0] } : {}}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <stat.icon size={18} className={`mx-auto mb-2 ${stat.color}`} />
+                    </motion.div>
+                    <motion.p
+                      key={stat.value}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: 'spring', stiffness: 300, delay: i * 0.08 + 0.2 }}
+                      className="font-mono text-2xl font-bold text-accent-cyan"
+                    >
+                      {stat.value}
+                    </motion.p>
+                    <p className="text-text-tertiary text-xs mt-1">{stat.label}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
 
-          {/* Safety & Privacy */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="glass rounded-2xl p-5 mb-6"
-          >
+            {/* Right — Settings & Privacy (2 cols on desktop) */}
+            <div className="lg:col-span-3">
+              {/* Safety & Privacy */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="bg-bg-500 border border-white/[0.06] rounded-2xl p-5 mb-6"
+              >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-accent-cyan/10 flex items-center justify-center">
                 <Shield size={18} className="text-accent-cyan" />
@@ -160,6 +177,8 @@ export default function ProfilePage() {
               退出登录
             </Button>
           </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </AppShell>

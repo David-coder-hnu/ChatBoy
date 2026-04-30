@@ -17,7 +17,7 @@ export default function ChatBubble({ content, isUser = false, delay = 0 }: ChatB
         'max-w-[80%] px-4 py-3 rounded-2xl text-sm leading-relaxed',
         isUser
           ? 'bg-accent-cyan/20 text-text-primary rounded-br-md ml-auto'
-          : 'glass border border-white/5 rounded-bl-md'
+          : 'bg-bg-600 border border-white/[0.08] rounded-bl-md'
       )}
     >
       {content}

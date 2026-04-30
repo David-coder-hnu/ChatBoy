@@ -75,7 +75,14 @@
     text-shadow: 0 0 10px rgba(255, 190, 11, 0.5), 0 0 20px rgba(255, 190, 11, 0.3);
   }
 
-  /* ───────── Glass Material System (§7.1) ───────── */
+  /* ───────── Surface Hierarchy (3-Level) ─────────
+     Level 1 — Background: bg-background (#050508) — page canvas
+     Level 2 — Content:    bg-bg-500 (#0A0A10) — cards, sections
+     Level 3 — Elevated:   bg-bg-600 / bg-bg-700 — hover, dropdowns, floating
+     Glass: reserved for navbars, overlays, and intentional transparency only
+  */
+
+  /* ───────── Glass Material System (§7.1) ─────────"
   .glass {
     background: rgba(15, 15, 20, 0.4);
     backdrop-filter: blur(20px) saturate(120%);
