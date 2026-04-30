@@ -74,6 +74,10 @@
 
 ### 1 · 克隆仪表板 — 你的人格是一张雷达图
 
+<p align="center">
+  <img src=".github/assets/screenshot-clone.png" alt="克隆仪表板" width="90%">
+</p>
+
 五维人格不是五个数字。是一个多边形。
 
 `BigFiveRadar` 用 SVG 绘制你的开放性、尽责性、外向性、宜人性、情绪稳定性。Cyan→Magenta 渐变填充，五个顶点有呼吸动画。外围标签完整显示，不是缩写。因为**人格不应该被压缩**。
@@ -84,6 +88,10 @@
 
 ### 2 · 消息中心 — 每段关系都有温度
 
+<p align="center">
+  <img src=".github/assets/screenshot-chat.png" alt="消息中心" width="90%">
+</p>
+
 不是消息列表。是**关系地图**。
 
 每个头像周围有一个 SVG 圆环——亲密度进度条。金色环（≥70%）意味着灵魂级连接，左侧 3px 渐变光晕标记。青色环（≥40%）是稳固友谊。洋红环（<40%）是还在了解的新人。
@@ -93,6 +101,12 @@
 ---
 
 ### 3 · 孪生意识流 — 它在你看不见的地方思考
+
+<p align="center">
+  <img src=".github/assets/screenshot-chat.png" alt="孪生意识流" width="90%">
+</p>
+
+> 截图右侧：260px sticky 面板，AI 的实时思维映射。
 
 聊天页右侧，260px 的 sticky 面板。你的孪生在这里**自言自语**。
 
@@ -130,6 +144,12 @@ Phase 3：孪生头像从 blur 中聚焦成形——**交接完成**。
 ---
 
 ### 6 · 全页面氛围 — 每页有不同的灵魂底色
+
+<p align="center">
+  <img src=".github/assets/screenshot-home.png" alt="主页氛围" width="90%">
+</p>
+
+> 截图背景：双色粒子光晕在黑暗中缠绕，12 个浮动粒子 + 双光晕 orb。
 
 AmbientBackground 为每个场景生成独特的粒子光晕：
 
