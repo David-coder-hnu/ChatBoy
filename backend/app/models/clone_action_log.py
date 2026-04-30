@@ -24,7 +24,7 @@ class CloneActionLog(Base, UUIDMixin):
         String(30), nullable=False
     )  # reply / match / post / activate / deactivate / etc
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
-    metadata: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    action_metadata: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=datetime.utcnow, nullable=False
     )
