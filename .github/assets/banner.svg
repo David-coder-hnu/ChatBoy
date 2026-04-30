@@ -1,107 +1,151 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="100%">
   <defs>
-    <!-- Background gradient mesh -->
-    <radialGradient id="g1" cx="20%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#0a0a1a" />
-      <stop offset="100%" stop-color="#050508" />
-    </radialGradient>
-    <radialGradient id="g2" cx="80%" cy="70%" r="50%">
-      <stop offset="0%" stop-color="#0f0f1e" stop-opacity="0.8" />
-      <stop offset="100%" stop-color="#050508" stop-opacity="0" />
+    <!-- Background gradients -->
+    <radialGradient id="bg-main" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#0d0d1a"/>
+      <stop offset="50%" stop-color="#080810"/>
+      <stop offset="100%" stop-color="#040408"/>
     </radialGradient>
     <radialGradient id="glow-cyan" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.15" />
-      <stop offset="100%" stop-color="#00f0ff" stop-opacity="0" />
+      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#00f0ff" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="glow-magenta" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ff006e" stop-opacity="0.12" />
-      <stop offset="100%" stop-color="#ff006e" stop-opacity="0" />
+      <stop offset="0%" stop-color="#ff006e" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#ff006e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-gold" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffbe0b" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffbe0b" stop-opacity="0"/>
     </radialGradient>
     <!-- Text gradient -->
     <linearGradient id="text-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#00f0ff" />
-      <stop offset="50%" stop-color="#ff006e" />
-      <stop offset="100%" stop-color="#ffbe0b" />
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="40%" stop-color="#ff006e"/>
+      <stop offset="80%" stop-color="#ffbe0b"/>
+      <stop offset="100%" stop-color="#00f0ff"/>
     </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+    <!-- Glow filter -->
+    <filter id="glow-soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
       <feMerge>
-        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
+    <filter id="glow-strong" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="15" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Mask for twin circles -->
+    <clipPath id="twin-clip">
+      <circle cx="540" cy="180" r="55"/>
+    </clipPath>
   </defs>
 
   <!-- Background -->
-  <rect width="800" height="300" fill="url(#g1)" />
-  <rect width="800" height="300" fill="url(#g2)" />
-
+  <rect width="1200" height="400" fill="url(#bg-main)"/>
+  
   <!-- Ambient glow orbs -->
-  <circle cx="150" cy="200" r="120" fill="url(#glow-cyan)" />
-  <circle cx="650" cy="100" r="100" fill="url(#glow-magenta)" />
+  <circle cx="200" cy="280" r="180" fill="url(#glow-cyan)"/>
+  <circle cx="1000" cy="120" r="150" fill="url(#glow-magenta)"/>
+  <circle cx="600" cy="350" r="120" fill="url(#glow-gold)"/>
 
-  <!-- Noise texture overlay (simulated with dots) -->
-  <g opacity="0.03">
-    <circle cx="100" cy="80" r="1.5" fill="#fff"/><circle cx="220" cy="140" r="1" fill="#fff"/>
-    <circle cx="340" cy="60" r="1.5" fill="#fff"/><circle cx="460" cy="200" r="1" fill="#fff"/>
-    <circle cx="580" cy="120" r="1.5" fill="#fff"/><circle cx="700" cy="240" r="1" fill="#fff"/>
-    <circle cx="130" cy="250" r="1" fill="#fff"/><circle cx="280" cy="180" r="1.5" fill="#fff"/>
-    <circle cx="420" cy="90" r="1" fill="#fff"/><circle cx="560" cy="260" r="1.5" fill="#fff"/>
-    <circle cx="680" cy="160" r="1" fill="#fff"/><circle cx="80" cy="190" r="1.5" fill="#fff"/>
-    <circle cx="200" cy="110" r="1" fill="#fff"/><circle cx="360" cy="240" r="1.5" fill="#fff"/>
-    <circle cx="500" cy="70" r="1" fill="#fff"/><circle cx="620" cy="210" r="1.5" fill="#fff"/>
-    <circle cx="740" cy="130" r="1" fill="#fff"/><circle cx="160" cy="270" r="1.5" fill="#fff"/>
-    <circle cx="300" cy="50" r="1" fill="#fff"/><circle cx="440" cy="170" r="1.5" fill="#fff"/>
-    <circle cx="520" cy="280" r="1" fill="#fff"/><circle cx="660" cy="80" r="1.5" fill="#fff"/>
-    <circle cx="760" cy="220" r="1" fill="#fff"/><circle cx="120" cy="150" r="1.5" fill="#fff"/>
-    <circle cx="260" cy="100" r="1" fill="#fff"/><circle cx="380" cy="260" r="1.5" fill="#fff"/>
-    <circle cx="480" cy="140" r="1" fill="#fff"/><circle cx="600" cy="50" r="1.5" fill="#fff"/>
-    <circle cx="720" cy="190" r="1" fill="#fff"/><circle cx="90" cy="230" r="1.5" fill="#fff"/>
-    <circle cx="240" cy="70" r="1" fill="#fff"/><circle cx="400" cy="210" r="1.5" fill="#fff"/>
-    <circle cx="540" cy="110" r="1" fill="#fff"/><circle cx="640" cy="250" r="1.5" fill="#fff"/>
-    <circle cx="780" cy="170" r="1" fill="#fff"/><circle cx="140" cy="290" r="1.5" fill="#fff"/>
-    <circle cx="320" cy="130" r="1" fill="#fff"/><circle cx="460" cy="60" r="1.5" fill="#fff"/>
-    <circle cx="580" cy="230" r="1" fill="#fff"/><circle cx="700" cy="90" r="1.5" fill="#fff"/>
-    <circle cx="110" cy="200" r="1" fill="#fff"/><circle cx="250" cy="160" r="1.5" fill="#fff"/>
-    <circle cx="370" cy="280" r="1" fill="#fff"/><circle cx="490" cy="120" r="1.5" fill="#fff"/>
-    <circle cx="610" cy="180" r="1" fill="#fff"/><circle cx="730" cy="260" r="1.5" fill="#fff"/>
-    <circle cx="170" cy="100" r="1" fill="#fff"/><circle cx="290" cy="220" r="1.5" fill="#fff"/>
-    <circle cx="410" cy="80" r="1" fill="#fff"/><circle cx="530" cy="150" r="1.5" fill="#fff"/>
-    <circle cx="650" cy="270" r="1" fill="#fff"/><circle cx="770" cy="110" r="1.5" fill="#fff"/>
-    <circle cx="190" cy="240" r="1" fill="#fff"/><circle cx="310" cy="90" r="1.5" fill="#fff"/>
-    <circle cx="430" cy="190" r="1" fill="#fff"/><circle cx="550" cy="70" r="1.5" fill="#fff"/>
-    <circle cx="670" cy="130" r="1" fill="#fff"/><circle cx="790" cy="200" r="1.5" fill="#fff"/>
-    <circle cx="210" cy="170" r="1" fill="#fff"/><circle cx="330" cy="250" r="1.5" fill="#fff"/>
-    <circle cx="450" cy="110" r="1" fill="#fff"/><circle cx="570" cy="290" r="1.5" fill="#fff"/>
-    <circle cx="690" cy="60" r="1" fill="#fff"/><circle cx="810" cy="140" r="1.5" fill="#fff"/>
+  <!-- Neural grid lines -->
+  <g stroke="#00f0ff" stroke-width="0.3" opacity="0.08">
+    <line x1="0" y1="100" x2="1200" y2="100"/>
+    <line x1="0" y1="200" x2="1200" y2="200"/>
+    <line x1="0" y1="300" x2="1200" y2="300"/>
+    <line x1="300" y1="0" x2="300" y2="400"/>
+    <line x1="600" y1="0" x2="600" y2="400"/>
+    <line x1="900" y1="0" x2="900" y2="400"/>
   </g>
 
-  <!-- Constellation lines -->
-  <g stroke="#00f0ff" stroke-width="0.5" opacity="0.15">
-    <line x1="150" y1="80" x2="220" y2="140"/><line x1="220" y1="140" x2="340" y2="60"/>
-    <line x1="340" y1="60" x2="460" y2="200"/><line x1="460" y1="200" x2="580" y2="120"/>
-    <line x1="580" y1="120" x2="650" y2="180"/><line x1="650" y1="180" x2="700" y2="140"/>
-    <line x1="280" y1="180" x2="340" y2="60"/><line x1="420" y1="90" x2="460" y2="200"/>
-    <line x1="560" y1="260" x2="580" y2="120"/><line x1="80" y1="190" x2="150" y2="80"/>
+  <!-- Floating particles -->
+  <g fill="#fff" opacity="0.4">
+    <circle cx="150" cy="80" r="1.2">
+      <animate attributeName="cy" values="80;70;80" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.8;0.4" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="280" cy="140" r="0.8">
+      <animate attributeName="cy" values="140;130;140" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="420" cy="60" r="1.5">
+      <animate attributeName="cy" values="60;50;60" dur="7s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.7;0.3" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="780" cy="200" r="1">
+      <animate attributeName="cy" values="200;190;200" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="920" cy="120" r="1.3">
+      <animate attributeName="cy" values="120;110;120" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.9;0.4" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="1050" cy="260" r="0.9">
+      <animate attributeName="cy" values="260;250;260" dur="8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="180" cy="320" r="1.1">
+      <animate attributeName="cy" values="320;310;320" dur="7s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="850" cy="340" r="0.7">
+      <animate attributeName="cy" values="340;330;340" dur="6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Constellation connections -->
+  <g stroke="#00f0ff" stroke-width="0.5" opacity="0.12">
+    <line x1="150" y1="80" x2="280" y2="140"/>
+    <line x1="280" y1="140" x2="420" y2="60"/>
+    <line x1="420" y1="60" x2="780" y2="200"/>
+    <line x1="780" y1="200" x2="920" y2="120"/>
+    <line x1="920" y1="120" x2="1050" y2="260"/>
+    <line x1="150" y1="80" x2="180" y2="320"/>
+  </g>
+
+  <!-- Twin visual: two overlapping circles representing self and clone -->
+  <g transform="translate(600, 180)">
+    <!-- Left circle (Self) -->
+    <circle cx="-35" cy="0" r="50" fill="none" stroke="#00f0ff" stroke-width="1.5" opacity="0.5">
+      <animate attributeName="r" values="50;52;50" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.7;0.5" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Right circle (Clone) -->
+    <circle cx="35" cy="0" r="50" fill="none" stroke="#ff006e" stroke-width="1.5" opacity="0.5">
+      <animate attributeName="r" values="52;50;52" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.7;0.5" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Overlap glow -->
+    <ellipse cx="0" cy="0" rx="25" ry="40" fill="url(#text-grad)" opacity="0.15">
+      <animate attributeName="opacity" values="0.15;0.25;0.15" dur="3s" repeatCount="indefinite"/>
+    </ellipse>
+    <!-- Center dot -->
+    <circle cx="0" cy="0" r="4" fill="#ffbe0b" filter="url(#glow-soft)">
+      <animate attributeName="r" values="4;5;4" dur="2s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Title -->
-  <text x="400" y="150" text-anchor="middle" font-family="'Sora', 'Helvetica Neue', Arial, sans-serif" font-size="72" font-weight="700" letter-spacing="8" fill="url(#text-grad)" filter="url(#glow)">
+  <text x="600" y="315" text-anchor="middle" font-family="'Sora', 'Helvetica Neue', Arial, sans-serif" font-size="64" font-weight="700" letter-spacing="12" fill="url(#text-grad)" filter="url(#glow-soft)">
     SOULCLONE
   </text>
 
   <!-- Tagline -->
-  <text x="400" y="195" text-anchor="middle" font-family="'Noto Serif SC', 'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="400" letter-spacing="2" fill="#8b8b9a">
+  <text x="600" y="355" text-anchor="middle" font-family="'Noto Serif SC', 'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="400" letter-spacing="4" fill="#8b8b9a">
     你的灵魂，不止一个容器
   </text>
 
   <!-- Decorative line -->
-  <line x1="300" y1="225" x2="500" y2="225" stroke="url(#text-grad)" stroke-width="1" opacity="0.4" />
-  <circle cx="300" cy="225" r="2" fill="#00f0ff" opacity="0.6" />
-  <circle cx="500" cy="225" r="2" fill="#ffbe0b" opacity="0.6" />
+  <line x1="450" y1="385" x2="750" y2="385" stroke="url(#text-grad)" stroke-width="1" opacity="0.4"/>
+  <circle cx="450" cy="385" r="2.5" fill="#00f0ff" opacity="0.7"/>
+  <circle cx="750" cy="385" r="2.5" fill="#ffbe0b" opacity="0.7"/>
 
   <!-- Bottom label -->
-  <text x="400" y="260" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" letter-spacing="3" fill="#4a4a5a">
-    AI DIGITAL TWIN   ×   IMMERSIVE SOCIAL
+  <text x="600" y="405" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" letter-spacing="3" fill="#4a4a5a">
+    AI DIGITAL TWIN  ×  SOUL DASHBOARD  ×  IMMERSIVE SOCIAL
   </text>
 </svg>
