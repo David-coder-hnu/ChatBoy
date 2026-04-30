@@ -1,8 +1,9 @@
+import { lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, Zap, ChevronDown, MessageCircle, Users, Fingerprint, Brain } from 'lucide-react'
 
-import ParticleShader from '@/components/shared/ParticleShader'
+const ParticleShader = lazy(() => import('@/components/shared/ParticleShader'))
 import NeuralCard from '@/components/shared/NeuralCard'
 import ScanLight from '@/components/shared/ScanLight'
 import { HeroTitle, HeroSubtitle, HeroCTA, HeroBadge } from '@/components/shared/HeroReveal'
@@ -120,7 +121,9 @@ export default function LandingPage() {
 
       {/* ═══════════════════════ HERO ═══════════════════════ */}
       <section className="relative min-h-[100dvh] w-full overflow-hidden">
-        <ParticleShader />
+        <Suspense fallback={<div className="absolute inset-0 bg-background" />}>
+          <ParticleShader />
+        </Suspense>
 
         {/* Ambient orbs — only cyan tint for brand consistency */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-[2]">
