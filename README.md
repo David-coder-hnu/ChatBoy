@@ -139,8 +139,8 @@
 
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/David-coder-hnu/ChatBoy.git
-cd ChatBoy
+git clone https://github.com/David-coder-hnu/SoulClone.git
+cd SoulClone
 
 # 2. 配置环境变量
 cp .env.example .env
@@ -186,7 +186,7 @@ npm run dev
 ## 📁 项目结构
 
 ```
-ChatBoy/
+SoulClone/
 ├── .github/
 │   ├── assets/               # GitHub 展示资源
 │   └── workflows/
