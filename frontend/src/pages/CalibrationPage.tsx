@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FlaskConical, Send, User, Bot, CheckCircle, RefreshCw, Sparkles, ArrowRight, Beaker, History, Loader2, ChevronDown, ChevronUp } from 'lucide-react'
 import { api } from '@/lib/api'
+import AmbientBackground from '@/components/shared/AmbientBackground'
 
 
 interface TestResult {
@@ -130,12 +131,9 @@ export default function CalibrationPage() {
   }
 
   return (
-    <div className="min-h-screen px-4 py-8 relative overflow-hidden bg-background">
-      <div className="fixed inset-0 mesh-gradient pointer-events-none" />
-
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-accent-cyan/3 rounded-full blur-[120px] pointer-events-none" />
-
-      <div className="max-w-2xl mx-auto relative z-10">
+    <AmbientBackground variant="calibration">
+      <div className="min-h-screen px-4 py-8">
+        <div className="max-w-2xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -492,6 +490,7 @@ export default function CalibrationPage() {
           </motion.div>
         )}
       </div>
-    </div>
+      </div>
+    </AmbientBackground>
   )
 }

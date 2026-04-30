@@ -8,6 +8,7 @@ import {
 import { formatDate } from '@/lib/utils'
 import { Avatar } from '@/components/ui/Avatar'
 import { Badge } from '@/components/ui/Badge'
+import AmbientBackground from '@/components/shared/AmbientBackground'
 
 interface Message {
   id: string
@@ -100,10 +101,7 @@ export default function ChatRoomPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-background relative overflow-hidden">
-      {/* Ambient glow */}
-      <div className="fixed inset-0 mesh-gradient pointer-events-none" />
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-cyan/2 rounded-full blur-[150px] pointer-events-none animate-breathe" />
+    <AmbientBackground variant="chat" className="h-screen flex flex-col">
 
       {/* Header: Top Navigation (glass) */}
       <div className="glass border-b border-white/[0.06] px-4 py-3 flex items-center gap-3 shrink-0 z-20">
@@ -290,6 +288,6 @@ export default function ChatRoomPage() {
           </div>
         </div>
       </div>
-    </div>
+    </AmbientBackground>
   )
 }
