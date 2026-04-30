@@ -1,8 +1,8 @@
 import { useLocation, Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Home, Compass, MessageCircle, Newspaper, User } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Home, Compass, MessageCircle, Newspaper, User, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
-
+import { useState } from 'react'
 
 const navItems = [
   { path: '/home', icon: Home, label: '主页' },
@@ -12,117 +12,147 @@ const navItems = [
   { path: '/profile', icon: User, label: '我的' },
 ]
 
+// ───────── Floating Dock Navigation ─────────
+// Kills the standard SaaS sidebar. Replaces it with a floating glass dock
+// that breathes, glows, and feels like a constellation of soul-nodes.
+
+function FloatingDock() {
+  const location = useLocation()
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+
+  return (
+    <motion.nav
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: 'spring', stiffness: 200, damping: 25, delay: 0.3 }}
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
+    >
+      <div className="flex items-center gap-1 px-2 py-2 rounded-2xl glass-elevated border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+        {navItems.map((item, index) => {
+          const isActive = location.pathname === item.path
+          const isHovered = hoveredIndex === index
+
+          return (
+            <Link
+              key={item.path}
+              to={item.path}
+              className="relative flex flex-col items-center justify-center"
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+            >
+              {/* Tooltip label */}
+              <AnimatePresence>
+                {isHovered && !isActive && (
+                  <motion.span
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 2 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute -top-8 px-2 py-0.5 rounded-md bg-bg-600 border border-white/[0.08] text-[10px] text-text-secondary whitespace-nowrap"
+                  >
+                    {item.label}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+
+              {/* Active glow orb behind icon */}
+              {isActive && (
+                <motion.div
+                  layoutId="dockGlow"
+                  className="absolute inset-0 rounded-xl bg-accent-cyan/10"
+                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                />
+              )}
+
+              {/* Breathing glow for active item */}
+              {isActive && (
+                <motion.div
+                  animate={{
+                    boxShadow: [
+                      '0 0 8px rgba(0,240,255,0.2)',
+                      '0 0 20px rgba(0,240,255,0.35)',
+                      '0 0 8px rgba(0,240,255,0.2)',
+                    ],
+                  }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                  className="absolute inset-0 rounded-xl"
+                />
+              )}
+
+              <motion.div
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.9 }}
+                className={cn(
+                  'relative w-11 h-11 flex items-center justify-center rounded-xl transition-colors duration-200',
+                  isActive ? 'text-accent-cyan' : 'text-text-secondary hover:text-text-primary'
+                )}
+              >
+                <item.icon size={20} className={cn(isActive && 'scale-110')} />
+
+                {/* Active dot */}
+                {isActive && (
+                  <motion.div
+                    layoutId="dockDot"
+                    className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-accent-cyan"
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  />
+                )}
+              </motion.div>
+            </Link>
+          )
+        })}
+      </div>
+    </motion.nav>
+  )
+}
+
+// ───────── Top Bar ─────────
+// Minimal, just logo + context. No sidebar chrome.
+
+function TopBar() {
+  return (
+    <motion.header
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed top-0 left-0 right-0 z-40 px-4 md:px-8 py-4 glass border-b border-white/[0.04]"
+    >
+      <div className="flex items-center justify-between max-w-7xl mx-auto">
+        <Link to="/home" className="flex items-center gap-2 group">
+          <motion.div
+            whileHover={{ rotate: 10, scale: 1.05 }}
+            className="w-7 h-7 rounded-md bg-gradient-to-br from-accent-cyan to-accent-magenta flex items-center justify-center"
+          >
+            <Sparkles size={14} className="text-white" />
+          </motion.div>
+          <span className="font-display font-bold text-lg text-white hidden sm:block">SoulClone</span>
+        </Link>
+
+        {/* Quick actions could go here — notifications, settings, etc. */}
+        <div className="flex items-center gap-2">
+          {/* Placeholder for future top-right actions */}
+        </div>
+      </div>
+    </motion.header>
+  )
+}
+
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const location = useLocation()
   const hideNav = location.pathname.startsWith('/chat/')
 
   return (
-    <div className="flex min-h-screen">
-      {/* Desktop Sidebar */}
-      <aside className="hidden md:flex flex-col w-64 glass-strong border-r border-white/5 fixed h-full z-40">
-        <div className="p-6">
-          <Link to="/home" className="flex items-center gap-2 group">
-            <motion.div
-              whileHover={{ rotate: 10 }}
-              className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-magenta flex items-center justify-center"
-            >
-              <span className="text-white font-bold text-sm">SC</span>
-            </motion.div>
-            <span className="font-display font-bold text-xl text-white">SoulClone</span>
-          </Link>
-        </div>
-        <nav className="flex-1 px-4 space-y-1">
-          {navItems.map((item) => {
-            const isActive = location.pathname === item.path
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={cn(
-                  'flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 relative overflow-hidden group',
-                  isActive
-                    ? 'bg-accent-cyan/10 text-accent-cyan'
-                    : 'text-text-secondary hover:text-text-primary hover:bg-white/5'
-                )}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeNavIndicator"
-                    className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-gradient-to-b from-accent-cyan to-accent-magenta rounded-r-full"
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  />
-                )}
-                <item.icon size={20} className={cn('transition-transform duration-300', isActive && 'scale-110')} />
-                <span className="font-medium">{item.label}</span>
-                {isActive && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="absolute right-2 w-1.5 h-1.5 rounded-full bg-accent-cyan"
-                  />
-                )}
-              </Link>
-            )
-          })}
-        </nav>
+    <div className="min-h-screen relative">
+      {/* Top bar */}
+      <TopBar />
 
-        {/* Bottom glow */}
-        <div className="p-4">
-          <div className="p-4 rounded-2xl glass border border-white/5">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />
-              <span className="text-xs text-text-secondary">在线状态</span>
-            </div>
-            <div className="h-1 bg-surface rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-gradient-to-r from-accent-cyan to-accent-magenta"
-                animate={{ width: ['60%', '80%', '60%'] }}
-                transition={{ duration: 4, repeat: Infinity }}
-              />
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className={cn('flex-1 relative', !hideNav && 'pb-20 md:pb-0 md:ml-64')}>
+      {/* Main Content — no sidebar margin, full bleed */}
+      <main className={cn('relative min-h-screen pt-20', !hideNav && 'pb-24')}>
         {children}
       </main>
 
-      {/* Mobile Bottom Nav */}
-      {!hideNav && (
-        <motion.nav
-          initial={{ y: 100 }}
-          animate={{ y: 0 }}
-          className="md:hidden fixed bottom-0 left-0 right-0 glass-strong border-t border-white/5 z-50"
-        >
-          <div className="flex justify-around py-2">
-            {navItems.map((item) => {
-              const isActive = location.pathname === item.path
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={cn(
-                    'flex flex-col items-center gap-0.5 py-2 px-4 rounded-xl transition-all duration-300 relative',
-                    isActive ? 'text-accent-cyan' : 'text-text-secondary'
-                  )}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="mobileActiveIndicator"
-                      className="absolute -top-1 w-8 h-1 rounded-full bg-gradient-to-r from-accent-cyan to-accent-magenta"
-                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                  <item.icon size={22} className={cn('transition-transform', isActive && 'scale-110')} />
-                  <span className="text-[10px]">{item.label}</span>
-                </Link>
-              )
-            })}
-          </div>
-        </motion.nav>
-      )}
+      {/* Floating Dock — desktop + mobile unified */}
+      {!hideNav && <FloatingDock />}
     </div>
   )
 }

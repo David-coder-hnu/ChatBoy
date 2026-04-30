@@ -15,6 +15,7 @@ import { useNotifications } from '@/hooks/useNotifications'
 import { FadeIn, StaggerContainer, StaggerItem, CountUp, GlowPulse } from '@/components/shared/Motion'
 import { SkeletonList, ErrorState } from '@/components/shared/DataStates'
 import AmbientBackground from '@/components/shared/AmbientBackground'
+import HandoverCeremony from '@/components/shared/HandoverCeremony'
 import { playSound } from '@/lib/sound'
 
 export default function HomePage() {
@@ -25,6 +26,7 @@ export default function HomePage() {
   const { unreadCount: notifUnreadCount } = useNotifications()
 
   const [onlineActive, setOnlineActive] = useState(stats?.status === 'active')
+  const [showHandover, setShowHandover] = useState(false)
   const unreadCount = notifUnreadCount || 0
 
   // Stats with real data fallback
@@ -97,8 +99,14 @@ export default function HomePage() {
                       : 'bg-bg-600 border-white/[0.08] text-text-secondary'
                   }`}
                   onClick={() => {
-                    setOnlineActive(!onlineActive)
-                    if (!onlineActive) playSound('toggle-on')
+                    const next = !onlineActive
+                    setOnlineActive(next)
+                    if (!next) {
+                      // Going offline — trigger the handover ceremony
+                      setShowHandover(true)
+                    } else {
+                      playSound('toggle-on')
+                    }
                   }}
                 >
                   <motion.div
@@ -222,6 +230,14 @@ export default function HomePage() {
           </FadeIn>
         </div>
       </AmbientBackground>
+
+      <HandoverCeremony
+        visible={showHandover}
+        userName={user?.nickname || '你'}
+        twinName={stats?.name || '你的孪生'}
+        userAvatar={user?.avatar_url}
+        onComplete={() => setShowHandover(false)}
+      />
     </AppShell>
   )
 }

@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Card } from '@/components/ui/Card'
 import AmbientBackground from '@/components/shared/AmbientBackground'
 import BigFiveRadar from '@/components/shared/BigFiveRadar'
+import HandoverCeremony from '@/components/shared/HandoverCeremony'
 import { useCloneProfile } from '@/hooks/useCloneProfile'
 import { useCloneStats } from '@/hooks/useCloneStats'
 import { useCloneActivities } from '@/hooks/useCloneActivities'
@@ -33,6 +34,7 @@ export default function ClonePage() {
 
   const [autonomy, setAutonomy] = useState(stats?.autonomy_level ?? 7)
   const [active, setActive] = useState(stats?.status === 'active')
+  const [showHandover, setShowHandover] = useState(false)
 
   // Sync local state with server data
   useEffect(() => {
@@ -69,6 +71,10 @@ export default function ClonePage() {
     const next = !active
     setActive(next)
     toggleActive.mutate(next)
+    if (!next) {
+      // Going offline — trigger the handover ceremony
+      setShowHandover(true)
+    }
   }
 
   if (isLoading) {
@@ -345,6 +351,14 @@ export default function ClonePage() {
           </div>
         </div>
       </AmbientBackground>
+
+      <HandoverCeremony
+        visible={showHandover}
+        userName="你"
+        twinName={stats?.name || '你的孪生'}
+        twinAvatar={null}
+        onComplete={() => setShowHandover(false)}
+      />
     </AppShell>
   )
 }
