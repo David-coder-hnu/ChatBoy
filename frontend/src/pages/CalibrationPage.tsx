@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FlaskConical, Send, User, Bot, CheckCircle, RefreshCw, Sparkles, ArrowRight, Beaker } from 'lucide-react'
 import { api } from '@/lib/api'
-import AnimatedBackground from '@/components/shared/AnimatedBackground'
-import CursorTrail from '@/components/shared/CursorTrail'
+
 
 interface TestResult {
   scenario: string
@@ -102,8 +101,7 @@ export default function CalibrationPage() {
 
   return (
     <div className="min-h-screen px-4 py-8 relative overflow-hidden bg-background">
-      <CursorTrail />
-      <AnimatedBackground opacity={0.4} />
+      <div className="fixed inset-0 mesh-gradient pointer-events-none" />
 
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-accent-cyan/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/3 w-[400px] h-[400px] bg-accent-magenta/5 rounded-full blur-[100px] pointer-events-none" />
@@ -142,7 +140,7 @@ export default function CalibrationPage() {
             value={scenario}
             onChange={(e) => setScenario(e.target.value)}
             placeholder="例如：对方说：今天好累啊，想你了"
-            className="w-full h-24 px-4 py-3 rounded-xl bg-surface border border-white/10 text-text-primary placeholder-text-ghost focus:outline-none focus:border-accent-cyan/50 focus:shadow-[0_0_20px_rgba(0,240,255,0.1)] transition-colors resize-none mb-3"
+            className="w-full h-24 px-4 py-3 rounded-xl bg-bg-500 border border-white/[0.08] text-text-primary placeholder-text-placeholder focus:outline-none focus:border-cyan-400/60 focus:shadow-[0_0_16px_rgba(0,240,255,0.4)] focus:bg-[rgba(24,24,32,0.6)] transition-all duration-200 ease-liquid resize-none mb-3"
           />
 
           <div className="flex flex-wrap gap-2 mb-4">
@@ -152,7 +150,7 @@ export default function CalibrationPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setScenario(s)}
-                className="px-3 py-1.5 rounded-lg bg-surface border border-white/10 text-xs text-text-secondary hover:border-accent-cyan/30 hover:text-accent-cyan transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-bg-500 border border-white/[0.08] text-xs text-text-secondary hover:border-accent-cyan/30 hover:text-accent-cyan transition-colors duration-150"
               >
                 {s.length > 20 ? s.slice(0, 20) + '...' : s}
               </motion.button>
@@ -164,7 +162,7 @@ export default function CalibrationPage() {
             whileTap={{ scale: 0.98 }}
             onClick={testStyle}
             disabled={!scenario.trim() || isLoading}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-magenta text-white font-semibold transition-all hover:shadow-xl hover:shadow-accent-cyan/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full h-12 rounded-full bg-gradient-to-r from-accent-gold to-accent-magenta text-white font-semibold transition-all duration-150 ease-spring hover:shadow-lg hover:shadow-accent-gold/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 glow-gold-md hover:glow-gold-lg"
           >
             {isLoading ? (
               <RefreshCw size={18} className="animate-spin" />
@@ -192,7 +190,7 @@ export default function CalibrationPage() {
                 </div>
                 <span className="font-medium text-accent-magenta">系统生成的回复</span>
               </div>
-              <div className="p-4 rounded-xl bg-surface border border-accent-magenta/15 text-text-primary leading-relaxed">
+              <div className="p-4 rounded-xl bg-bg-500 border border-accent-magenta/15 text-text-primary leading-relaxed">
                 {generatedResponse}
               </div>
             </motion.div>
@@ -221,14 +219,14 @@ export default function CalibrationPage() {
                 value={userResponse}
                 onChange={(e) => setUserResponse(e.target.value)}
                 placeholder="写下你的真实回复..."
-                className="w-full h-24 px-4 py-3 rounded-xl bg-surface border border-white/10 text-text-primary placeholder-text-ghost focus:outline-none focus:border-accent-cyan/50 focus:shadow-[0_0_20px_rgba(0,240,255,0.1)] transition-colors resize-none mb-4"
+                className="w-full h-24 px-4 py-3 rounded-xl bg-bg-500 border border-white/[0.08] text-text-primary placeholder-text-placeholder focus:outline-none focus:border-cyan-400/60 focus:shadow-[0_0_16px_rgba(0,240,255,0.4)] focus:bg-[rgba(24,24,32,0.6)] transition-all duration-200 ease-liquid resize-none mb-4"
               />
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={submitFeedback}
                 disabled={!userResponse.trim() || isAnalyzing}
-                className="w-full py-3 rounded-xl bg-surface border border-accent-cyan/30 text-accent-cyan font-semibold transition-all hover:bg-accent-cyan/10 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full h-10 rounded-full bg-cyan-500/15 backdrop-blur-md border border-cyan-400/40 text-cyan-400 font-medium transition-all duration-150 ease-spring hover:bg-cyan-500/25 hover:shadow-[0_0_16px_rgba(0,240,255,0.4)] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {isAnalyzing ? (
                   <RefreshCw size={18} className="animate-spin" />
@@ -258,7 +256,7 @@ export default function CalibrationPage() {
                   <span className="font-medium">风格差异分析</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-text-ghost text-sm">匹配度</span>
+                  <span className="text-text-tertiary text-sm">匹配度</span>
                   <motion.span
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
@@ -280,7 +278,7 @@ export default function CalibrationPage() {
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.05 }}
-                      className="p-3 rounded-xl bg-surface border border-white/5"
+                      className="p-3 rounded-xl bg-bg-500 border border-white/[0.04]"
                     >
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-sm font-medium">{gap.dimension}</span>
@@ -289,11 +287,11 @@ export default function CalibrationPage() {
                         </span>
                       </div>
                       <div className="grid grid-cols-2 gap-2 text-xs">
-                        <div className="text-text-ghost">
+                        <div className="text-text-tertiary">
                           <span className="text-accent-magenta">系统: </span>
                           {gap.clone_behavior}
                         </div>
-                        <div className="text-text-ghost">
+                        <div className="text-text-tertiary">
                           <span className="text-accent-cyan">真实: </span>
                           {gap.user_behavior}
                         </div>
@@ -341,7 +339,7 @@ export default function CalibrationPage() {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  className="flex items-center justify-between p-3 rounded-xl bg-surface border border-white/5"
+                  className="flex items-center justify-between p-3 rounded-xl bg-bg-500 border border-white/[0.04]"
                 >
                   <span className="text-sm text-text-secondary truncate max-w-[200px]">
                     测试 {i + 1}: {r.scenario}
@@ -362,7 +360,7 @@ export default function CalibrationPage() {
                 whileTap={{ scale: 0.98 }}
                 onClick={refineStyle}
                 disabled={isLoading}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-magenta text-white font-semibold transition-all hover:shadow-xl hover:shadow-accent-cyan/20 disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full h-12 rounded-full bg-gradient-to-r from-accent-gold to-accent-magenta text-white font-semibold transition-all duration-150 ease-spring hover:shadow-lg hover:shadow-accent-gold/30 disabled:opacity-50 flex items-center justify-center gap-2 glow-gold-md hover:glow-gold-lg"
               >
                 <ArrowRight size={18} />
                 基于 {results.length} 次测试精调风格

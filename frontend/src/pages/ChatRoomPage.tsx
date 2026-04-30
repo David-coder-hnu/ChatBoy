@@ -6,12 +6,15 @@ import {
   Hand, MoreHorizontal
 } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
+import { Avatar } from '@/components/ui/Avatar'
+import { Badge } from '@/components/ui/Badge'
 
 interface Message {
   id: string
   is_from_me: boolean
   content: string
   created_at: string
+  is_ai_twin?: boolean
 }
 
 const mockMessages: Message[] = [
@@ -36,6 +39,7 @@ const mockMessages: Message[] = [
   {
     id: '4',
     is_from_me: true,
+    is_ai_twin: true,
     content: '我也喜欢拍照！不过我更多是用手机拍生活碎片 😂',
     created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
   },
@@ -74,7 +78,6 @@ export default function ChatRoomPage() {
     setInput('')
     inputRef.current?.focus()
 
-    // Simulate reply typing
     setIsTyping(true)
     setTimeout(() => {
       setIsTyping(false)
@@ -99,39 +102,26 @@ export default function ChatRoomPage() {
   return (
     <div className="h-screen flex flex-col bg-background relative overflow-hidden">
       {/* Ambient glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-cyan/3 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-accent-magenta/3 rounded-full blur-[120px] pointer-events-none" />
+      <div className="fixed inset-0 mesh-gradient pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-cyan/3 rounded-full blur-[150px] pointer-events-none animate-breathe" />
+      <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-accent-magenta/3 rounded-full blur-[120px] pointer-events-none animate-breathe" style={{ animationDelay: '2s' }} />
 
-      {/* Header */}
-      <div className="glass-strong border-b border-white/5 px-4 py-3 flex items-center gap-3 shrink-0 z-20">
+      {/* Header: Top Navigation (glass) */}
+      <div className="glass border-b border-white/[0.06] px-4 py-3 flex items-center gap-3 shrink-0 z-20">
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => navigate('/chat')}
-          className="p-2 -ml-2 rounded-xl hover:bg-white/5 transition-colors"
+          className="p-2 -ml-2 rounded-xl hover:bg-white/5 transition-colors duration-150"
         >
           <ArrowLeft size={20} />
         </motion.button>
 
         <div className="flex-1 flex items-center gap-3">
-          <div className="relative">
-            <motion.div
-              whileHover={{ scale: 1.08 }}
-              className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-cyan/30 to-accent-magenta/30 flex items-center justify-center"
-            >
-              <span className="font-display font-bold text-sm">雨</span>
-            </motion.div>
-            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-accent-cyan border-2 border-background">
-              <motion.div
-                animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="absolute inset-0 rounded-full bg-accent-cyan"
-              />
-            </div>
-          </div>
+          <Avatar size="sm" status="online" fallback="雨" />
           <div>
             <h2 className="font-medium text-sm">小雨</h2>
-            <div className="flex items-center gap-1 text-text-ghost text-xs">
+            <div className="flex items-center gap-1 text-text-tertiary text-xs">
               <Sparkles size={10} className="text-accent-gold" />
               <span>身份未知</span>
             </div>
@@ -139,14 +129,14 @@ export default function ChatRoomPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full glass border border-white/5">
+          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full glass border border-white/[0.08]">
             <Phone size={12} className="text-accent-gold" />
             <span className="text-xs text-text-secondary">亲密度 65</span>
           </div>
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="p-2 rounded-xl hover:bg-white/5 transition-colors"
+            className="p-2 rounded-xl hover:bg-white/5 transition-colors duration-150"
           >
             <MoreHorizontal size={18} className="text-text-secondary" />
           </motion.button>
@@ -155,6 +145,11 @@ export default function ChatRoomPage() {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 relative z-10">
+        {/* System message */}
+        <div className="text-center py-2">
+          <span className="text-[10px] text-text-tertiary">对方 AI 孪生已接管对话</span>
+        </div>
+
         <AnimatePresence initial={false}>
           {messages.map((msg, index) => (
             <motion.div
@@ -164,19 +159,30 @@ export default function ChatRoomPage() {
               transition={{ type: 'spring', stiffness: 400, damping: 25, delay: index < 5 ? 0 : 0 }}
               className={`flex ${msg.is_from_me ? 'justify-end' : 'justify-start'}`}
             >
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className={`max-w-[80%] sm:max-w-[70%] px-4 py-3 rounded-2xl ${
-                  msg.is_from_me
-                    ? 'bg-gradient-to-br from-accent-cyan/25 to-accent-cyan/5 text-text-primary rounded-br-md border border-accent-cyan/15'
-                    : 'glass border border-white/5 rounded-bl-md'
-                }`}
-              >
-                <p className="text-sm leading-relaxed">{msg.content}</p>
-                <p className="text-[10px] text-text-ghost mt-1.5 text-right">
-                  {formatDate(msg.created_at)}
-                </p>
-              </motion.div>
+              <div className="max-w-[80%] sm:max-w-[70%]">
+                {/* AI Twin badge */}
+                {msg.is_ai_twin && (
+                  <Badge variant="gold" size="sm" className="mb-1">
+                    AI 孪生
+                  </Badge>
+                )}
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                  className={`px-4 py-3 rounded-2xl ${
+                    msg.is_from_me && !msg.is_ai_twin
+                      ? 'bg-accent-cyan/10 backdrop-blur-lg border border-accent-cyan/25 text-text-primary rounded-br-sm'
+                      : msg.is_ai_twin
+                      ? 'bg-gradient-to-r from-cyan-500/5 to-magenta-500/5 backdrop-blur-xl border border-gradient-to-r from-cyan-400/20 to-magenta-400/20 text-text-primary rounded-br-sm'
+                      : 'glass border border-white/[0.08] rounded-bl-sm'
+                  }`}
+                >
+                  <p className="text-sm leading-relaxed">{msg.content}</p>
+                  <p className="text-[10px] text-text-tertiary mt-1.5 text-right">
+                    {formatDate(msg.created_at)}
+                  </p>
+                </motion.div>
+              </div>
             </motion.div>
           ))}
         </AnimatePresence>
@@ -190,22 +196,22 @@ export default function ChatRoomPage() {
               exit={{ opacity: 0, y: 5 }}
               className="flex justify-start"
             >
-              <div className="glass border border-white/5 rounded-2xl rounded-bl-md px-4 py-3">
+              <div className="glass border border-white/[0.08] rounded-2xl rounded-bl-sm px-4 py-3">
                 <div className="flex items-center gap-1.5">
                   <motion.div
                     animate={{ y: [0, -4, 0] }}
                     transition={{ duration: 0.5, repeat: Infinity, delay: 0 }}
-                    className="w-1.5 h-1.5 rounded-full bg-text-ghost"
+                    className="w-1.5 h-1.5 rounded-full bg-text-tertiary"
                   />
                   <motion.div
                     animate={{ y: [0, -4, 0] }}
                     transition={{ duration: 0.5, repeat: Infinity, delay: 0.15 }}
-                    className="w-1.5 h-1.5 rounded-full bg-text-ghost"
+                    className="w-1.5 h-1.5 rounded-full bg-text-tertiary"
                   />
                   <motion.div
                     animate={{ y: [0, -4, 0] }}
                     transition={{ duration: 0.5, repeat: Infinity, delay: 0.3 }}
-                    className="w-1.5 h-1.5 rounded-full bg-text-ghost"
+                    className="w-1.5 h-1.5 rounded-full bg-text-tertiary"
                   />
                 </div>
               </div>
@@ -223,7 +229,7 @@ export default function ChatRoomPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="px-4 py-2.5 bg-accent-cyan/10 border-t border-accent-cyan/20 text-center z-20"
+            className="px-4 py-2.5 bg-cyan-500/10 border-t border-cyan-400/20 text-center z-20"
           >
             <p className="text-accent-cyan text-sm font-medium">已切换为手动模式，现在由你亲自回复</p>
           </motion.div>
@@ -231,13 +237,13 @@ export default function ChatRoomPage() {
       </AnimatePresence>
 
       {/* Input area */}
-      <div className="glass-strong border-t border-white/5 p-4 shrink-0 z-20 relative">
+      <div className="glass-strong border-t border-white/[0.06] p-4 shrink-0 z-20 relative">
         {!isManualMode && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="flex items-center gap-2 mb-3 px-3 py-2 rounded-xl bg-accent-gold/5 border border-accent-gold/10"
+            className="flex items-center gap-2 mb-3 px-3 py-2 rounded-xl bg-gold-500/5 border border-gold-400/10"
           >
             <motion.div
               animate={{ rotate: [0, 10, -10, 0] }}
@@ -254,10 +260,10 @@ export default function ChatRoomPage() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={toggleMode}
-            className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all ${
+            className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-150 ease-spring ${
               isManualMode
-                ? 'bg-gradient-to-br from-accent-cyan to-accent-magenta text-white shadow-lg shadow-accent-cyan/30'
-                : 'glass border border-white/10 text-text-secondary hover:text-accent-cyan hover:border-accent-cyan/30'
+                ? 'bg-gradient-to-br from-accent-cyan to-accent-magenta text-white glow-cyan-md'
+                : 'glass border border-white/[0.08] text-text-secondary hover:text-accent-cyan hover:border-accent-cyan/30'
             }`}
           >
             {isManualMode ? <User size={20} /> : <Hand size={20} />}
@@ -270,15 +276,15 @@ export default function ChatRoomPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-              placeholder='说点什么...'
-              className="w-full px-4 py-3 rounded-xl bg-surface border border-white/10 text-text-primary placeholder-text-ghost focus:outline-none focus:border-accent-cyan/50 focus:shadow-[0_0_20px_rgba(0,240,255,0.1)] transition-all pr-12"
+              placeholder="说点什么..."
+              className="w-full px-4 py-3 rounded-xl bg-[rgba(15,15,20,0.4)] backdrop-blur-xl border border-white/10 text-text-primary placeholder-text-placeholder focus:outline-none focus:border-cyan-400/60 focus:shadow-[0_0_16px_rgba(0,240,255,0.4)] focus:bg-[rgba(24,24,32,0.6)] transition-all duration-200 ease-liquid pr-12"
             />
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={sendMessage}
               disabled={!input.trim()}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-gradient-to-r from-accent-cyan/30 to-accent-magenta/30 text-accent-cyan hover:from-accent-cyan/50 hover:to-accent-magenta/50 transition-all disabled:opacity-30"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-accent-cyan/15 border border-accent-cyan/30 text-accent-cyan hover:bg-accent-cyan/25 hover:shadow-[0_0_12px_rgba(0,240,255,0.3)] transition-all duration-150 ease-spring disabled:opacity-30 disabled:hover:shadow-none"
             >
               <Send size={16} />
             </motion.button>

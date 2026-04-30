@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Heart, Info, MapPin, Sparkles } from 'lucide-react'
 import AppShell from '@/components/layout/AppShell'
 import { generateGradient } from '@/lib/utils'
+import { Badge } from '@/components/ui/Badge'
 
 const mockProfiles = [
   {
@@ -37,6 +38,14 @@ const mockProfiles = [
   },
 ]
 
+const traitLabels: Record<string, string> = {
+  openness: '开放性',
+  conscientiousness: '尽责性',
+  extraversion: '外向性',
+  agreeableness: '宜人性',
+  neuroticism: '情绪稳定',
+}
+
 export default function DiscoverPage() {
   const [profiles] = useState(mockProfiles)
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -67,13 +76,13 @@ export default function DiscoverPage() {
           >
             <Sparkles size={48} className="text-accent-cyan mb-4" />
           </motion.div>
-          <h2 className="font-display text-2xl font-bold">今日推荐已看完</h2>
+          <h2 className="font-display text-2xl font-bold tracking-tight">今日推荐已看完</h2>
           <p className="text-text-secondary mt-2">明天再来发现新的灵魂吧</p>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setCurrentIndex(0)}
-            className="mt-6 px-6 py-3 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-magenta text-white font-medium"
+            className="mt-6 px-6 py-3 rounded-full bg-gradient-to-r from-accent-cyan to-accent-magenta text-white font-medium glow-cyan-md hover:glow-cyan-lg transition-all duration-150 ease-spring"
           >
             重新开始
           </motion.button>
@@ -86,10 +95,11 @@ export default function DiscoverPage() {
     <AppShell>
       <div className="p-4 md:p-8 max-w-lg mx-auto h-[calc(100vh-80px)] md:h-auto flex flex-col relative">
         {/* Background ambient */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-accent-cyan/5 rounded-full blur-[100px] pointer-events-none" />
+        <div className="fixed inset-0 mesh-gradient pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-accent-cyan/5 rounded-full blur-[100px] pointer-events-none animate-breathe" />
 
         <div className="flex items-center justify-between mb-6 relative z-10">
-          <h1 className="font-display text-2xl font-bold">发现</h1>
+          <h1 className="font-display text-2xl font-bold tracking-tight">发现</h1>
           <div className="flex items-center gap-2 text-text-secondary text-sm glass px-3 py-1.5 rounded-full">
             <MapPin size={14} />
             <span>上海</span>
@@ -132,7 +142,7 @@ export default function DiscoverPage() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 }}
-                      className="font-display text-3xl font-bold text-white"
+                      className="font-display text-3xl font-bold text-white tracking-tight"
                     >
                       {current.nickname}
                     </motion.h2>
@@ -151,9 +161,9 @@ export default function DiscoverPage() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="absolute top-4 right-4 px-3 py-1.5 rounded-full glass border border-white/20"
+                    className="absolute top-4 right-4"
                   >
-                    <span className="text-xs text-white/80">身份未知</span>
+                    <Badge variant="default" size="sm">身份未知</Badge>
                   </motion.div>
 
                   {/* Swipe hint */}
@@ -161,9 +171,9 @@ export default function DiscoverPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-accent-cyan/20 border border-accent-cyan/30"
+                    className="absolute top-4 left-4"
                   >
-                    <span className="text-xs text-accent-cyan">左右滑动</span>
+                    <Badge variant="cyan" size="sm">左右滑动</Badge>
                   </motion.div>
                 </div>
 
@@ -185,13 +195,9 @@ export default function DiscoverPage() {
                     className="flex flex-wrap gap-2 mb-6"
                   >
                     {current.tags.map((tag) => (
-                      <motion.span
-                        key={tag}
-                        whileHover={{ scale: 1.05 }}
-                        className="px-3 py-1 rounded-full bg-accent-cyan/10 text-accent-cyan text-xs border border-accent-cyan/20"
-                      >
+                      <Badge key={tag} variant="cyan" size="sm">
                         {tag}
-                      </motion.span>
+                      </Badge>
                     ))}
                   </motion.div>
 
@@ -212,8 +218,8 @@ export default function DiscoverPage() {
                             transition={{ delay: i * 0.05 }}
                             className="flex items-center gap-3"
                           >
-                            <span className="text-xs text-text-secondary w-16 capitalize">{key.slice(0, 3)}</span>
-                            <div className="flex-1 h-2 bg-surface rounded-full overflow-hidden">
+                            <span className="text-xs text-text-secondary w-16">{traitLabels[key] || key}</span>
+                            <div className="flex-1 h-1.5 bg-bg-600 rounded-full overflow-hidden">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: `${value}%` }}
@@ -221,7 +227,7 @@ export default function DiscoverPage() {
                                 className="h-full bg-gradient-to-r from-accent-cyan to-accent-magenta"
                               />
                             </div>
-                            <span className="text-xs text-text-secondary w-8">{value}</span>
+                            <span className="text-xs text-text-secondary font-mono w-8">{value}</span>
                           </motion.div>
                         ))}
                       </motion.div>
@@ -239,7 +245,7 @@ export default function DiscoverPage() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => handleSwipe('left')}
-            className="w-16 h-16 rounded-full glass border border-white/10 flex items-center justify-center text-text-secondary hover:text-accent-magenta hover:border-accent-magenta/30 hover:shadow-lg hover:shadow-accent-magenta/20 transition-all"
+            className="w-16 h-16 rounded-full glass flex items-center justify-center text-text-secondary hover:text-accent-magenta hover:border-accent-magenta/30 hover:shadow-[0_0_16px_rgba(255,0,110,0.3)] transition-all duration-150 ease-spring"
           >
             <X size={28} />
           </motion.button>
@@ -248,7 +254,7 @@ export default function DiscoverPage() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setShowDetail(!showDetail)}
-            className="w-12 h-12 rounded-full glass border border-white/10 flex items-center justify-center text-text-secondary hover:text-accent-gold hover:border-accent-gold/30 hover:shadow-lg hover:shadow-accent-gold/20 transition-all"
+            className="w-12 h-12 rounded-full glass flex items-center justify-center text-text-secondary hover:text-accent-gold hover:border-accent-gold/30 hover:shadow-[0_0_16px_rgba(255,190,11,0.3)] transition-all duration-150 ease-spring"
           >
             <Info size={20} />
           </motion.button>
@@ -257,7 +263,7 @@ export default function DiscoverPage() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => handleSwipe('right')}
-            className="w-16 h-16 rounded-full glass border border-accent-cyan/30 flex items-center justify-center text-accent-cyan hover:bg-accent-cyan/10 hover:shadow-lg hover:shadow-accent-cyan/30 transition-all"
+            className="w-16 h-16 rounded-full glass border border-accent-cyan/30 flex items-center justify-center text-accent-cyan hover:bg-accent-cyan/10 hover:shadow-[0_0_16px_rgba(0,240,255,0.3)] transition-all duration-150 ease-spring"
           >
             <Heart size={28} />
           </motion.button>

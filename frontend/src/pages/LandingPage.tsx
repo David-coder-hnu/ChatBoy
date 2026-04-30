@@ -7,7 +7,7 @@ import ParticleShader from '@/components/shared/ParticleShader'
 import NeuralCard from '@/components/shared/NeuralCard'
 import ScanLight from '@/components/shared/ScanLight'
 import { HeroTitle, HeroSubtitle, HeroCTA, HeroBadge } from '@/components/shared/HeroReveal'
-import ShimmerButton from '@/components/shared/ShimmerButton'
+import { Button } from '@/components/ui/Button'
 import NeuralWeaving from '@/components/shared/NeuralWeaving'
 import EchoesTorus from '@/components/shared/EchoesTorus'
 
@@ -66,12 +66,12 @@ function HeroBentoDemo() {
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-4">
             <div className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />
-            <span className="text-xs text-white/40 font-mono">AI CLONE ONLINE</span>
+            <span className="text-xs text-text-tertiary font-mono">AI CLONE ONLINE</span>
           </div>
           <div className="space-y-3">
             <div className="flex gap-2">
               <div className="w-8 h-8 rounded-full bg-accent-cyan/20 flex items-center justify-center text-xs text-accent-cyan font-bold">AI</div>
-              <div className="glass rounded-xl rounded-tl-sm px-3 py-2 text-sm text-white/70 max-w-[80%]">
+              <div className="glass rounded-xl rounded-tl-sm px-3 py-2 text-sm text-text-secondary max-w-[80%]">
                 嘿，你今天怎么样？我刚刚看了一部超棒的电影 🎬
               </div>
             </div>
@@ -79,11 +79,11 @@ function HeroBentoDemo() {
               <div className="bg-accent-cyan/15 rounded-xl rounded-tr-sm px-3 py-2 text-sm text-accent-cyan max-w-[80%]">
                 听起来不错！是什么类型的？
               </div>
-              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs text-white/60">你</div>
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs text-text-tertiary">你</div>
             </div>
             <div className="flex gap-2">
               <div className="w-8 h-8 rounded-full bg-accent-cyan/20 flex items-center justify-center text-xs text-accent-cyan font-bold">AI</div>
-              <div className="glass rounded-xl rounded-tl-sm px-3 py-2 text-sm text-white/70 max-w-[80%]">
+              <div className="glass rounded-xl rounded-tl-sm px-3 py-2 text-sm text-text-secondary max-w-[80%]">
                 科幻悬疑！猜你喜欢这种 😏
               </div>
             </div>
@@ -106,9 +106,9 @@ function HeroBentoDemo() {
           className="glass rounded-xl p-4 relative overflow-hidden group hover:border-accent-cyan/20 transition-colors"
         >
           <div className="absolute -right-4 -top-4 w-16 h-16 bg-accent-cyan/5 rounded-full blur-xl group-hover:bg-accent-cyan/10 transition-colors" />
-          <p className="text-xs text-white/40 mb-1">{stat.label}</p>
-          <p className="text-xl font-bold text-white">{stat.value}</p>
-          <p className="text-[10px] text-accent-cyan/60 mt-1">{stat.sub}</p>
+          <p className="text-xs text-text-tertiary mb-1">{stat.label}</p>
+          <p className="text-xl font-bold text-text-primary font-mono">{stat.value}</p>
+          <p className="text-[10px] text-accent-cyan/60 mt-1 font-mono">{stat.sub}</p>
         </motion.div>
       ))}
     </div>
@@ -165,7 +165,7 @@ export default function LandingPage() {
             </HeroTitle>
 
             <HeroSubtitle delay={0.9}>
-              <p className="text-white/50 text-lg md:text-xl mb-10 max-w-md leading-relaxed">
+              <p className="text-text-secondary text-lg md:text-xl mb-10 max-w-md leading-relaxed">
                 当你的数字分身在线上替你社交、培养关系时，
                 现实中的你正在做什么？
               </p>
@@ -173,12 +173,14 @@ export default function LandingPage() {
 
             <HeroCTA delay={1.2}>
               <div className="flex items-center gap-4">
-                <ShimmerButton to="/register" variant="gradient">
-                  <span>开始使用</span>
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </ShimmerButton>
-                <Link to="/login" className="text-sm text-white/40 hover:text-white/70 transition-colors">
-                  已有账号？<span className="text-accent-cyan">登录</span>
+                <Link to="/register">
+                  <Button variant="primary" size="lg" className="group">
+                    <span>开始使用</span>
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-150 ease-spring" />
+                  </Button>
+                </Link>
+                <Link to="/login" className="text-sm text-text-tertiary hover:text-text-secondary transition-colors duration-150 ease-liquid">
+                  已有账号？<span className="text-accent-cyan hover:text-accent-cyan-dark transition-colors">登录</span>
                 </Link>
               </div>
             </HeroCTA>
@@ -197,9 +199,9 @@ export default function LandingPage() {
           transition={{ delay: 2.2 }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
-          <span className="text-white/20 text-[10px] tracking-[0.2em] uppercase">Scroll</span>
+          <span className="text-text-disabled text-[10px] tracking-[0.2em] uppercase">Scroll</span>
           <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 2, repeat: Infinity }}>
-            <ChevronDown size={16} className="text-white/20" />
+            <ChevronDown size={16} className="text-text-disabled" />
           </motion.div>
         </motion.div>
 
@@ -220,7 +222,7 @@ export default function LandingPage() {
             <h2 className="font-display text-4xl md:text-5xl font-bold mb-4 tracking-tight">
               探索<span className="text-gradient">无限可能</span>
             </h2>
-            <p className="text-white/40 max-w-md text-base">
+            <p className="text-text-secondary max-w-md text-base">
               SoulClone 不只是社交工具——它是你人格的数字延续。
             </p>
           </motion.div>
@@ -282,7 +284,7 @@ export default function LandingPage() {
             <h2 className="font-display text-4xl md:text-5xl font-bold mb-4 tracking-tight">
               核心<span className="text-gradient">协议</span>
             </h2>
-            <p className="text-white/40 max-w-md text-base">
+            <p className="text-text-secondary max-w-md text-base">
               三大底层协议，确保 AI 克隆体真实可靠。
             </p>
           </motion.div>
@@ -307,7 +309,7 @@ export default function LandingPage() {
 
       {/* ═══════════════════════ FOOTER ═══════════════════════ */}
       <footer className="py-10 px-4 text-center border-t border-white/[0.04]">
-        <p className="text-white/25 text-sm">SoulClone — 让社交不止于当下</p>
+        <p className="text-text-disabled text-sm">SoulClone — 让社交不止于当下</p>
       </footer>
 
       <noscript>

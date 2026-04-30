@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Clock, MessageSquare, Search } from 'lucide-react'
 import AppShell from '@/components/layout/AppShell'
 import { formatDate } from '@/lib/utils'
+import { Avatar } from '@/components/ui/Avatar'
 
 const mockConversations = [
   {
@@ -38,18 +39,19 @@ export default function ChatPage() {
   return (
     <AppShell>
       <div className="p-4 md:p-8 max-w-2xl mx-auto relative">
-        <div className="fixed top-1/3 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-accent-cyan/3 rounded-full blur-[150px] pointer-events-none" />
+        <div className="fixed inset-0 mesh-gradient pointer-events-none" />
+        <div className="fixed top-1/3 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-accent-cyan/3 rounded-full blur-[150px] pointer-events-none animate-breathe" />
 
         <div className="relative z-10">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="font-display text-2xl font-bold">消息</h1>
-              <p className="text-text-ghost text-sm mt-0.5">{mockConversations.length} 个对话</p>
+              <h1 className="font-display text-2xl font-bold tracking-tight">消息</h1>
+              <p className="text-text-secondary text-sm mt-0.5">{mockConversations.length} 个对话</p>
             </div>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="p-2.5 rounded-xl glass border border-white/5 hover:border-white/10 transition-colors"
+              className="p-2.5 rounded-xl glass hover:border-white/15 transition-all duration-150 ease-spring"
             >
               <Search size={18} className="text-text-secondary" />
             </motion.button>
@@ -65,29 +67,17 @@ export default function ChatPage() {
               >
                 <Link
                   to={`/chat/${conv.id}`}
-                  className="flex items-center gap-4 p-4 rounded-2xl glass hover:bg-white/5 transition-all group border border-transparent hover:border-white/5"
+                  className="flex items-center gap-4 p-4 rounded-2xl glass hover:bg-white/5 transition-all duration-250 ease-liquid group border border-transparent hover:border-white/5"
                 >
                   {/* Avatar */}
                   <div className="relative shrink-0">
-                    <motion.div
-                      whileHover={{ scale: 1.08 }}
-                      className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-cyan/30 to-accent-magenta/30 flex items-center justify-center"
-                    >
-                      <span className="font-display font-bold text-lg">
-                        {conv.partner.nickname[0]}
-                      </span>
-                    </motion.div>
-                    {conv.is_online && (
-                      <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-accent-cyan border-2 border-background">
-                        <motion.div
-                          animate={{ scale: [1, 1.6, 1], opacity: [0.6, 0, 0.6] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                          className="absolute inset-0 rounded-full bg-accent-cyan"
-                        />
-                      </div>
-                    )}
+                    <Avatar
+                      size="md"
+                      status={conv.is_online ? 'online' : 'offline'}
+                      fallback={conv.partner.nickname[0]}
+                    />
                     {conv.unread > 0 && !conv.is_online && (
-                      <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-accent-magenta flex items-center justify-center text-[10px] font-bold">
+                      <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-accent-magenta flex items-center justify-center text-[10px] font-bold text-white">
                         {conv.unread}
                       </div>
                     )}
@@ -96,23 +86,23 @@ export default function ChatPage() {
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-1">
-                      <h3 className="font-medium truncate group-hover:text-accent-cyan transition-colors">
+                      <h3 className="font-medium truncate group-hover:text-accent-cyan transition-colors duration-150">
                         {conv.partner.nickname}
                       </h3>
-                      <span className="text-text-ghost text-xs flex items-center gap-1 shrink-0">
+                      <span className="text-text-tertiary text-xs flex items-center gap-1 shrink-0">
                         <Clock size={11} />
                         {formatDate(conv.last_message_time)}
                       </span>
                     </div>
-                    <p className="text-text-secondary text-sm truncate group-hover:text-text-primary transition-colors">
+                    <p className="text-text-secondary text-sm truncate group-hover:text-text-primary transition-colors duration-150">
                       {conv.last_message}
                     </p>
                   </div>
 
                   {/* Intimacy */}
                   <div className="hidden sm:flex flex-col items-end gap-1.5 shrink-0">
-                    <span className="text-[10px] text-text-ghost uppercase tracking-wider">亲密度</span>
-                    <div className="w-14 h-1.5 bg-surface rounded-full overflow-hidden">
+                    <span className="text-[10px] text-text-tertiary uppercase tracking-wider">亲密度</span>
+                    <div className="w-14 h-1.5 bg-bg-600 rounded-full overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${conv.intimacy}%` }}
@@ -120,7 +110,7 @@ export default function ChatPage() {
                         className="h-full bg-gradient-to-r from-accent-cyan to-accent-magenta"
                       />
                     </div>
-                    <span className="text-[10px] text-text-ghost">{conv.intimacy}%</span>
+                    <span className="text-[10px] text-text-tertiary font-mono">{conv.intimacy}%</span>
                   </div>
                 </Link>
               </motion.div>
@@ -134,7 +124,7 @@ export default function ChatPage() {
             transition={{ delay: 0.5 }}
             className="mt-8 text-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/5 text-text-ghost text-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-text-tertiary text-sm">
               <MessageSquare size={14} />
               滑动查看更多对话
             </div>
