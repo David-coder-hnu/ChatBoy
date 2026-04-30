@@ -19,10 +19,10 @@ def distill_user_task(self, job_id: str):
     Runs the 5-step pipeline asynchronously and updates job progress in Redis.
     """
     import asyncio
-    asyncio.run(_run_distillation(job_id))
+    asyncio.run(_run_distillation(job_id, celery_self=self))
 
 
-async def _run_distillation(job_id: str):
+async def _run_distillation(job_id: str, celery_self=None):
     import uuid
     from datetime import datetime, timezone
 
@@ -139,8 +139,8 @@ async def _run_distillation(job_id: str):
             )
 
             # Celery retry
-            if self.request.retries < self.max_retries:
-                raise self.retry(countdown=60, exc=exc)
+            if celery_self is not None and celery_self.request.retries < celery_self.max_retries:
+                raise celery_self.retry(countdown=60, exc=exc)
             raise
 
 

@@ -5,6 +5,8 @@ PromptForge — System Prompt 锻造工坊
 目标：让 AI 的每一条回复都精确到仿佛用户本人在打字。
 """
 
+import json
+
 from app.ai.llm_client import llm_client
 from app.ai.utils import safe_parse_json
 
@@ -145,9 +147,9 @@ class PromptForge:
             "slow": {"min": 180, "max": 1800},
             "sporadic": {"min": 60, "max": 3600},
         }
-        l = latency_map.get(latency, latency_map["thoughtful"])
-        rules["reply_delay_min_sec"] = l["min"]
-        rules["reply_delay_max_sec"] = l["max"]
+        latency_cfg = latency_map.get(latency, latency_map["thoughtful"])
+        rules["reply_delay_min_sec"] = latency_cfg["min"]
+        rules["reply_delay_max_sec"] = latency_cfg["max"]
 
         # Formality from chat_dna
         formality = chat_dna.get("vocabulary_profile", {}).get("formality_level", "mixed")

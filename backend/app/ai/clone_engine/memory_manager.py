@@ -166,7 +166,7 @@ class MemoryManager:
         if self.db:
             facts = await self._get_relevant_long_term_memories(clone_id, conversation_id)
             if facts:
-                parts.append(f"【关于你的记忆】\n" + "\n".join(f"- {f}" for f in facts[:10]))
+                parts.append("【关于你的记忆】\n" + "\n".join(f"- {f}" for f in facts[:10]))
 
         # 4. Recent conversation topics
         history = await self.get_conversation_history(clone_id, conversation_id, limit=10)
@@ -263,7 +263,7 @@ class MemoryManager:
         result = await self.db.execute(
             select(LongTermMemory)
             .where(LongTermMemory.clone_id == uuid.UUID(clone_id))
-            .where(LongTermMemory.is_archived == False)
+            .where(LongTermMemory.is_archived.is_(False))
             .order_by(desc(LongTermMemory.importance_score))
             .limit(limit)
         )
@@ -336,7 +336,7 @@ class MemoryManager:
         result = await self.db.execute(
             select(LongTermMemory)
             .where(LongTermMemory.clone_id == uuid.UUID(clone_id))
-            .where(LongTermMemory.is_archived == False)
+            .where(LongTermMemory.is_archived.is_(False))
         )
         memories = result.scalars().all()
         if not memories:

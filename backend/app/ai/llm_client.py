@@ -217,7 +217,6 @@ class LLMClient:
         """Fire-and-forget usage log.  Exceptions are swallowed."""
         try:
             import uuid
-            from sqlalchemy.ext.asyncio import AsyncSession
             from app.db.session import async_session as async_session_maker
             from app.models.llm_usage_log import LLMUsageLog
 
