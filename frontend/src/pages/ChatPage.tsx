@@ -2,10 +2,9 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
-  MessageSquare, ChevronRight,
+  MessageSquare,
 } from 'lucide-react'
 import AppShell from '@/components/layout/AppShell'
-import { Card } from '@/components/ui/Card'
 import { useConversations } from '@/hooks/useConversations'
 import { FadeIn, StaggerContainer, StaggerItem, GlowPulse } from '@/components/shared/Motion'
 import { ChatEmptyState, ErrorState, SkeletonList } from '@/components/shared/DataStates'
@@ -83,12 +82,8 @@ export default function ChatPage() {
                   return (
                     <StaggerItem key={conv.id}>
                       <Link to={`/chat/${conv.id}`}>
-                        <Card
-                          variant="flat"
-                          hoverable
-                          className="flex items-center gap-4 py-4 px-5 relative overflow-hidden"
-                        >
-                          {/* High intimacy glow — One More Thing */}
+                        <div className="flex items-center gap-4 py-5 px-1 relative overflow-hidden hover:bg-white/[0.02] rounded-xl transition-colors cursor-pointer group">
+                          {/* High intimacy glow */}
                           {isHighIntimacy && (
                             <div className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-gradient-to-b from-accent-cyan via-accent-magenta to-accent-gold opacity-80 shadow-[0_0_8px_rgba(0,240,255,0.3)]" />
                           )}
@@ -146,7 +141,7 @@ export default function ChatPage() {
                             </p>
                           </div>
 
-                          {/* Unread + Chevron */}
+                          {/* Unread badge only — no chevron */}
                           <div className="flex items-center gap-2 shrink-0">
                             {conv.unread > 0 && (
                               <motion.span
@@ -158,9 +153,8 @@ export default function ChatPage() {
                                 {conv.unread}
                               </motion.span>
                             )}
-                            <ChevronRight size={16} className="text-text-ghost" />
                           </div>
-                        </Card>
+                        </div>
                       </Link>
                     </StaggerItem>
                   )

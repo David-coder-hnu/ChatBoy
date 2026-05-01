@@ -218,7 +218,7 @@ export default function ClonePage() {
                         key={autonomy}
                         initial={{ scale: 1.3 }}
                         animate={{ scale: 1 }}
-                        className="text-accent-cyan font-mono font-bold text-lg"
+                        className="text-accent-gold font-mono font-bold text-lg"
                       >
                         {autonomy}/10
                       </motion.span>
@@ -234,13 +234,7 @@ export default function ClonePage() {
                         className="w-full h-1.5 bg-bg-600 rounded-full appearance-none cursor-pointer disabled:opacity-50 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent-cyan [&::-webkit-slider-thumb]:shadow-[0_0_12px_rgba(0,240,255,0.5)] [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-background"
                       />
                       <div
-                        className={`absolute top-1/2 -translate-y-1/2 left-0 h-1.5 rounded-full pointer-events-none ${
-                          autonomy <= 3
-                            ? 'bg-accent-cyan'
-                            : autonomy <= 7
-                              ? 'bg-gradient-to-r from-accent-cyan to-accent-magenta'
-                              : 'bg-gradient-to-r from-accent-magenta to-accent-gold'
-                        }`}
+                        className="absolute top-1/2 -translate-y-1/2 left-0 h-1.5 rounded-full pointer-events-none bg-gradient-to-r from-accent-gold/60 to-accent-gold"
                         style={{ width: `${(autonomy - 1) / 9 * 100}%` }}
                       />
                     </div>
@@ -259,39 +253,45 @@ export default function ClonePage() {
                 </Card>
               </motion.div>
 
-              {/* Personality + Stats Grid */}
-              <div className="grid md:grid-cols-2 gap-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <Card variant="flat">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Brain size={18} className="text-accent-cyan" />
+              {/* Radar Chart — the visual center of gravity */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <Card variant="elevated" className="relative overflow-hidden">
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-gold/40 to-transparent" />
+                  <div className="flex flex-col items-center py-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Brain size={18} className="text-accent-gold" />
                       <h3 className="font-medium">人格核心</h3>
                     </div>
                     <BigFiveRadar
                       traits={Object.fromEntries(traits.map((t) => [t.label, t.value / 100]))}
-                      size={160}
+                      size={280}
+                      variant="gold"
                     />
-                  </Card>
-                </motion.div>
+                  </div>
+                </Card>
+              </motion.div>
 
+              {/* Twin Status + Stats row */}
+              <div className="grid md:grid-cols-3 gap-4">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
+                  className="md:col-span-2"
                 >
                   <Card variant="flat">
                     <div className="flex items-center gap-2 mb-4">
-                      <Activity size={18} className="text-accent-magenta" />
+                      <Activity size={18} className="text-accent-gold" />
                       <h3 className="font-medium">孪生状态</h3>
                     </div>
                     <div className="space-y-3">
                       {[
-                        { label: '平均回复', value: stats?.avg_response_time_sec ? `${stats.avg_response_time_sec}s` : '--', color: 'text-accent-cyan', bg: 'bg-accent-cyan' },
-                        { label: '成功率', value: stats?.success_rate ? `${Math.round(stats.success_rate * 100)}%` : '--', color: 'text-accent-magenta', bg: 'bg-accent-magenta' },
+                        { label: '平均回复', value: stats?.avg_response_time_sec ? `${stats.avg_response_time_sec}s` : '--', color: 'text-text-secondary', bg: 'bg-text-tertiary' },
+                        { label: '成功率', value: stats?.success_rate ? `${Math.round(stats.success_rate * 100)}%` : '--', color: 'text-text-secondary', bg: 'bg-text-tertiary' },
                         { label: '当前心情', value: stats?.current_mood || '平静', color: 'text-accent-gold', bg: 'bg-accent-gold' },
                       ].map((stat, i) => (
                         <motion.div
@@ -310,6 +310,21 @@ export default function ClonePage() {
                         </motion.div>
                       ))}
                     </div>
+                  </Card>
+                </motion.div>
+
+                {/* Quick stat highlight */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.45 }}
+                >
+                  <Card variant="flat" className="h-full flex flex-col justify-center items-center text-center">
+                    <div className="w-12 h-12 rounded-2xl bg-accent-gold/10 flex items-center justify-center mb-3">
+                      <Sparkles size={22} className="text-accent-gold" />
+                    </div>
+                    <p className="font-mono text-3xl font-bold text-accent-gold">{stats?.autonomy_level ?? 7}</p>
+                    <p className="text-xs text-text-tertiary mt-1">自主等级</p>
                   </Card>
                 </motion.div>
               </div>

@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { Brain, Sparkles, Heart, MessageCircle, Users, Activity } from 'lucide-react'
-import { Card } from '@/components/ui/Card'
 import type { Conversation } from '@/hooks/useConversations'
 import { GlowPulse } from './Motion'
 
@@ -107,7 +106,7 @@ export default function TwinConsciousness({ conversations }: TwinConsciousnessPr
         {/* Header */}
         <div className="flex items-center gap-3 px-1">
           <div className="relative">
-            <div className="w-9 h-9 rounded-full bg-bg-600 border border-white/10 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-full bg-bg-600/60 border border-white/[0.06] flex items-center justify-center">
               <Brain size={16} className="text-accent-cyan" />
             </div>
             <GlowPulse color="cyan">
@@ -120,22 +119,29 @@ export default function TwinConsciousness({ conversations }: TwinConsciousnessPr
           </div>
         </div>
 
-        {/* Thoughts */}
-        <div className="space-y-3">
-          <AnimatePresence mode="popLayout">
-            {thoughts.map((thought, i) => {
-              const colors = moodColors[thought.mood]
-              return (
-                <motion.div
-                  key={thought.id}
-                  initial={{ opacity: 0, x: 12, scale: 0.95 }}
-                  animate={{ opacity: 1, x: 0, scale: 1 }}
-                  exit={{ opacity: 0, x: -12, scale: 0.95 }}
-                  transition={{ delay: i * 0.12, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <Card
-                    variant="flat"
-                    className={`p-3.5 ${colors.bg} border ${colors.border}`}
+        {/* Fog container — lighter than glass, ethereal */}
+        <div className="relative rounded-2xl overflow-hidden" style={{ background: 'rgba(5,5,8,0.25)', backdropFilter: 'blur(8px)' }}>
+          {/* Breathing glow bar at top */}
+          <motion.div
+            animate={{ opacity: [0.3, 0.8, 0.3] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-accent-cyan via-accent-magenta to-accent-gold"
+          />
+
+          {/* Thoughts — no Card chrome, just space */}
+          <div className="space-y-2 p-3">
+            <AnimatePresence mode="popLayout">
+              {thoughts.map((thought, i) => {
+                const colors = moodColors[thought.mood]
+                return (
+                  <motion.div
+                    key={thought.id}
+                    initial={{ opacity: 0, x: 12, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -12, scale: 0.95 }}
+                    transition={{ delay: i * 0.12, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    className={`p-3 rounded-xl ${colors.bg} border-l-2 ${colors.border.replace('border-', 'border-l-')}`}
+                    style={{ borderLeftColor: colors.border.includes('magenta') ? 'rgba(255,0,110,0.3)' : colors.border.includes('gold') ? 'rgba(255,190,11,0.3)' : 'rgba(0,240,255,0.3)' }}
                   >
                     <div className="flex items-start gap-2.5">
                       <span className={`mt-0.5 ${colors.text}`}>{thought.icon}</span>
@@ -143,7 +149,7 @@ export default function TwinConsciousness({ conversations }: TwinConsciousnessPr
                         {thought.text}
                       </p>
                     </div>
-                    <div className="mt-2.5 flex items-center gap-1.5">
+                    <div className="mt-2 flex items-center gap-1.5">
                       <span className={`w-1 h-1 rounded-full ${colors.dot} animate-pulse`} />
                       <span className={`text-[10px] ${colors.text} opacity-70`}>
                         {thought.mood === 'curious' && '好奇'}
@@ -152,11 +158,11 @@ export default function TwinConsciousness({ conversations }: TwinConsciousnessPr
                         {thought.mood === 'playful' && '轻松'}
                       </span>
                     </div>
-                  </Card>
-                </motion.div>
-              )
-            })}
-          </AnimatePresence>
+                  </motion.div>
+                )
+              })}
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* Footer hint */}

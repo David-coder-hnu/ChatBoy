@@ -115,6 +115,19 @@ return <RealContent data={data} />
 | Accent Magenta | `#ff006e` | Emotion / unread / like |
 | Accent Gold | `#ffbe0b` | Achievement / CTA |
 
+**Page-Dominant Colors** (one per page — tells the user which "chapter" they're in):
+
+| Page | Dominant | Usage |
+|------|----------|-------|
+| Home | Cyan | Stats highlights, primary CTAs, active states |
+| Chat | Cyan | Send button, online indicators, links |
+| Discover | Magenta | Swipe hearts, match highlights, CTA buttons |
+| Profile | Magenta | Edit actions, relationship stats |
+| Clone | Gold | Radar fill, autonomy level, achievement badges |
+| Calibration | Gold | Test results, progress indicators |
+| Feed | Cyan→Gold | Post actions, engagement metrics |
+| Auth | Cyan→Magenta | Form focus, button accents |
+
 **Text**:
 - `text-primary` — headings, body
 - `text-secondary` — subtitles, metadata
@@ -127,12 +140,15 @@ return <RealContent data={data} />
 
 | Role | Font | Weight |
 |------|------|--------|
-| Display / Headings | Sora + Noto Serif SC | 700 |
-| Body | Inter | 400 |
+| Display | Newsreader + LXGW WenKai | Light 300 |
+| Headings | LXGW WenKai + Newsreader | 400 |
+| Body | Inter + PingFang SC | 400 |
 | Data / Numbers | JetBrains Mono | 500 |
 
 **Rules**:
-- Headings use `font-sans`
+- Display headlines use `font-display` (Newsreader, Light 300, tracking `-0.02em`)
+- Chinese headings use `font-heading` (LXGW WenKai)
+- Body text uses `font-body` (Inter)
 - Numbers use `font-mono`
 - Never use raw font sizes — use Tailwind scale (`text-sm`, `text-base`, etc.)
 
@@ -181,12 +197,34 @@ Every major page must have **one** detail that exceeds expectations:
 
 ---
 
-## 10. Component Checklist
+## 10. Sound System
+
+Every key interaction has audio feedback via `playSound(name)` in `frontend/src/lib/sound.ts`.
+
+| Interaction | Sound | Description |
+|-------------|-------|-------------|
+| Page transition | `page-transition` | Soft noise sweep |
+| Send message | `send-message` | Crisp pluck (523 Hz) |
+| Receive message | `receive-message` | Crystal chime (659+784 Hz) |
+| Match success | `match` | Magic sparkle (523+659+784 Hz) |
+| Toggle online | `toggle-on` | Power-up sweep (300→600 Hz) |
+| Handover ceremony | `handover` | Ascending choral harmony |
+| New notification | `notification` | Gentle bell (880+1109 Hz) |
+| Error | `error` | Soft thud (150 Hz sawtooth) |
+
+**Rules**:
+- Sound is opt-out via localStorage key `soulclone-sound-enabled`
+- Call `initAudioContext()` on first user interaction to satisfy autoplay policy
+- Audio errors are non-critical — wrap in try/catch, never block UI
+
+---
+
+## 11. Component Checklist
 
 Before committing UI changes, verify:
 
 - [ ] Background uses `AmbientBackground` (or exempt page)
-- [ ] Cards use `<Card>`
+- [ ] Cards use `<Card>` (except stream/list items where space separates)
 - [ ] Animations use `Motion.tsx` primitives
 - [ ] Loading / empty / error states handled
 - [ ] Real data hooks used (no mock arrays)

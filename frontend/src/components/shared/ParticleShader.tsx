@@ -2,7 +2,7 @@ import { useRef, useMemo, useCallback } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-const PARTICLE_COUNT = 800
+const PARTICLE_COUNT = 320
 
 const vertexShader = `
   uniform float uTime;
@@ -58,7 +58,7 @@ const fragmentShader = `
     float glow = smoothstep(3.0, 0.0, vDist) * 0.2;
     color += vec3(0.0, 0.6, 0.7) * glow;
 
-    gl_FragColor = vec4(color, alpha * 0.35);
+    gl_FragColor = vec4(color, alpha * 0.14);
   }
 `
 
@@ -77,7 +77,7 @@ function Particles() {
       pos[i * 3] = (Math.random() - 0.5) * 12
       pos[i * 3 + 1] = (Math.random() - 0.5) * 8
       pos[i * 3 + 2] = (Math.random() - 0.5) * 6
-      siz[i] = Math.random() * 1.2 + 0.3
+      siz[i] = Math.random() * 0.7 + 0.2
       vel[i * 3] = Math.random() * 2 - 1
       vel[i * 3 + 1] = Math.random() * 2 - 1
       vel[i * 3 + 2] = Math.random() * 2 - 1

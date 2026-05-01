@@ -30,11 +30,12 @@ export default function HomePage() {
   const unreadCount = notifUnreadCount || 0
 
   // Stats with real data fallback
+  // Home page dominant = Cyan. Only the hero stat gets color.
   const statItems = stats ? [
-    { icon: MessageCircle, label: '今日消息', value: stats.total_messages_sent || 0, color: 'text-accent-cyan', bg: 'bg-accent-cyan' },
-    { icon: Heart, label: '新匹配', value: stats.total_matches || 0, color: 'text-accent-magenta', bg: 'bg-accent-magenta' },
-    { icon: Users, label: '深入聊天', value: stats.total_conversations || 0, color: 'text-accent-gold', bg: 'bg-accent-gold' },
-    { icon: Activity, label: '社区互动', value: (stats.total_posts || 0) + (stats.total_comments || 0), color: 'text-text-primary', bg: 'bg-white' },
+    { icon: MessageCircle, label: '今日消息', value: stats.total_messages_sent || 0, color: 'text-accent-cyan', bg: 'bg-accent-cyan', highlight: true },
+    { icon: Heart, label: '新匹配', value: stats.total_matches || 0, color: 'text-text-tertiary', bg: 'bg-text-tertiary', highlight: false },
+    { icon: Users, label: '深入聊天', value: stats.total_conversations || 0, color: 'text-text-tertiary', bg: 'bg-text-tertiary', highlight: false },
+    { icon: Activity, label: '社区互动', value: (stats.total_posts || 0) + (stats.total_comments || 0), color: 'text-text-tertiary', bg: 'bg-text-tertiary', highlight: false },
   ] : []
 
   const isLoading = statsLoading || actLoading
@@ -144,7 +145,7 @@ export default function HomePage() {
                   </div>
                   <Link
                     to="/clone"
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan text-sm font-medium hover:bg-accent-cyan/20 transition-colors"
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/[0.08] text-text-secondary text-sm font-medium hover:border-white/15 hover:text-text-primary transition-colors"
                   >
                     管理孪生
                     <ChevronRight size={16} />
@@ -154,30 +155,32 @@ export default function HomePage() {
             </div>
           </FadeIn>
 
-          {/* Stats Grid */}
+          {/* Stats Dashboard Strip — single focal row, not competing cards */}
           {isLoading ? (
             <SkeletonList count={4} />
           ) : (
-            <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              {statItems.map((stat) => (
+            <StaggerContainer className="flex items-center justify-between gap-2 mb-8 px-4 py-3 rounded-2xl bg-white/[0.02] border border-white/[0.04]">
+              {statItems.map((stat, i) => (
                 <StaggerItem key={stat.label}>
-                  <Card variant="flat" hoverable className="text-center">
-                    <div className={`w-10 h-10 rounded-xl ${stat.bg}/10 flex items-center justify-center mx-auto mb-3`}>
-                      <stat.icon size={18} className={stat.color} />
+                  <div className={`flex items-center gap-3 ${i < statItems.length - 1 ? 'pr-4 border-r border-white/[0.04]' : ''}`}>
+                    <div className={`w-8 h-8 rounded-lg ${stat.highlight ? `${stat.bg}/10` : 'bg-white/[0.03]'} flex items-center justify-center`}>
+                      <stat.icon size={16} className={stat.color} />
                     </div>
-                    <p className="font-mono text-2xl font-bold text-text-primary">
-                      <CountUp target={stat.value} />
-                    </p>
-                    <p className="text-xs text-text-secondary mt-1">{stat.label}</p>
-                  </Card>
+                    <div>
+                      <p className={`font-mono text-xl font-bold leading-none ${stat.highlight ? 'text-text-primary' : 'text-text-secondary'}`}>
+                        <CountUp target={stat.value} />
+                      </p>
+                      <p className="text-[11px] text-text-tertiary mt-0.5">{stat.label}</p>
+                    </div>
+                  </div>
                 </StaggerItem>
               ))}
             </StaggerContainer>
           )}
 
-          {/* Activities */}
+          {/* Activities — space over chrome */}
           <FadeIn delay={0.2}>
-            <Card variant="flat">
+            <div className="mb-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-medium">最近动态</h3>
                 <Link to="/clone" className="text-xs text-accent-cyan hover:underline">查看全部</Link>
@@ -189,7 +192,7 @@ export default function HomePage() {
                   ))}
                 </div>
               ) : activities && activities.length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-1">
                   {activities.slice(0, 5).map((activity, i) => {
                     const typeConfig: Record<string, { icon: typeof Zap; color: string; bg: string }> = {
                       message: { icon: MessageSquare, color: 'text-accent-cyan', bg: 'bg-accent-cyan/10' },
@@ -206,7 +209,7 @@ export default function HomePage() {
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.3 + i * 0.05 }}
-                        className="flex items-center gap-3 p-3 rounded-xl bg-bg-600/50 hover:bg-bg-600 transition-colors"
+                        className="flex items-center gap-3 py-3 px-1 hover:bg-white/[0.02] rounded-xl transition-colors"
                       >
                         <div className={`w-8 h-8 rounded-lg ${config.bg} flex items-center justify-center shrink-0`}>
                           <Icon size={14} className={config.color} />
@@ -226,7 +229,7 @@ export default function HomePage() {
                   <p className="text-xs text-text-ghost mt-1">你的孪生还在熟悉这个世界</p>
                 </div>
               )}
-            </Card>
+            </div>
           </FadeIn>
         </div>
       </AmbientBackground>

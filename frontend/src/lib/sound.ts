@@ -5,6 +5,8 @@ export type SoundName =
   | 'match'
   | 'error'
   | 'toggle-on'
+  | 'handover'
+  | 'notification'
 
 let audioCtx: AudioContext | null = null
 
@@ -99,6 +101,17 @@ const soundMap: Record<SoundName, () => void> = {
     gain.connect(ctx.destination)
     osc.start()
     osc.stop(ctx.currentTime + 0.1)
+  },
+  'handover': () => {
+    // Ascending choral harmony — consciousness transfer
+    const freqs = [261, 329, 392, 523, 659]
+    freqs.forEach((freq, i) => {
+      playTone(freq, 0.4, 'sine', 0.04, i * 0.08)
+    })
+  },
+  'notification': () => {
+    // Gentle bell — soft but noticeable
+    playChime([880, 1109], 0.15, 0.045)
   },
 }
 

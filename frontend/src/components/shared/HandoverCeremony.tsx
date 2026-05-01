@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
+import { playSound } from '@/lib/sound'
 
 // ───────── Handover Ceremony ─────────
 // When the user goes offline, their twin takes over.
@@ -35,6 +36,7 @@ export default function HandoverCeremony({
     }
 
     // Phase timeline
+    playSound('handover')
     const t1 = setTimeout(() => setPhase('transfer'), 1200)
     const t2 = setTimeout(() => setPhase('complete'), 2400)
     const t3 = setTimeout(() => {

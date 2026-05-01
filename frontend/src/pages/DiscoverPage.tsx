@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
 import {
   MapPin, Heart, X, Star, Sparkles,
@@ -7,11 +7,74 @@ import AppShell from '@/components/layout/AppShell'
 import { Card } from '@/components/ui/Card'
 import { useDiscoverProfiles } from '@/hooks/useDiscoverProfiles'
 import { FadeIn } from '@/components/shared/Motion'
-import { DiscoverEmptyState, ErrorState, SkeletonCard } from '@/components/shared/DataStates'
+import { ErrorState, SkeletonCard } from '@/components/shared/DataStates'
+import Logo from '@/components/shared/Logo'
 import AmbientBackground from '@/components/shared/AmbientBackground'
 import { playSound } from '@/lib/sound'
 
 const SWIPE_THRESHOLD = 100
+
+// Rich empty state — anticipation, not abandonment
+function DiscoverEmptyStateInline() {
+  const hoursUntilMidnight = useMemo(() => {
+    const now = new Date()
+    const midnight = new Date(now)
+    midnight.setHours(24, 0, 0, 0)
+    return Math.ceil((midnight.getTime() - now.getTime()) / (1000 * 60 * 60))
+  }, [])
+
+  const particles = useMemo(() => Array.from({ length: 6 }).map((_, i) => ({
+    id: i,
+    x: 20 + Math.random() * 60,
+    delay: Math.random() * 2,
+    duration: 3 + Math.random() * 2,
+  })), [])
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+      className="flex flex-col items-center justify-center py-20 px-4 text-center relative overflow-hidden"
+    >
+      {/* Dissipating particles */}
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          initial={{ y: 20, opacity: 0.6, scale: 1 }}
+          animate={{ y: -60, opacity: 0, scale: 0.3 }}
+          transition={{
+            duration: p.duration,
+            delay: p.delay,
+            repeat: Infinity,
+            ease: 'easeOut',
+          }}
+          className="absolute w-1 h-1 rounded-full bg-accent-magenta/40"
+          style={{ left: `${p.x}%`, bottom: '40%' }}
+        />
+      ))}
+
+      {/* Breathing logo */}
+      <motion.div
+        animate={{ scale: [1, 1.05, 1], opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        className="mb-5"
+      >
+        <Logo variant="mono" animate="none" className="w-12 h-12 opacity-50" />
+      </motion.div>
+
+      <h3 className="font-sans text-lg font-bold text-text-primary mb-1">
+        今日的灵魂已浏览完毕
+      </h3>
+      <p className="text-text-secondary text-sm max-w-xs mb-3">
+        世界很大，有趣的灵魂很多。明天再来，你的孪生会为你准备新的推荐
+      </p>
+      <p className="text-xs text-text-tertiary">
+        新的灵魂将在 <span className="text-accent-magenta font-mono font-bold">{hoursUntilMidnight}</span> 小时后抵达
+      </p>
+    </motion.div>
+  )
+}
 
 export default function DiscoverPage() {
   const { data: profiles, isLoading, error } = useDiscoverProfiles()
@@ -71,7 +134,7 @@ export default function DiscoverPage() {
           {isLoading ? (
             <SkeletonCard />
           ) : !currentProfile ? (
-            <DiscoverEmptyState />
+            <DiscoverEmptyStateInline />
           ) : (
             <FadeIn>
               <div className="relative h-[480px] md:h-[520px]">

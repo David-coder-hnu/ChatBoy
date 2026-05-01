@@ -4,9 +4,28 @@ interface BigFiveRadarProps {
   traits: Record<string, number>
   size?: number
   className?: string
+  variant?: 'cyan' | 'magenta' | 'gold'
 }
 
-export default function BigFiveRadar({ traits, size = 180, className = '' }: BigFiveRadarProps) {
+const gradientMap = {
+  cyan:    ['rgba(0,240,255,0.2)',   'rgba(255,0,110,0.15)', 'rgba(255,190,11,0.1)'],
+  magenta: ['rgba(255,0,110,0.2)',   'rgba(0,240,255,0.15)', 'rgba(255,190,11,0.1)'],
+  gold:    ['rgba(255,190,11,0.2)',  'rgba(0,240,255,0.15)', 'rgba(255,0,110,0.1)'],
+}
+
+const strokeMap = {
+  cyan:    'rgba(0,240,255,0.5)',
+  magenta: 'rgba(255,0,110,0.5)',
+  gold:    'rgba(255,190,11,0.5)',
+}
+
+const dotMap = {
+  cyan:    '#00f0ff',
+  magenta: '#ff006e',
+  gold:    '#ffbe0b',
+}
+
+export default function BigFiveRadar({ traits, size = 180, className = '', variant = 'cyan' }: BigFiveRadarProps) {
   const keys = Object.keys(traits)
   if (keys.length === 0) return null
 
@@ -72,7 +91,7 @@ export default function BigFiveRadar({ traits, size = 180, className = '' }: Big
         <motion.polygon
           points={polyPoints}
           fill="url(#radarGradient)"
-          stroke="rgba(0,240,255,0.5)"
+          stroke={strokeMap[variant]}
           strokeWidth={1.5}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -86,7 +105,7 @@ export default function BigFiveRadar({ traits, size = 180, className = '' }: Big
             cx={p[0]}
             cy={p[1]}
             r={3}
-            fill="#00f0ff"
+            fill={dotMap[variant]}
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 + i * 0.08, type: 'spring', stiffness: 200 }}
@@ -95,9 +114,9 @@ export default function BigFiveRadar({ traits, size = 180, className = '' }: Big
 
         <defs>
           <linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="rgba(0,240,255,0.2)" />
-            <stop offset="50%" stopColor="rgba(255,0,110,0.15)" />
-            <stop offset="100%" stopColor="rgba(255,190,11,0.1)" />
+            <stop offset="0%" stopColor={gradientMap[variant][0]} />
+            <stop offset="50%" stopColor={gradientMap[variant][1]} />
+            <stop offset="100%" stopColor={gradientMap[variant][2]} />
           </linearGradient>
         </defs>
       </svg>

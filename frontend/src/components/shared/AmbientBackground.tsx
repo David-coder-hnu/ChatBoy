@@ -9,15 +9,16 @@ interface AmbientBackgroundProps {
   className?: string
 }
 
+// One dominant brand color per page — tells the user which "chapter" they're in
 const orbColors: Record<string, { from: string; to: string }> = {
-  home: { from: 'rgba(0,240,255,0.06)', to: 'rgba(255,0,110,0.04)' },
-  discover: { from: 'rgba(255,0,110,0.06)', to: 'rgba(255,190,11,0.04)' },
-  chat: { from: 'rgba(0,240,255,0.05)', to: 'rgba(0,240,255,0.02)' },
-  feed: { from: 'rgba(255,190,11,0.05)', to: 'rgba(255,190,11,0.02)' },
-  profile: { from: 'rgba(255,0,110,0.05)', to: 'rgba(255,0,110,0.02)' },
-  clone: { from: 'rgba(0,240,255,0.04)', to: 'rgba(255,0,110,0.03)' },
-  calibration: { from: 'rgba(255,190,11,0.05)', to: 'rgba(255,190,11,0.02)' },
-  auth: { from: 'rgba(0,240,255,0.04)', to: 'rgba(255,0,110,0.03)' },
+  home:      { from: 'rgba(0,240,255,0.07)',  to: 'rgba(0,240,255,0.02)' },   // Cyan
+  chat:      { from: 'rgba(0,240,255,0.06)',  to: 'rgba(0,240,255,0.02)' },   // Cyan
+  discover:  { from: 'rgba(255,0,110,0.07)',  to: 'rgba(255,0,110,0.02)' },   // Magenta
+  profile:   { from: 'rgba(255,0,110,0.06)',  to: 'rgba(255,0,110,0.02)' },   // Magenta
+  clone:     { from: 'rgba(255,190,11,0.07)', to: 'rgba(255,190,11,0.02)' },  // Gold
+  calibration:{ from: 'rgba(255,190,11,0.06)', to: 'rgba(255,190,11,0.02)' },  // Gold
+  feed:      { from: 'rgba(0,240,255,0.05)',  to: 'rgba(255,190,11,0.03)' },  // Cyan→Gold
+  auth:      { from: 'rgba(0,240,255,0.04)',  to: 'rgba(255,0,110,0.03)' },   // Cyan→Magenta
 }
 
 const intensityMap = {
