@@ -18,7 +18,7 @@ import ClonePage from '@/pages/ClonePage'
 import CalibrationPage from '@/pages/CalibrationPage'
 
 function App() {
-  const { isAuthenticated, user } = useAuthStore()
+  const { isAuthenticated } = useAuthStore()
   const location = useLocation()
 
   return (
