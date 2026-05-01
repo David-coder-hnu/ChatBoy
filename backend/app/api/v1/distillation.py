@@ -3,7 +3,6 @@ import uuid
 
 
 import json
-import uuid
 
 from datetime import datetime, timezone
 
@@ -248,7 +247,6 @@ async def delete_profile(
     db: AsyncSession = Depends(get_db),
 ):
     """Delete all distillation data for the user (GDPR right to erasure)."""
-    import uuid
     from app.models.clone_profile import CloneProfile
     from app.models.clone import Clone
     from app.models.conversation_memory import ConversationMemory
@@ -282,7 +280,6 @@ async def export_profile(
     db: AsyncSession = Depends(get_db),
 ):
     """Export all user distillation data (GDPR right to data portability)."""
-    import uuid
     from app.models.clone_profile import CloneProfile
     from app.models.clone import Clone
     from app.models.calibration_test import CalibrationTest

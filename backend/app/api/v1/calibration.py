@@ -157,7 +157,6 @@ async def get_calibration_history(
     limit: int = 20,
 ):
     """Get calibration test history for the user."""
-    import uuid
 
     result = await db.execute(
         select(CalibrationTest)

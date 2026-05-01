@@ -71,7 +71,6 @@ async def get_clone_activities(
     limit: int = 20,
 ):
     """Get recent clone activities for the dashboard timeline."""
-    import uuid
 
     result = await db.execute(
         select(Clone).where(Clone.user_id == user_id)

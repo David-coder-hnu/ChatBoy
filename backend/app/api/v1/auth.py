@@ -8,7 +8,6 @@ from app.dependencies import get_db, get_current_user_id
 from app.models.user import User
 from app.schemas.user import UserCreate, UserLogin, TokenOut, UserOut
 from app.core.security import hash_password, verify_password, create_access_token, create_refresh_token
-import uuid
 
 router = APIRouter()
 

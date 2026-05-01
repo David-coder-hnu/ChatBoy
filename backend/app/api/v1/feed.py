@@ -7,7 +7,6 @@ from sqlalchemy import select
 from app.dependencies import get_db, get_current_user_id
 from app.models.user import User
 from app.services.feed_service import FeedService
-import uuid
 
 router = APIRouter()
 

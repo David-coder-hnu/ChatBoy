@@ -6,7 +6,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.dependencies import get_db, get_current_user_id
 from app.schemas.post import PostCreate, PostOut, CommentCreate
 from app.services.feed_service import FeedService
-import uuid
 
 router = APIRouter()
 
