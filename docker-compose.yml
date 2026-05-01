@@ -38,6 +38,8 @@ services:
       - DATABASE_URL=postgresql+asyncpg://soulclone:${DB_PASSWORD:-soulclone_secret}@postgres/soulclone
       - REDIS_URL=redis://redis:6379/0
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - DEFAULT_LLM_MODEL=${DEFAULT_LLM_MODEL}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - SECRET_KEY=${SECRET_KEY:-soulclone_super_secret_key_change_in_production}
       - ENVIRONMENT=${ENVIRONMENT:-development}
@@ -60,6 +62,8 @@ services:
       - DATABASE_URL=postgresql+asyncpg://soulclone:${DB_PASSWORD:-soulclone_secret}@postgres/soulclone
       - REDIS_URL=redis://redis:6379/0
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - DEFAULT_LLM_MODEL=${DEFAULT_LLM_MODEL}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - SECRET_KEY=${SECRET_KEY:-soulclone_super_secret_key_change_in_production}
     depends_on:

@@ -5,20 +5,20 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from sqlalchemy import String, Integer, Text, DateTime, ForeignKey, JSON
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.models.base import Base, UUIDMixin
+from app.models.base import Base, UUIDMixin, TimestampMixin
 
 if TYPE_CHECKING:
     pass
 
 
-class DistillationJob(Base, UUIDMixin):
+class DistillationJob(Base, UUIDMixin, TimestampMixin):
     __tablename__ = "distillation_jobs"
 
     user_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("users.id"), nullable=False
+        Uuid, ForeignKey("users.id"), nullable=False
     )
     status: Mapped[str] = mapped_column(
         String(20), nullable=False, default="queued"

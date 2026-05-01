@@ -25,11 +25,13 @@ export default function LoginPage() {
     setError('')
     try {
       const res = await api.post('/auth/login', { phone, password })
-      setAuth(
-        { id: 'mock', phone, nickname: null, avatar_url: null, bio: null, status: 'active' },
-        res.data.access_token
-      )
-      navigate('/home')
+      const meRes = await api.get('/auth/me')
+      setAuth(meRes.data, res.data.access_token)
+      if (meRes.data.status === 'distilling') {
+        navigate('/onboarding')
+      } else {
+        navigate('/home')
+      }
     } catch (err: any) {
       setError(err.response?.data?.detail || '登录失败')
     } finally {

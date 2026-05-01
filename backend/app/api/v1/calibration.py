@@ -7,6 +7,8 @@ Test records and refinements are persisted for version history.
 
 from __future__ import annotations
 
+import uuid
+
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -42,7 +44,7 @@ class CalibrationRefineRequest(BaseModel):
 @router.post("/test")
 async def test_generated_response(
     req: CalibrationTestRequest,
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Test how the online state would respond to a given scenario."""
@@ -71,12 +73,10 @@ async def test_generated_response(
 @router.post("/feedback")
 async def submit_calibration_feedback(
     req: CalibrationFeedbackRequest,
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Submit user feedback on generated response vs real response."""
-    import uuid
-
     result = await db.execute(
         select(CloneProfile).where(CloneProfile.user_id == user_id)
     )
@@ -88,7 +88,7 @@ async def submit_calibration_feedback(
 
     # Persist test record
     test_record = CalibrationTest(
-        user_id=uuid.UUID(user_id),
+        user_id=user_id,
         profile_version=profile.version,
         scenario=req.scenario,
         generated_response=req.generated_response,
@@ -108,12 +108,10 @@ async def submit_calibration_feedback(
 @router.post("/refine")
 async def refine_system_prompt(
     req: CalibrationRefineRequest,
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Refine the system prompt based on multiple calibration tests and persist."""
-    import uuid
-
     result = await db.execute(
         select(CloneProfile).where(CloneProfile.user_id == user_id)
     )
@@ -130,7 +128,7 @@ async def refine_system_prompt(
 
     # Persist refinement record
     refinement_record = CalibrationRefinement(
-        user_id=uuid.UUID(user_id),
+        user_id=user_id,
         profile_version=profile.version,
         previous_prompt=profile.system_prompt,
         refined_prompt=refined_prompt,
@@ -154,7 +152,7 @@ async def refine_system_prompt(
 
 @router.get("/history")
 async def get_calibration_history(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
     limit: int = 20,
 ):
@@ -163,7 +161,7 @@ async def get_calibration_history(
 
     result = await db.execute(
         select(CalibrationTest)
-        .where(CalibrationTest.user_id == uuid.UUID(user_id))
+        .where(CalibrationTest.user_id == user_id)
         .order_by(desc(CalibrationTest.created_at))
         .limit(limit)
     )
@@ -171,7 +169,7 @@ async def get_calibration_history(
 
     refinements_result = await db.execute(
         select(CalibrationRefinement)
-        .where(CalibrationRefinement.user_id == uuid.UUID(user_id))
+        .where(CalibrationRefinement.user_id == user_id)
         .order_by(desc(CalibrationRefinement.created_at))
         .limit(limit)
     )

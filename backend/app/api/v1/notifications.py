@@ -1,16 +1,20 @@
+import uuid
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.dependencies import get_db, get_current_user_id
 from app.schemas.notification import NotificationOut
 from app.services.notification_service import NotificationService
+import uuid
 
 router = APIRouter()
 
 
+@router.get("")
 @router.get("/", response_model=list[NotificationOut])
 async def list_notifications(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """List user's notifications"""
@@ -21,7 +25,7 @@ async def list_notifications(
 
 @router.get("/unread-count")
 async def unread_count(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Get unread notification count"""
@@ -33,7 +37,7 @@ async def unread_count(
 @router.post("/{notification_id}/read")
 async def mark_read(
     notification_id: str,
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Mark a notification as read"""
@@ -46,7 +50,7 @@ async def mark_read(
 
 @router.post("/read-all")
 async def mark_all_read(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Mark all notifications as read"""

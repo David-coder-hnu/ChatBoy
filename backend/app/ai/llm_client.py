@@ -32,7 +32,10 @@ RETRYABLE_ERRORS = (
 class LLMClient:
     def __init__(self):
         self.openai_client = (
-            openai.AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+            openai.AsyncOpenAI(
+                api_key=settings.OPENAI_API_KEY,
+                base_url=settings.OPENAI_BASE_URL or None,
+            )
             if settings.OPENAI_API_KEY
             else None
         )

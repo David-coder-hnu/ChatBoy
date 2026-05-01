@@ -1,3 +1,5 @@
+import uuid
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -6,6 +8,7 @@ from app.dependencies import get_db, get_current_user_id
 from app.models.user import User
 from app.schemas.user import UserCreate, UserLogin, TokenOut, UserOut
 from app.core.security import hash_password, verify_password, create_access_token, create_refresh_token
+import uuid
 
 router = APIRouter()
 
@@ -47,7 +50,7 @@ async def login(data: UserLogin, db: AsyncSession = Depends(get_db)):
 
 @router.get("/me", response_model=UserOut)
 async def me(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     result = await db.execute(select(User).where(User.id == user_id))

@@ -12,10 +12,11 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     ALGORITHM: str = "HS256"
 
-    DATABASE_URL: str = "postgresql+asyncpg://soulclone:soulclone_secret@localhost/soulclone"
+    DATABASE_URL: str = "sqlite+aiosqlite:///./soulclone_dev.db"
     REDIS_URL: str = "redis://localhost:6379/0"
 
     OPENAI_API_KEY: str | None = None
+    OPENAI_BASE_URL: str | None = None
     ANTHROPIC_API_KEY: str | None = None
     DEFAULT_LLM_MODEL: str = "gpt-4o"
 

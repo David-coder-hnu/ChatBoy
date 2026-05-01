@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from sqlalchemy import String, Integer, Boolean, Text, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base, UUIDMixin
@@ -18,7 +18,7 @@ class LLMUsageLog(Base, UUIDMixin):
     __tablename__ = "llm_usage_logs"
 
     user_id: Mapped[uuid.UUID | None] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("users.id"), nullable=True
+        Uuid, ForeignKey("users.id"), nullable=True
     )
     task_type: Mapped[str] = mapped_column(String(30), nullable=False)
     model: Mapped[str] = mapped_column(String(50), nullable=False)

@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from sqlalchemy import String, Text, Integer, DECIMAL, Boolean, DateTime, JSON, ForeignKey, ARRAY
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Uuid
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, UUIDMixin, TimestampMixin
@@ -18,12 +18,12 @@ class CloneProfile(Base, UUIDMixin, TimestampMixin):
     __tablename__ = "clone_profiles"
 
     user_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("users.id"), unique=True, nullable=False
+        Uuid, ForeignKey("users.id"), unique=True, nullable=False
     )
 
     # Raw distillation inputs
     questionnaire_answers: Mapped[dict | None] = mapped_column(JSON, nullable=True)
-    chat_samples: Mapped[list[str] | None] = mapped_column(ARRAY(Text), nullable=True)
+    chat_samples: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
     social_import: Mapped[str | None] = mapped_column(Text, nullable=True)
     voice_sample_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
 

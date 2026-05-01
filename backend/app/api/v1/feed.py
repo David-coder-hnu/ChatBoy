@@ -1,3 +1,5 @@
+import uuid
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -5,13 +7,15 @@ from sqlalchemy import select
 from app.dependencies import get_db, get_current_user_id
 from app.models.user import User
 from app.services.feed_service import FeedService
+import uuid
 
 router = APIRouter()
 
 
+@router.get("")
 @router.get("/")
 async def get_feed(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Get community feed"""

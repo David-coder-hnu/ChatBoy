@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from sqlalchemy import String, Integer, Float, DateTime, ForeignKey, JSON
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base, UUIDMixin
@@ -18,10 +18,10 @@ class RelationshipState(Base, UUIDMixin):
     __tablename__ = "relationship_states"
 
     clone_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("clones.id"), nullable=False
+        Uuid, ForeignKey("clones.id"), nullable=False
     )
     other_user_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("users.id"), nullable=False
+        Uuid, ForeignKey("users.id"), nullable=False
     )
     intimacy_score: Mapped[float] = mapped_column(Float, default=0.0)
     relationship_stage: Mapped[str] = mapped_column(

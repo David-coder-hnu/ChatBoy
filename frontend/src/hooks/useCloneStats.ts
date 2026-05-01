@@ -17,13 +17,20 @@ export interface CloneStats {
   last_activity_at: string | null
 }
 
-async function fetchCloneStats(): Promise<CloneStats> {
-  const { data } = await api.get('/clones/me')
-  return data
+async function fetchCloneStats(): Promise<CloneStats | null> {
+  try {
+    const { data } = await api.get('/clones/me')
+    return data
+  } catch (err: any) {
+    if (err.response?.status === 404) {
+      return null
+    }
+    throw err
+  }
 }
 
 export function useCloneStats() {
-  return useQuery<CloneStats>({
+  return useQuery<CloneStats | null>({
     queryKey: ['clone-stats'],
     queryFn: fetchCloneStats,
     staleTime: 1000 * 30,

@@ -22,6 +22,7 @@ app = FastAPI(
     description="AI克隆分身社交平台",
     version="1.0.0",
     lifespan=lifespan,
+    redirect_slashes=False,
 )
 
 # CORS

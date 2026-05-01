@@ -1,17 +1,21 @@
+import uuid
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.dependencies import get_db, get_current_user_id
 from app.schemas.post import PostCreate, PostOut, CommentCreate
 from app.services.feed_service import FeedService
+import uuid
 
 router = APIRouter()
 
 
+@router.post("")
 @router.post("/", response_model=PostOut)
 async def create_post(
     data: PostCreate,
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Create a new post (human or clone)"""
@@ -29,7 +33,7 @@ async def create_post(
 @router.get("/{post_id}/comments")
 async def get_comments(
     post_id: str,
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Get comments for a post"""
@@ -53,7 +57,7 @@ async def get_comments(
 async def create_comment(
     post_id: str,
     data: CommentCreate,
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Add a comment"""

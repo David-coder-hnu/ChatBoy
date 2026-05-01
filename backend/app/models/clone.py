@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from sqlalchemy import String, Integer, DECIMAL, DateTime, JSON, ForeignKey, Enum
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Uuid
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, UUIDMixin, TimestampMixin
@@ -18,10 +18,10 @@ class Clone(Base, UUIDMixin, TimestampMixin):
     __tablename__ = "clones"
 
     user_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("users.id"), unique=True, nullable=False
+        Uuid, ForeignKey("users.id"), unique=True, nullable=False
     )
     profile_id: Mapped[uuid.UUID | None] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("clone_profiles.id"), nullable=True
+        Uuid, ForeignKey("clone_profiles.id"), nullable=True
     )
 
     name: Mapped[str | None] = mapped_column(String(50), nullable=True)

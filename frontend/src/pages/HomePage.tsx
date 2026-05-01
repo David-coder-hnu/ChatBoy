@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import {
   MessageCircle, Heart, Users, Activity,
   ChevronRight, Sparkles, Bell,
-  Zap, MessageSquare, Star, Ghost
+  Zap, MessageSquare, Star, Ghost, Plus
 } from 'lucide-react'
 import AppShell from '@/components/layout/AppShell'
 import { Card } from '@/components/ui/Card'
@@ -121,38 +121,65 @@ export default function HomePage() {
             </div>
           </FadeIn>
 
-          {/* Online Status Card — elevated + conic glow when active */}
+          {/* Clone Status / Create Clone Card */}
           <FadeIn delay={0.05}>
-            <div className={onlineActive ? 'conic-glow' : ''}>
-              <Card variant="elevated" className="mb-8">
+            {stats === null ? (
+              <Card variant="elevated" className="mb-8 border-accent-gold/20">
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                   <div className="flex items-center gap-4">
-                    <GlowPulse color="cyan">
-                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all ${
-                        onlineActive
-                          ? 'bg-gradient-to-br from-accent-cyan to-accent-magenta'
-                          : 'bg-bg-600 border border-white/10'
-                      }`}>
-                        <Sparkles size={24} className={onlineActive ? 'text-white' : 'text-text-disabled'} />
-                      </div>
-                    </GlowPulse>
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-gold to-accent-magenta flex items-center justify-center shadow-lg shadow-accent-gold/20">
+                      <Plus size={24} className="text-white" />
+                    </div>
                     <div>
-                      <h2 className="font-sans text-xl font-bold">自动模式</h2>
-                      <p className="text-text-secondary text-sm">
-                        {onlineActive ? '正在替你社交、匹配、维系关系' : '离线中，你的孪生不会主动行动'}
+                      <h2 className="font-sans text-xl font-bold">创建你的孪生</h2>
+                      <p className="text-text-secondary text-sm mt-0.5">
+                        一个 AI 分身，学习你的说话风格，替你聊天、匹配、维系关系
                       </p>
                     </div>
                   </div>
-                  <Link
-                    to="/clone"
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/[0.08] text-text-secondary text-sm font-medium hover:border-white/15 hover:text-text-primary transition-colors"
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => navigate('/onboarding')}
+                    className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-accent-gold to-accent-magenta text-white text-sm font-semibold hover:shadow-lg hover:shadow-accent-gold/30 transition-all"
                   >
-                    管理孪生
+                    立即创建
                     <ChevronRight size={16} />
-                  </Link>
+                  </motion.button>
                 </div>
               </Card>
-            </div>
+            ) : (
+              <div className={onlineActive ? 'conic-glow' : ''}>
+                <Card variant="elevated" className="mb-8">
+                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div className="flex items-center gap-4">
+                      <GlowPulse color="cyan">
+                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all ${
+                          onlineActive
+                            ? 'bg-gradient-to-br from-accent-cyan to-accent-magenta'
+                            : 'bg-bg-600 border border-white/10'
+                        }`}>
+                          <Sparkles size={24} className={onlineActive ? 'text-white' : 'text-text-disabled'} />
+                        </div>
+                      </GlowPulse>
+                      <div>
+                        <h2 className="font-sans text-xl font-bold">自动模式</h2>
+                        <p className="text-text-secondary text-sm">
+                          {onlineActive ? '正在替你社交、匹配、维系关系' : '离线中，你的孪生不会主动行动'}
+                        </p>
+                      </div>
+                    </div>
+                    <Link
+                      to="/clone"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/[0.08] text-text-secondary text-sm font-medium hover:border-white/15 hover:text-text-primary transition-colors"
+                    >
+                      管理孪生
+                      <ChevronRight size={16} />
+                    </Link>
+                  </div>
+                </Card>
+              </div>
+            )}
           </FadeIn>
 
           {/* Stats Dashboard Strip — single focal row, not competing cards */}

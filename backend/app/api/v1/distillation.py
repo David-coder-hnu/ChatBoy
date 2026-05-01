@@ -1,4 +1,6 @@
 from __future__ import annotations
+import uuid
+
 
 import json
 import uuid
@@ -27,7 +29,7 @@ router = APIRouter()
 @router.post("/start")
 async def start_distillation(
     data: DistillationInput,
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Start AI distillation process asynchronously. Returns a job ID."""
@@ -44,7 +46,7 @@ async def start_distillation(
 
     # Create job record
     job = DistillationJob(
-        user_id=uuid.UUID(user_id),
+        user_id=user_id,
         status="queued",
         progress_percent=5,
     )
@@ -89,7 +91,7 @@ async def start_distillation(
 @router.get("/progress/{job_id}")
 async def get_distillation_progress(
     job_id: str,
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Get current distillation progress (polling endpoint)."""
@@ -131,7 +133,7 @@ async def get_distillation_progress(
 @router.get("/progress/sse")
 async def distillation_progress_sse(
     job_id: str,
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
 ):
     """Server-Sent Events stream for real-time distillation progress."""
     from asyncio import sleep
@@ -187,7 +189,7 @@ async def distillation_progress_sse(
 
 @router.get("/status")
 async def get_distillation_status(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Get current distillation status for the user."""
@@ -224,7 +226,7 @@ async def get_distillation_status(
 
 @router.get("/profile")
 async def get_profile(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Get distilled clone profile."""
@@ -242,7 +244,7 @@ async def get_profile(
 
 @router.delete("/profile")
 async def delete_profile(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Delete all distillation data for the user (GDPR right to erasure)."""
@@ -257,7 +259,7 @@ async def delete_profile(
     from app.models.calibration_refinement import CalibrationRefinement
     from app.models.distillation_job import DistillationJob
 
-    uid = uuid.UUID(user_id)
+    uid = user_id
 
     # Delete all related data
     for model in [
@@ -276,7 +278,7 @@ async def delete_profile(
 
 @router.get("/export")
 async def export_profile(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Export all user distillation data (GDPR right to data portability)."""
@@ -286,7 +288,7 @@ async def export_profile(
     from app.models.calibration_test import CalibrationTest
     from app.models.calibration_refinement import CalibrationRefinement
 
-    uid = uuid.UUID(user_id)
+    uid = user_id
 
     profile_result = await db.execute(
         select(CloneProfile).where(CloneProfile.user_id == uid)

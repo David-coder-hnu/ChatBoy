@@ -1,3 +1,5 @@
+import uuid
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
@@ -17,16 +19,20 @@ async def get_db():
 
 async def get_current_user_id(
     credentials: HTTPAuthorizationCredentials | None = Depends(security),
-) -> str:
+) -> uuid.UUID:
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.info(f"get_current_user_id called, credentials={credentials is not None}")
     if not credentials:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Missing authorization header",
         )
     payload = decode_token(credentials.credentials)
+    logger.info(f"payload={payload}")
     if not payload or "sub" not in payload:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token",
         )
-    return payload["sub"]
+    return uuid.UUID(payload["sub"])

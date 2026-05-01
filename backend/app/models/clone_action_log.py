@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from sqlalchemy import String, Text, DateTime, ForeignKey, JSON
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base, UUIDMixin
@@ -18,7 +18,7 @@ class CloneActionLog(Base, UUIDMixin):
     __tablename__ = "clone_action_logs"
 
     clone_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("clones.id"), nullable=False
+        Uuid, ForeignKey("clones.id"), nullable=False
     )
     action_type: Mapped[str] = mapped_column(
         String(30), nullable=False

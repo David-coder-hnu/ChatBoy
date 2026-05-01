@@ -31,7 +31,7 @@ function App() {
           <Route path="/" element={!isAuthenticated ? <LandingPage /> : <Navigate to="/home" />} />
           <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to="/home" />} />
           <Route path="/register" element={!isAuthenticated ? <RegisterPage /> : <Navigate to="/home" />} />
-          <Route path="/onboarding" element={isAuthenticated && user?.status === 'distilling' ? <OnboardingPage /> : <Navigate to="/home" />} />
+          <Route path="/onboarding" element={isAuthenticated ? <OnboardingPage /> : <Navigate to="/login" />} />
           <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/login" />} />
           <Route path="/discover" element={isAuthenticated ? <DiscoverPage /> : <Navigate to="/login" />} />
           <Route path="/chat" element={isAuthenticated ? <ChatPage /> : <Navigate to="/login" />} />

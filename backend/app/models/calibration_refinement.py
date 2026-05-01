@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from sqlalchemy import Integer, Float, Text, DateTime, ForeignKey, JSON
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base, UUIDMixin
@@ -18,7 +18,7 @@ class CalibrationRefinement(Base, UUIDMixin):
     __tablename__ = "calibration_refinements"
 
     user_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("users.id"), nullable=False
+        Uuid, ForeignKey("users.id"), nullable=False
     )
     profile_version: Mapped[int] = mapped_column(Integer, nullable=False)
     previous_prompt: Mapped[str | None] = mapped_column(Text, nullable=True)

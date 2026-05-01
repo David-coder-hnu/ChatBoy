@@ -1,3 +1,5 @@
+import uuid
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, desc
@@ -13,7 +15,7 @@ router = APIRouter()
 
 @router.get("/me", response_model=CloneOut)
 async def get_my_clone(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Get current user's clone"""
@@ -27,7 +29,7 @@ async def get_my_clone(
 @router.put("/me")
 async def update_clone(
     data: CloneConfigUpdate,
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Update clone configuration"""
@@ -42,7 +44,7 @@ async def update_clone(
 
 @router.post("/me/activate")
 async def activate_clone(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Activate clone to start socializing"""
@@ -53,7 +55,7 @@ async def activate_clone(
 
 @router.post("/me/deactivate")
 async def deactivate_clone(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Deactivate clone"""
@@ -64,7 +66,7 @@ async def deactivate_clone(
 
 @router.get("/me/activities")
 async def get_clone_activities(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
     limit: int = 20,
 ):
@@ -72,7 +74,7 @@ async def get_clone_activities(
     import uuid
 
     result = await db.execute(
-        select(Clone).where(Clone.user_id == uuid.UUID(user_id))
+        select(Clone).where(Clone.user_id == user_id)
     )
     clone = result.scalar_one_or_none()
     if not clone:

@@ -1,18 +1,14 @@
 """
 Shared Redis client for caching, progress tracking, and pub/sub.
+Uses fakeredis for local development without a real Redis server.
 """
 
 from __future__ import annotations
 
-import redis.asyncio as aioredis
+import fakeredis.aioredis as aioredis
 
-from app.config import settings
-
-redis_client: aioredis.Redis = aioredis.from_url(
-    settings.REDIS_URL,
-    decode_responses=True,
-)
+redis_client: aioredis.FakeRedis = aioredis.FakeRedis()
 
 
 async def close_redis() -> None:
-    await redis_client.close()
+    pass

@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from sqlalchemy import String, Float, DateTime, ForeignKey, JSON
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base, UUIDMixin
@@ -18,7 +18,7 @@ class EmotionState(Base, UUIDMixin):
     __tablename__ = "emotion_states"
 
     clone_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("clones.id"), nullable=False, unique=True
+        Uuid, ForeignKey("clones.id"), nullable=False, unique=True
     )
     current_mood: Mapped[str | None] = mapped_column(String(20), nullable=True)
     intensity: Mapped[float] = mapped_column(Float, default=0.5)

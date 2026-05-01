@@ -9,8 +9,15 @@ export interface CloneActivity {
 }
 
 async function fetchCloneActivities(): Promise<CloneActivity[]> {
-  const { data } = await api.get('/clones/me/activities')
-  return data
+  try {
+    const { data } = await api.get('/clones/me/activities')
+    return data
+  } catch (err: any) {
+    if (err.response?.status === 404) {
+      return []
+    }
+    throw err
+  }
 }
 
 export function useCloneActivities() {

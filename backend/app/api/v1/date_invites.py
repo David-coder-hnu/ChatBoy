@@ -1,16 +1,20 @@
+import uuid
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.dependencies import get_db, get_current_user_id
 from app.models.date_invite import DateInvite
+import uuid
 
 router = APIRouter()
 
 
+@router.get("")
 @router.get("/")
 async def list_date_invites(
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """List date invites"""
@@ -27,7 +31,7 @@ async def list_date_invites(
 async def respond_to_invite(
     invite_id: str,
     decision: str,  # accepted, declined
-    user_id: str = Depends(get_current_user_id),
+    user_id: uuid.UUID = Depends(get_current_user_id),
     db: AsyncSession = Depends(get_db),
 ):
     """Respond to a date invite"""
