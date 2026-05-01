@@ -121,12 +121,15 @@ export default function ClonePage() {
                         : '待命'}
                     </Badge>
 
-                    {/* Stats Row */}
+                    {/* Stats Row — color semantics enforced */}
                     <div className="grid grid-cols-3 gap-4 w-full mt-6">
                       {statItems.map((stat) => (
                         <div key={stat.label} className="text-center">
-                          <p className="font-mono text-2xl font-bold text-text-primary">{stat.value}</p>
-                          <p className="text-xs text-text-secondary mt-0.5">{stat.label}</p>
+                          <p className={`font-mono text-2xl font-bold ${stat.color}`}>{stat.value}</p>
+                          <div className="flex items-center justify-center gap-1 mt-1">
+                            <span className={`w-1 h-1 rounded-full ${stat.bg}`} />
+                            <p className={`text-xs ${stat.color} opacity-70`}>{stat.label}</p>
+                          </div>
                         </div>
                       ))}
                     </div>
