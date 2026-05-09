@@ -227,83 +227,50 @@
         </p>
       </header>
 
-      <!-- 项目简介 -->
+      <!-- 项目截图展示 -->
       <section class="mb-8">
         <h2 class="font-heading text-3xl font-medium text-text-primary mb-6 text-center">
-          什么是 SoulClone？
+          项目亮点
         </h2>
-        <div class="grid grid-cols-3 gap-6">
-          <div class="bg-surface/50 backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center">
-            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-accent-cyan/20 flex items-center justify-center">
-              <svg class="w-6 h-6 text-accent-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        <div class="grid grid-cols-2 gap-6">
+          <!-- 截图 1 -->
+          <div class="bg-surface/50 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden">
+            <div class="h-48 bg-gradient-to-br from-accent-cyan/20 to-accent-magenta/20 flex items-center justify-center">
+              <svg class="w-20 h-20 text-accent-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
               </svg>
             </div>
-            <p class="text-text-primary font-medium text-lg">替你表演</p>
-            <p class="text-text-tertiary text-base mt-2">AI 孪生替你维护社交关系</p>
+            <div class="p-5">
+              <h3 class="text-text-primary font-medium text-lg mb-2">灵魂仪表板</h3>
+              <p class="text-text-secondary text-base">Big Five 人格雷达图 + 亲密度圆环，让抽象的人格特质和关系温度一目了然</p>
+            </div>
           </div>
-          <div class="bg-surface/50 backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center">
-            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-accent-magenta/20 flex items-center justify-center">
-              <svg class="w-6 h-6 text-accent-magenta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          <!-- 截图 2 -->
+          <div class="bg-surface/50 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden">
+            <div class="h-48 bg-gradient-to-br from-accent-magenta/20 to-accent-gold/20 flex items-center justify-center">
+              <svg class="w-20 h-20 text-accent-magenta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
               </svg>
             </div>
-            <p class="text-text-primary font-medium text-lg">让你真实</p>
-            <p class="text-text-tertiary text-base mt-2">你不必再为社交而表演</p>
-          </div>
-          <div class="bg-surface/50 backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center">
-            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-accent-gold/20 flex items-center justify-center">
-              <svg class="w-6 h-6 text-accent-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
+            <div class="p-5">
+              <h3 class="text-text-primary font-medium text-lg mb-2">孪生意识流</h3>
+              <p class="text-text-secondary text-base">实时显示 AI 的思维映射，透明的决策过程让你掌控每一段对话</p>
             </div>
-            <p class="text-text-primary font-medium text-lg">你离线，它在线</p>
-            <p class="text-text-tertiary text-base mt-2">24 小时不间断的真诚连接</p>
           </div>
         </div>
-      </section>
-
-      <!-- 核心亮点 -->
-      <section class="mb-8">
-        <h2 class="font-heading text-3xl font-medium text-text-primary mb-6 text-center">
-          核心亮点
-        </h2>
-        <div class="grid grid-cols-4 gap-4">
-          <div class="bg-surface/50 backdrop-blur-sm border border-white/10 rounded-xl p-5">
-            <div class="w-10 h-10 mb-3 rounded-lg bg-gradient-to-br from-accent-gold/30 to-accent-gold/10 flex items-center justify-center">
-              <svg class="w-5 h-5 text-accent-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
-              </svg>
-            </div>
-            <h3 class="text-text-primary font-medium text-base mb-1">五维人格雷达图</h3>
-            <p class="text-text-tertiary text-sm">可视化你的 Big Five 人格特质</p>
+        <!-- 优势描述 -->
+        <div class="mt-6 grid grid-cols-3 gap-4">
+          <div class="text-center">
+            <p class="text-accent-cyan text-2xl font-bold mb-1">替你表演</p>
+            <p class="text-text-tertiary text-sm">AI 生替你维护社交关系</p>
           </div>
-          <div class="bg-surface/50 backdrop-blur-sm border border-white/10 rounded-xl p-5">
-            <div class="w-10 h-10 mb-3 rounded-lg bg-gradient-to-br from-accent-cyan/30 to-accent-cyan/10 flex items-center justify-center">
-              <svg class="w-5 h-5 text-accent-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </div>
-            <h3 class="text-text-primary font-medium text-base mb-1">亲密度圆环</h3>
-            <p class="text-text-tertiary text-sm">每段关系都有温度的可视化</p>
+          <div class="text-center">
+            <p class="text-accent-magenta text-2xl font-bold mb-1">让你真实</p>
+            <p class="text-text-tertiary text-sm">你不必再为社交而表演</p>
           </div>
-          <div class="bg-surface/50 backdrop-blur-sm border border-white/10 rounded-xl p-5">
-            <div class="w-10 h-10 mb-3 rounded-lg bg-gradient-to-br from-accent-magenta/30 to-accent-magenta/10 flex items-center justify-center">
-              <svg class="w-5 h-5 text-accent-magenta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-              </svg>
-            </div>
-            <h3 class="text-text-primary font-medium text-base mb-1">孪生意识流</h3>
-            <p class="text-text-tertiary text-sm">实时显示 AI 的思维映射</p>
-          </div>
-          <div class="bg-surface/50 backdrop-blur-sm border border-white/10 rounded-xl p-5">
-            <div class="w-10 h-10 mb-3 rounded-lg bg-gradient-to-br from-accent-gold/30 to-accent-gold/10 flex items-center justify-center">
-              <svg class="w-5 h-5 text-accent-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-              </svg>
-            </div>
-            <h3 class="text-text-primary font-medium text-base mb-1">意识交接仪式</h3>
-            <p class="text-text-tertiary text-sm">下线不是结束，是另一个开始</p>
+          <div class="text-center">
+            <p class="text-accent-gold text-2xl font-bold mb-1">你离线，它在线</p>
+            <p class="text-text-tertiary text-sm">24 小时不间断的真诚连接</p>
           </div>
         </div>
       </section>
@@ -333,42 +300,28 @@
           
           <div class="relative z-10">
             <h2 class="font-heading text-5xl font-medium text-text-primary mb-6 text-center gradient-text">
-              加入我们
+              三个人的故事
             </h2>
-            
-            <p class="font-body text-xl text-text-secondary text-center mb-8">
-              这是<strong class="text-accent-cyan text-2xl">湖大大二学生的个人项目</strong>
-            </p>
 
-            <!-- 招募岗位 -->
-            <div class="grid grid-cols-2 gap-4 mb-8">
-              <div class="bg-surface/70 backdrop-blur-sm border border-accent-cyan/20 rounded-xl p-5">
-                <div class="flex items-center mb-2">
-                  <span class="w-2 h-2 bg-accent-cyan rounded-full mr-3"></span>
-                  <h3 class="text-text-primary font-medium text-lg">视觉设计师</h3>
-                </div>
-                <p class="text-text-tertiary text-base ml-5">把"灵魂"翻译成像素</p>
+            <!-- 三个人的故事 -->
+            <div class="grid grid-cols-3 gap-4 mb-8">
+              <div class="bg-surface/70 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+                <h3 class="text-text-primary font-medium text-lg mb-3">小林，程序员</h3>
+                <p class="text-text-secondary text-base italic leading-relaxed">
+                  "我每天下班已经十点，根本不想回消息。但如果不回，朋友会觉得我冷漠。现在我的孪生替我聊，它甚至知道我喜欢用 😂 而不是 。上周它帮我和一个匹配对象聊了三天，最后我接管过来约会——对方完全没发现。"
+                </p>
               </div>
-              <div class="bg-surface/70 backdrop-blur-sm border border-accent-cyan/20 rounded-xl p-5">
-                <div class="flex items-center mb-2">
-                  <span class="w-2 h-2 bg-accent-cyan rounded-full mr-3"></span>
-                  <h3 class="text-text-primary font-medium text-lg">前端工程师</h3>
-                </div>
-                <p class="text-text-tertiary text-base ml-5">React 19 + TypeScript + 动效</p>
+              <div class="bg-surface/70 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+                <h3 class="text-text-primary font-medium text-lg mb-3">阿紫，插画师</h3>
+                <p class="text-text-secondary text-base italic leading-relaxed">
+                  "我有社交焦虑。每次发消息前要删改十遍。SoulClone 让我第一次感受到，屏幕那头的人喜欢的不是我的'表演'，而是我真正的说话方式。因为那是我训练出来的分身。"
+                </p>
               </div>
-              <div class="bg-surface/70 backdrop-blur-sm border border-accent-magenta/20 rounded-xl p-5">
-                <div class="flex items-center mb-2">
-                  <span class="w-2 h-2 bg-accent-magenta rounded-full mr-3"></span>
-                  <h3 class="text-text-primary font-medium text-lg">AI 工程师</h3>
-                </div>
-                <p class="text-text-tertiary text-base ml-5">人格蒸馏 + 情感记忆架构</p>
-              </div>
-              <div class="bg-surface/70 backdrop-blur-sm border border-accent-magenta/20 rounded-xl p-5">
-                <div class="flex items-center mb-2">
-                  <span class="w-2 h-2 bg-accent-magenta rounded-full mr-3"></span>
-                  <h3 class="text-text-primary font-medium text-lg">全栈工程师</h3>
-                </div>
-                <p class="text-text-tertiary text-base ml-5">FastAPI + PostgreSQL + WebSocket</p>
+              <div class="bg-surface/70 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+                <h3 class="text-text-primary font-medium text-lg mb-3">老张，产品经理</h3>
+                <p class="text-text-secondary text-base italic leading-relaxed">
+                  "我需要的不是更多社交，是更好的社交。孪生帮我过滤了 80% 的无效对话，只把真正值得我花时间的人推给我。它比我更清楚我想遇见谁。"
+                </p>
               </div>
             </div>
 
