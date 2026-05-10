@@ -43,24 +43,29 @@ class FidelityScorer:
                     return default
             return val
 
-        social_energy = _get("social_energy", 3)
-        social_avoidance = _get("social_avoidance", 3)
+        social_energy = _get("social_energy")
+        social_avoidance = _get("social_avoidance")
         if social_energy is not None and social_avoidance is not None:
-            # High energy + high avoidance = contradiction
-            raw = abs(social_energy - (6 - social_avoidance))
-            checks.append((True, min(1.0, raw / 5.0) * 100))
+            # Perfectly consistent: social_energy + social_avoidance = 6
+            # Contradiction level: distance from perfect consistency (0 = best, 5 = worst)
+            contradiction = abs(social_energy - (6 - social_avoidance))
+            # Invert: 0 contradiction → 100 consistency, 5 contradiction → 0 consistency
+            score = max(0.0, 100 - (contradiction / 5.0) * 100)
+            checks.append((True, score))
 
-        risk_love = _get("risk_love", 3)
-        caution = _get("caution", 3)
+        risk_love = _get("risk_love")
+        caution = _get("caution")
         if risk_love is not None and caution is not None:
-            raw = abs(risk_love - (6 - caution))
-            checks.append((True, min(1.0, raw / 5.0) * 100))
+            contradiction = abs(risk_love - (6 - caution))
+            score = max(0.0, 100 - (contradiction / 5.0) * 100)
+            checks.append((True, score))
 
-        emotional_express = _get("emotional_express", 3)
-        emotional_hide = _get("emotional_hide", 3)
+        emotional_express = _get("emotional_express")
+        emotional_hide = _get("emotional_hide")
         if emotional_express is not None and emotional_hide is not None:
-            raw = abs(emotional_express - (6 - emotional_hide))
-            checks.append((True, min(1.0, raw / 5.0) * 100))
+            contradiction = abs(emotional_express - (6 - emotional_hide))
+            score = max(0.0, 100 - (contradiction / 5.0) * 100)
+            checks.append((True, score))
 
         # Count how many questions were answered (completeness)
         answered = sum(
@@ -171,6 +176,8 @@ class FidelityScorer:
         base_consistency: float,
         behavioral_alignment: float,
         calibration_depth: float,
+        *,
+        behavioral_status: str = "computed",
     ) -> dict:
         """
         Combine three dimensions into a composite fidelity score with tier.
@@ -179,6 +186,10 @@ class FidelityScorer:
           - Base consistency: 40%
           - Behavioral alignment: 40%
           - Calibration depth: 20%
+
+        Args:
+            behavioral_status: "computed" (normal), "degraded" (embedding API failed),
+                or "insufficient_data" (not enough samples).
         """
         composite = (
             base_consistency * 0.40 +
@@ -193,6 +204,7 @@ class FidelityScorer:
             "overall": composite,
             "tier": tier["label"],
             "tier_description": tier["description"],
+            "status": behavioral_status,
             "dimensions": {
                 "base_consistency": round(base_consistency, 1),
                 "behavioral_alignment": round(behavioral_alignment, 1),

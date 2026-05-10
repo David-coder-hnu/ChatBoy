@@ -155,9 +155,10 @@ class PersonaDistiller:
         if not use_4d:
             return await self._monolithic_distill(q_json, chat_text, social_text)
 
-        # 4D parallel distillation — all four modules are independent
+        # 4D parallel distillation — all four modules are independent.
+        # return_exceptions=True so one failing module doesn't kill the whole batch.
         import asyncio
-        procedural, interaction, episodic, value = await asyncio.gather(
+        results = await asyncio.gather(
             self._distill_module(
                 PROCEDURAL_PROMPT,
                 questionnaire=q_json,
@@ -182,7 +183,17 @@ class PersonaDistiller:
                 chat_samples=chat_text,
                 social_import=social_text,
             ),
+            return_exceptions=True,
         )
+
+        # Unpack with graceful degradation: any failed module → empty dict
+        procedural, interaction, episodic, value = (
+            r if not isinstance(r, BaseException) else {} for r in results
+        )
+
+        # Track which modules degraded so confidence reflects actual quality
+        degraded = [r for r in results if isinstance(r, BaseException)]
+        _has_degraded = len(degraded) > 0
 
         # Merge with provenance tracking
         result = {
@@ -202,13 +213,15 @@ class PersonaDistiller:
                 "relationship_goals": value.get("relationship_goals", ""),
             },
             "_meta": {
-                "persona_core": {"source": "value+episodic", "confidence": 0.88},
-                "chat_dna": {"source": "interaction", "confidence": 0.92},
-                "decision_patterns": {"source": "procedural", "confidence": 0.85},
-                "memory_seed": {"source": "episodic", "confidence": 0.90},
-                "target_profile": {"source": "value", "confidence": 0.87},
+                "persona_core": {"source": "value+episodic", "confidence": 0.70 if isinstance(value, BaseException) else 0.88},
+                "chat_dna": {"source": "interaction", "confidence": 0.70 if isinstance(interaction, BaseException) else 0.92},
+                "decision_patterns": {"source": "procedural", "confidence": 0.70 if isinstance(procedural, BaseException) else 0.85},
+                "memory_seed": {"source": "episodic", "confidence": 0.70 if isinstance(episodic, BaseException) else 0.90},
+                "target_profile": {"source": "value", "confidence": 0.70 if isinstance(value, BaseException) else 0.87},
             },
         }
+        if _has_degraded:
+            result["_meta"]["degraded_modules"] = len(degraded)
         return result
 
     async def _distill_module(self, prompt_template: str, **kwargs) -> dict:

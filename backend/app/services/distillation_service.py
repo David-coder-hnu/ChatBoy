@@ -10,6 +10,7 @@ from app.models.clone_profile import CloneProfile
 from app.models.clone import Clone
 from app.models.distillation_job import DistillationJob
 from app.models.calibration_refinement import CalibrationRefinement
+from app.ai.llm_client import llm_client
 from app.ai.distillation.persona_distiller import PersonaDistiller
 from app.ai.distillation.style_extractor import StyleExtractor
 from app.ai.distillation.prompt_forge import PromptForge
@@ -91,6 +92,12 @@ class DistillationService:
             calibration_depth=calibration_depth,
         )
 
+        # Step 4.6: Generate voice preview samples
+        previews = await self.generate_voice_preview(
+            system_prompt=system_prompt,
+            chat_samples=chat_samples or [],
+        )
+
         if progress_callback:
             await progress_callback("persisting", 95)
 
@@ -160,7 +167,62 @@ class DistillationService:
             "validation": validation,
             "overall_score": overall_score,
             "fidelity": fidelity_result,
+            "voice_previews": previews,
         }
+
+    # ------------------------------------------------------------------
+    # Voice preview
+    # ------------------------------------------------------------------
+
+    async def generate_voice_preview(
+        self,
+        system_prompt: str,
+        chat_samples: list[str],
+        count: int = 3,
+    ) -> list[dict]:
+        """
+        Generate sample replies to show the user what their clone sounds like.
+
+        Uses the user's own chat samples as prompts — extracts the other person's
+        messages and re-generates replies with the forged system prompt so the user
+        can compare "what I actually said" vs "what my clone would say."
+        """
+        import random
+        if not chat_samples:
+            return []
+
+        # Pick random samples to use as prompt contexts
+        seed_samples = random.sample(chat_samples, min(count, len(chat_samples)))
+        previews = []
+
+        for sample in seed_samples:
+            # Truncate for prompt
+            sample_short = sample[:300]
+            prompt = f"""{system_prompt}
+
+有人发来消息："{sample_short}"
+
+用你自己的说话风格回复这条消息。像真人一样自然回复，不要解释、不要说教。
+只输出回复文本，不要加引号。"""
+
+            try:
+                raw = await llm_client.chat_completion(
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.8,
+                    max_tokens=150,
+                    task_type="voice_preview",
+                )
+                reply = raw if isinstance(raw, str) else ""
+            except Exception:
+                reply = ""
+
+            if reply:
+                previews.append({
+                    "prompt_snippet": sample_short[:100],
+                    "clone_reply": reply,
+                })
+
+        return previews
 
     # ------------------------------------------------------------------
     # Calibration refinement

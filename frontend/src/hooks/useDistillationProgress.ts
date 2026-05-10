@@ -7,6 +7,8 @@ export interface DistillationProgress {
   overall_score?: number
   profile_id?: string
   error?: string
+  voice_previews?: { prompt_snippet: string; clone_reply: string }[]
+  fidelity?: Record<string, unknown>
 }
 
 export function useDistillationProgress(jobId: string | null) {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Upload, MessageSquare, Brain, Sparkles, ChevronRight, Loader2, AlertCircle, CheckCircle, RefreshCw } from 'lucide-react'
+import { Upload, MessageSquare, Brain, Sparkles, ChevronRight, Loader2, AlertCircle, CheckCircle, RefreshCw, ThumbsUp, ThumbsDown } from 'lucide-react'
 import { api } from '@/lib/api'
 import { useDistillationProgress } from '@/hooks/useDistillationProgress'
 import AnimatedBackground from '@/components/shared/AnimatedBackground'
@@ -48,6 +48,7 @@ export default function OnboardingPage() {
   const [progress, setProgress] = useState(0)
   const [distillError, setDistillError] = useState('')
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null)
+  const [voicePreviews, setVoicePreviews] = useState<{ prompt_snippet: string; clone_reply: string }[]>([])
   const [jobId, setJobId] = useState<string | null>(null)
   const navigate = useNavigate()
 
@@ -73,6 +74,9 @@ export default function OnboardingPage() {
     setProgress(sseProgress.percent)
     if (sseProgress.status === 'completed') {
       setStep('complete')
+      if (sseProgress.voice_previews) {
+        setVoicePreviews(sseProgress.voice_previews)
+      }
       if (sseProgress.overall_score) {
         setValidationResult({
           consistency_score: Math.round(sseProgress.overall_score),
@@ -432,6 +436,25 @@ export default function OnboardingPage() {
                 </div>
               )}
 
+              {/* Voice Preview — hear your clone's voice */}
+              {voicePreviews.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="mb-8 text-left"
+                >
+                  <h3 className="text-sm font-medium text-text-secondary mb-3">
+                    听听你的孪生会怎么回复
+                  </h3>
+                  <div className="space-y-3">
+                    {voicePreviews.map((preview, i) => (
+                      <VoicePreviewCard key={i} preview={preview} index={i} />
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -445,5 +468,49 @@ export default function OnboardingPage() {
         </AnimatePresence>
       </div>
     </div>
+  )
+}
+
+function VoicePreviewCard({
+  preview,
+  index,
+}: {
+  preview: { prompt_snippet: string; clone_reply: string }
+  index: number
+}) {
+  const [feedback, setFeedback] = useState<'up' | 'down' | null>(null)
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 0.6 + index * 0.1 }}
+      className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <p className="text-xs text-text-ghost mb-1">对方说："{preview.prompt_snippet}..."</p>
+          <p className="text-sm text-text-primary">"{preview.clone_reply}"</p>
+        </div>
+        <div className="flex items-center gap-1 shrink-0">
+          <button
+            onClick={() => setFeedback(feedback === 'up' ? null : 'up')}
+            className={`p-1.5 rounded-lg transition-colors ${
+              feedback === 'up' ? 'bg-accent-cyan/10 text-accent-cyan' : 'text-text-ghost hover:text-accent-cyan'
+            }`}
+          >
+            <ThumbsUp size={14} />
+          </button>
+          <button
+            onClick={() => setFeedback(feedback === 'down' ? null : 'down')}
+            className={`p-1.5 rounded-lg transition-colors ${
+              feedback === 'down' ? 'bg-accent-magenta/10 text-accent-magenta' : 'text-text-ghost hover:text-accent-magenta'
+            }`}
+          >
+            <ThumbsDown size={14} />
+          </button>
+        </div>
+      </div>
+    </motion.div>
   )
 }

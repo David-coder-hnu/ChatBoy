@@ -3,15 +3,14 @@ import { motion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   MessageCircle, Heart, Users, Activity,
-  ChevronRight, Sparkles, Bell,
-  Zap, MessageSquare, Star, Ghost, Plus
+  ChevronRight, Sparkles, Bell, Ghost, Plus
 } from 'lucide-react'
 import AppShell from '@/components/layout/AppShell'
 import { Card } from '@/components/ui/Card'
 import { useAuthStore } from '@/stores/authStore'
 import { useCloneStats } from '@/hooks/useCloneStats'
-import { useCloneActivities } from '@/hooks/useCloneActivities'
 import { useNotifications } from '@/hooks/useNotifications'
+import { useDailyBrief } from '@/hooks/useDailyBrief'
 import { FadeIn, StaggerContainer, StaggerItem, CountUp, GlowPulse } from '@/components/shared/Motion'
 import { SkeletonList, ErrorState } from '@/components/shared/DataStates'
 import AmbientBackground from '@/components/shared/AmbientBackground'
@@ -22,7 +21,6 @@ export default function HomePage() {
   const { user } = useAuthStore()
   const navigate = useNavigate()
   const { data: stats, isLoading: statsLoading, error: statsError } = useCloneStats()
-  const { data: activities, isLoading: actLoading, error: actError } = useCloneActivities()
   const { unreadCount: notifUnreadCount } = useNotifications()
 
   const [onlineActive, setOnlineActive] = useState(stats?.status === 'active')
@@ -38,9 +36,9 @@ export default function HomePage() {
     { icon: Activity, label: '社区互动', value: (stats.total_posts || 0) + (stats.total_comments || 0), color: 'text-text-tertiary', bg: 'bg-text-tertiary', highlight: false },
   ] : []
 
-  const isLoading = statsLoading || actLoading
+  const isLoading = statsLoading
 
-  if (statsError || actError) {
+  if (statsError) {
     return (
       <AppShell>
         <AmbientBackground variant="home">
@@ -205,59 +203,8 @@ export default function HomePage() {
             </StaggerContainer>
           )}
 
-          {/* Activities — space over chrome */}
-          <FadeIn delay={0.2}>
-            <div className="mb-4">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-medium">最近动态</h3>
-                <Link to="/clone" className="text-xs text-accent-cyan hover:underline">查看全部</Link>
-              </div>
-              {isLoading ? (
-                <div className="space-y-3">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-12 bg-white/5 rounded-xl animate-pulse" />
-                  ))}
-                </div>
-              ) : activities && activities.length > 0 ? (
-                <div className="space-y-1">
-                  {activities.slice(0, 5).map((activity, i) => {
-                    const typeConfig: Record<string, { icon: typeof Zap; color: string; bg: string }> = {
-                      message: { icon: MessageSquare, color: 'text-accent-cyan', bg: 'bg-accent-cyan/10' },
-                      match: { icon: Heart, color: 'text-accent-magenta', bg: 'bg-accent-magenta/10' },
-                      post: { icon: Star, color: 'text-accent-gold', bg: 'bg-accent-gold/10' },
-                      takeover: { icon: Ghost, color: 'text-accent-cyan', bg: 'bg-accent-cyan/10' },
-                      default: { icon: Zap, color: 'text-text-tertiary', bg: 'bg-white/5' },
-                    }
-                    const config = typeConfig[activity.action_type] || typeConfig.default
-                    const Icon = config.icon
-                    return (
-                      <motion.div
-                        key={activity.id}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.3 + i * 0.05 }}
-                        className="flex items-center gap-3 py-3 px-1 hover:bg-white/[0.02] rounded-xl transition-colors"
-                      >
-                        <div className={`w-8 h-8 rounded-lg ${config.bg} flex items-center justify-center shrink-0`}>
-                          <Icon size={14} className={config.color} />
-                        </div>
-                        <span className="text-sm text-text-secondary flex-1">{activity.description || activity.action_type}</span>
-                        <span className="text-xs text-text-tertiary font-mono">
-                          {new Date(activity.created_at).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
-                        </span>
-                      </motion.div>
-                    )
-                  })}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <Activity size={24} className="text-text-ghost mx-auto mb-2" />
-                  <p className="text-sm text-text-tertiary">暂无活动记录</p>
-                  <p className="text-xs text-text-ghost mt-1">你的孪生还在熟悉这个世界</p>
-                </div>
-              )}
-            </div>
-          </FadeIn>
+          {/* Daily Brief — story-driven replacement for activity log */}
+          <DailyBriefSection />
         </div>
       </AmbientBackground>
 
@@ -269,5 +216,37 @@ export default function HomePage() {
         onComplete={() => setShowHandover(false)}
       />
     </AppShell>
+  )
+}
+
+function DailyBriefSection() {
+  const { data: brief, isLoading } = useDailyBrief()
+
+  return (
+    <FadeIn delay={0.2}>
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-medium">今日简报</h3>
+          <Link to="/clone" className="text-xs text-accent-cyan hover:underline">查看全部</Link>
+        </div>
+        {isLoading ? (
+          <div className="h-16 bg-white/5 rounded-xl animate-pulse" />
+        ) : brief?.brief ? (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5, ease: 'easeOut' }}
+            className="text-sm text-text-secondary leading-relaxed py-3 px-1"
+          >
+            {brief.brief}
+          </motion.p>
+        ) : (
+          <div className="text-center py-6">
+            <Ghost size={20} className="text-text-ghost mx-auto mb-2 opacity-40" />
+            <p className="text-sm text-text-tertiary">{brief?.message || '你的孪生还在熟悉这个世界'}</p>
+          </div>
+        )}
+      </div>
+    </FadeIn>
   )
 }

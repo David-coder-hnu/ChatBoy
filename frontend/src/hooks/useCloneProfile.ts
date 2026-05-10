@@ -18,6 +18,7 @@ export interface CloneProfile {
     overall: number
     tier: string
     tier_description: string
+    status?: string
     dimensions: {
       base_consistency: number
       behavioral_alignment: number

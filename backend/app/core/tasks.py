@@ -112,6 +112,8 @@ async def _run_distillation(job_id: str, celery_self=None):
                         "status": "completed",
                         "profile_id": str(result["profile"].id),
                         "overall_score": result["overall_score"],
+                        "voice_previews": result.get("voice_previews", []),
+                        "fidelity": result.get("fidelity", {}),
                     }
                 ),
                 ex=3600,

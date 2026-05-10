@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class DistillationInput(BaseModel):
@@ -33,8 +33,8 @@ class CloneProfileOut(BaseModel):
 
 
 class CalibrationCorrection(BaseModel):
-    original_response: str
-    corrected_response: str
+    original_response: str = Field(..., min_length=1, description="What the clone said")
+    corrected_response: str = Field(..., min_length=1, description="What the user would have said")
     conversation_context: dict | None = None
     correction_note: str | None = None
 

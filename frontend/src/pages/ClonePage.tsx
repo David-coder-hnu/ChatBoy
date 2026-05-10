@@ -295,6 +295,17 @@ export default function ClonePage() {
                 </Card>
               </motion.div>
 
+              {/* Fidelity Panel — how close is your clone to the real you */}
+              {profile?.fidelity_meta && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35 }}
+                >
+                  <FidelityPanel fidelity={profile.fidelity_meta} />
+                </motion.div>
+              )}
+
               {/* Twin Status + Stats row */}
               <div className="grid md:grid-cols-3 gap-4">
                 <motion.div
@@ -398,5 +409,74 @@ export default function ClonePage() {
         onComplete={() => setShowHandover(false)}
       />
     </AppShell>
+  )
+}
+
+function FidelityPanel({ fidelity }: { fidelity: NonNullable<ReturnType<typeof useCloneProfile>['data']>['fidelity_meta'] }) {
+  if (!fidelity) return null
+
+  const tierColors: Record<string, { border: string; text: string; bg: string }> = {
+    '精良级': { border: 'border-accent-gold/40', text: 'text-accent-gold', bg: 'bg-accent-gold/5' },
+    '稳固级': { border: 'border-accent-cyan/40', text: 'text-accent-cyan', bg: 'bg-accent-cyan/5' },
+  }
+
+  const defaultColor = { border: 'border-accent-magenta/30', text: 'text-accent-magenta', bg: 'bg-accent-magenta/5' }
+  const tc = tierColors[fidelity.tier] || defaultColor
+
+  const dims = fidelity.dimensions
+
+  return (
+    <Card variant="elevated" className={`border ${tc.border} ${tc.bg}`}>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <FlaskConical size={18} className="text-accent-gold" />
+          <h3 className="font-medium">符合度</h3>
+        </div>
+        <div className={`flex items-center gap-2 px-3 py-1 rounded-full ${tc.bg} ${tc.border} border`}>
+          <div className={`w-2 h-2 rounded-full ${tc.text.replace('text-', 'bg-')}`} />
+          <span className={`text-sm font-semibold ${tc.text}`}>{fidelity.tier}</span>
+        </div>
+      </div>
+
+      <div className="flex items-end gap-4 mb-4">
+        <span className={`font-mono text-4xl font-bold ${tc.text}`}>
+          {Math.round(fidelity.overall)}
+        </span>
+        <span className="text-xs text-text-tertiary pb-1">/ 100</span>
+      </div>
+
+      <p className="text-xs text-text-tertiary mb-4">{fidelity.tier_description}</p>
+
+      <div className="space-y-2">
+        {[
+          { key: 'base_consistency', label: '基础一致性', desc: '问卷答案自洽度' },
+          { key: 'behavioral_alignment', label: '行为对齐', desc: '孪生 vs 真人的相似度' },
+          { key: 'calibration_depth', label: '校准深度', desc: '训练数据投入量' },
+        ].map((dim) => {
+          const score = (dims as Record<string, number>)[dim.key] ?? 0
+          const barColor = score >= 80 ? 'bg-accent-gold' : score >= 60 ? 'bg-accent-cyan' : 'bg-accent-magenta'
+          return (
+            <div key={dim.key} className="flex items-center gap-3">
+              <span className="text-xs text-text-ghost w-20 shrink-0">{dim.label}</span>
+              <div className="flex-1 h-2 bg-white/[0.04] rounded-full overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${Math.min(100, Math.max(0, score))}%` }}
+                  transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
+                  className={`h-full rounded-full ${barColor}`}
+                />
+              </div>
+              <span className="text-xs text-text-tertiary font-mono w-10 text-right">{Math.round(score)}</span>
+            </div>
+          )
+        })}
+      </div>
+
+      {fidelity.status && fidelity.status !== 'computed' && (
+        <p className="text-xs text-accent-magenta mt-3">
+          {fidelity.status === 'degraded' ? '部分数据计算降级，结果仅供参考' : '数据不足，完成更多校准后提升精度'}
+        </p>
+      )}
+    </Card>
   )
 }
