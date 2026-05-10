@@ -23,8 +23,23 @@ class CloneProfileOut(BaseModel):
     memory_seed: str | None = None
     system_prompt: str
     autonomy_level: int
+    fidelity_score: float | None = None
+    fidelity_meta: dict | None = None
     distilled_at: datetime | None = None
     created_at: datetime
 
     class Config:
         from_attributes = True
+
+
+class CalibrationCorrection(BaseModel):
+    original_response: str
+    corrected_response: str
+    conversation_context: dict | None = None
+    correction_note: str | None = None
+
+
+class CalibrationResult(BaseModel):
+    fidelity: dict
+    behavioral_alignment: float
+    calibration_count: int

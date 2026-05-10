@@ -21,6 +21,37 @@ export interface CloneProfile {
   chat_dna: Record<string, unknown>
   system_prompt: string
   autonomy_level: number
+  fidelity_score: number | null
+  fidelity_meta: FidelityMeta | null
+}
+
+export interface FidelityMeta {
+  overall: number
+  tier: string
+  tier_description: string
+  dimensions: {
+    base_consistency: number
+    behavioral_alignment: number
+    calibration_depth: number
+  }
+  weights: {
+    base_consistency: number
+    behavioral_alignment: number
+    calibration_depth: number
+  }
+}
+
+export interface CalibrationCorrection {
+  original_response: string
+  corrected_response: string
+  conversation_context?: Record<string, unknown>
+  correction_note?: string
+}
+
+export interface CalibrationResult {
+  fidelity: FidelityMeta
+  behavioral_alignment: number
+  calibration_count: number
 }
 
 export interface Conversation {

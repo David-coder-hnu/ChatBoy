@@ -12,7 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from app.dependencies import get_db, get_current_user_id
-from app.schemas.clone_profile import DistillationInput
+from app.schemas.clone_profile import DistillationInput, CalibrationCorrection, CalibrationResult
 from app.services.distillation_service import DistillationService
 from app.core.redis_client import redis_client
 from app.models.distillation_job import DistillationJob
@@ -253,6 +253,31 @@ async def get_profile(
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
     return CloneProfileOut.model_validate(profile)
+
+
+@router.post("/calibrate", response_model=CalibrationResult)
+async def calibrate_clone(
+    data: CalibrationCorrection,
+    user_id: uuid.UUID = Depends(get_current_user_id),
+    db: AsyncSession = Depends(get_db),
+):
+    """Submit a correction to refine the clone's behavioral alignment.
+
+    Call this when you see a clone response that doesn't sound like you
+    and you want to teach it what you would have said instead.
+    """
+    service = DistillationService()
+    result = await service.refine_from_correction(
+        user_id=str(user_id),
+        correction_context={
+            "original_response": data.original_response,
+            "corrected_response": data.corrected_response,
+            "conversation_context": data.conversation_context,
+            "correction_note": data.correction_note,
+        },
+        db=db,
+    )
+    return result
 
 
 @router.delete("/profile")

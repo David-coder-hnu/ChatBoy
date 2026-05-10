@@ -47,6 +47,10 @@ class CloneProfile(Base, UUIDMixin, TimestampMixin):
         DateTime(timezone=True), nullable=True
     )
 
+    # Fidelity scoring
+    fidelity_score: Mapped[float | None] = mapped_column(DECIMAL(5, 2), nullable=True)
+    fidelity_meta: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+
     # Versioning & metadata
     version: Mapped[int] = mapped_column(Integer, default=1)
     distillation_meta: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)

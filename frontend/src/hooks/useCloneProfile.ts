@@ -13,6 +13,17 @@ export interface CloneProfile {
   completion_score: number
   is_activated: boolean
   version: number
+  fidelity_score: number | null
+  fidelity_meta: {
+    overall: number
+    tier: string
+    tier_description: string
+    dimensions: {
+      base_consistency: number
+      behavioral_alignment: number
+      calibration_depth: number
+    }
+  } | null
 }
 
 async function fetchCloneProfile(): Promise<CloneProfile | null> {

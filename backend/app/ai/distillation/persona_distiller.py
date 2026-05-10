@@ -155,30 +155,33 @@ class PersonaDistiller:
         if not use_4d:
             return await self._monolithic_distill(q_json, chat_text, social_text)
 
-        # 4D parallel distillation
-        procedural = await self._distill_module(
-            PROCEDURAL_PROMPT,
-            questionnaire=q_json,
-            chat_samples=chat_text,
-            social_import=social_text,
-        )
-        interaction = await self._distill_module(
-            INTERACTION_PROMPT,
-            questionnaire=q_json,
-            chat_samples=chat_text,
-            social_import=social_text,
-        )
-        episodic = await self._distill_module(
-            EPISODIC_PROMPT,
-            questionnaire=q_json,
-            chat_samples=chat_text,
-            social_import=social_text,
-        )
-        value = await self._distill_module(
-            VALUE_PROMPT,
-            questionnaire=q_json,
-            chat_samples=chat_text,
-            social_import=social_text,
+        # 4D parallel distillation — all four modules are independent
+        import asyncio
+        procedural, interaction, episodic, value = await asyncio.gather(
+            self._distill_module(
+                PROCEDURAL_PROMPT,
+                questionnaire=q_json,
+                chat_samples=chat_text,
+                social_import=social_text,
+            ),
+            self._distill_module(
+                INTERACTION_PROMPT,
+                questionnaire=q_json,
+                chat_samples=chat_text,
+                social_import=social_text,
+            ),
+            self._distill_module(
+                EPISODIC_PROMPT,
+                questionnaire=q_json,
+                chat_samples=chat_text,
+                social_import=social_text,
+            ),
+            self._distill_module(
+                VALUE_PROMPT,
+                questionnaire=q_json,
+                chat_samples=chat_text,
+                social_import=social_text,
+            ),
         )
 
         # Merge with provenance tracking
