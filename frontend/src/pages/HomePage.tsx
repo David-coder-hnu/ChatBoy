@@ -147,36 +147,34 @@ export default function HomePage() {
                 </div>
               </Card>
             ) : (
-              <div className={onlineActive ? 'conic-glow' : ''}>
-                <Card variant="elevated" className="mb-8">
-                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div className="flex items-center gap-4">
-                      <GlowPulse color="cyan">
-                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all ${
-                          onlineActive
-                            ? 'bg-gradient-to-br from-accent-cyan to-accent-magenta'
-                            : 'bg-bg-600 border border-white/10'
-                        }`}>
-                          <Sparkles size={24} className={onlineActive ? 'text-white' : 'text-text-disabled'} />
-                        </div>
-                      </GlowPulse>
-                      <div>
-                        <h2 className="font-sans text-xl font-bold">自动模式</h2>
-                        <p className="text-text-secondary text-sm">
-                          {onlineActive ? '正在替你社交、匹配、维系关系' : '离线中，你的孪生不会主动行动'}
-                        </p>
+              <Card variant="elevated" className="mb-8">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                  <div className="flex items-center gap-4">
+                    <GlowPulse color="cyan">
+                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all ${
+                        onlineActive
+                          ? 'bg-gradient-to-br from-accent-cyan to-accent-magenta'
+                          : 'bg-bg-600 border border-white/10'
+                      }`}>
+                        <Sparkles size={24} className={onlineActive ? 'text-white' : 'text-text-disabled'} />
                       </div>
+                    </GlowPulse>
+                    <div>
+                      <h2 className="font-sans text-xl font-bold">自动模式</h2>
+                      <p className="text-text-secondary text-sm">
+                        {onlineActive ? '正在替你社交、匹配、维系关系' : '离线中，你的孪生不会主动行动'}
+                      </p>
                     </div>
-                    <Link
-                      to="/clone"
-                      className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/[0.08] text-text-secondary text-sm font-medium hover:border-white/15 hover:text-text-primary transition-colors"
-                    >
-                      管理孪生
-                      <ChevronRight size={16} />
-                    </Link>
                   </div>
-                </Card>
-              </div>
+                  <Link
+                    to="/clone"
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/[0.08] text-text-secondary text-sm font-medium hover:border-white/15 hover:text-text-primary transition-colors"
+                  >
+                    管理孪生
+                    <ChevronRight size={16} />
+                  </Link>
+                </div>
+              </Card>
             )}
           </FadeIn>
 
