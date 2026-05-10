@@ -8,10 +8,12 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   errorMessage?: string
   prefixIcon?: React.ReactNode
   suffixIcon?: React.ReactNode
+  label?: string
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, variant = 'default', inputSize = 'md', error, errorMessage, prefixIcon, suffixIcon, ...props }, ref) => {
+  ({ className, variant = 'default', inputSize = 'md', error, errorMessage, prefixIcon, suffixIcon, label, id, ...props }, ref) => {
+    const inputId = id || props.name
     const baseStyles =
       'w-full bg-bg-500 text-text-primary placeholder-text-placeholder text-sm font-normal transition-all duration-200 ease-liquid focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed'
 
@@ -35,6 +37,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className="w-full">
+        {label && (
+          <label htmlFor={inputId} className="block text-sm font-medium mb-2 text-text-secondary">
+            {label}
+          </label>
+        )}
         <div className="relative">
           {prefixIcon && (
             <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-ghost pointer-events-none">
@@ -43,6 +50,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
           <input
             ref={ref}
+            id={inputId}
             className={cn(
               baseStyles,
               sizeStyles[resolvedSize],

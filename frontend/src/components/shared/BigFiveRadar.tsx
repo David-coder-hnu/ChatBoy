@@ -7,23 +7,25 @@ interface BigFiveRadarProps {
   variant?: 'cyan' | 'magenta' | 'gold'
 }
 
+const colorVarMap = {
+  cyan:    'var(--accent-cyan)',
+  magenta: 'var(--accent-magenta)',
+  gold:    'var(--accent-gold)',
+}
+
 const gradientMap = {
-  cyan:    ['rgba(0,240,255,0.2)',   'rgba(255,0,110,0.15)', 'rgba(255,190,11,0.1)'],
-  magenta: ['rgba(255,0,110,0.2)',   'rgba(0,240,255,0.15)', 'rgba(255,190,11,0.1)'],
-  gold:    ['rgba(255,190,11,0.2)',  'rgba(0,240,255,0.15)', 'rgba(255,0,110,0.1)'],
+  cyan:    ['color-mix(in srgb, var(--accent-cyan) 20%, transparent)', 'color-mix(in srgb, var(--accent-magenta) 15%, transparent)', 'color-mix(in srgb, var(--accent-gold) 10%, transparent)'],
+  magenta: ['color-mix(in srgb, var(--accent-magenta) 20%, transparent)', 'color-mix(in srgb, var(--accent-cyan) 15%, transparent)', 'color-mix(in srgb, var(--accent-gold) 10%, transparent)'],
+  gold:    ['color-mix(in srgb, var(--accent-gold) 20%, transparent)', 'color-mix(in srgb, var(--accent-cyan) 15%, transparent)', 'color-mix(in srgb, var(--accent-magenta) 10%, transparent)'],
 }
 
 const strokeMap = {
-  cyan:    'rgba(0,240,255,0.5)',
-  magenta: 'rgba(255,0,110,0.5)',
-  gold:    'rgba(255,190,11,0.5)',
+  cyan:    'color-mix(in srgb, var(--accent-cyan) 50%, transparent)',
+  magenta: 'color-mix(in srgb, var(--accent-magenta) 50%, transparent)',
+  gold:    'color-mix(in srgb, var(--accent-gold) 50%, transparent)',
 }
 
-const dotMap = {
-  cyan:    '#00f0ff',
-  magenta: '#ff006e',
-  gold:    '#ffbe0b',
-}
+const dotMap = colorVarMap
 
 export default function BigFiveRadar({ traits, size = 180, className = '', variant = 'cyan' }: BigFiveRadarProps) {
   const keys = Object.keys(traits)

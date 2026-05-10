@@ -100,7 +100,7 @@ export default function ChatPage() {
                               <circle
                                 cx="28" cy="28" r="26"
                                 fill="none"
-                                stroke={conv.intimacy >= 70 ? '#ffbe0b' : conv.intimacy >= 40 ? '#00f0ff' : '#ff006e'}
+                                stroke={conv.intimacy >= 70 ? 'var(--accent-gold)' : conv.intimacy >= 40 ? 'var(--accent-cyan)' : 'var(--accent-magenta)'}
                                 strokeWidth={2}
                                 strokeLinecap="round"
                                 strokeDasharray={`${conv.intimacy * 1.63} 163`}

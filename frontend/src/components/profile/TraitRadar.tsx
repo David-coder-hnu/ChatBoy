@@ -33,16 +33,17 @@ export default function TraitRadar({ traits, size = 160 }: TraitRadarProps) {
             return `${p.x},${p.y}`
           }).join(' ')}
           fill="none"
-          stroke="rgba(255,255,255,0.05)"
+          stroke="var(--text-ghost)"
           strokeWidth={1}
+          opacity={0.15}
         />
       ))}
 
       {/* Data */}
       <motion.path
         d={pathD}
-        fill="rgba(0,240,255,0.15)"
-        stroke="#00f0ff"
+        fill="color-mix(in srgb, var(--accent-cyan) 15%, transparent)"
+        stroke="var(--accent-cyan)"
         strokeWidth={2}
         initial={{ pathLength: 0, opacity: 0 }}
         animate={{ pathLength: 1, opacity: 1 }}

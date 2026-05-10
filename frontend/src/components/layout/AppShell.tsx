@@ -23,6 +23,8 @@ function FloatingDock() {
 
   return (
     <motion.nav
+      role="navigation"
+      aria-label="主导航"
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: 'spring', stiffness: 200, damping: 25, delay: 0.3 }}
@@ -37,7 +39,9 @@ function FloatingDock() {
             <Link
               key={item.path}
               to={item.path}
-              className="relative flex flex-col items-center justify-center"
+              aria-label={item.label}
+              aria-current={isActive ? 'page' : undefined}
+              className="relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px]"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
@@ -141,11 +145,16 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen relative">
+      {/* Skip link for keyboard users */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-accent-cyan focus:text-black focus:outline-none">
+        跳转到主要内容
+      </a>
+
       {/* Top bar */}
       <TopBar />
 
       {/* Main Content — no sidebar margin, full bleed */}
-      <main className={cn('relative min-h-screen pt-20', !hideNav && 'pb-24')}>
+      <main id="main-content" role="main" className={cn('relative min-h-screen pt-20', !hideNav && 'pb-24')}>
         {children}
       </main>
 

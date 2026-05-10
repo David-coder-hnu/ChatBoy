@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 export default function PostSkeleton() {
   return (
     <motion.div
+      role="status" aria-busy="true" aria-label="加载中"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="bg-bg-500 border border-white/[0.06] rounded-3xl p-5 md:p-6 space-y-4"

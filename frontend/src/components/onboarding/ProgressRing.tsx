@@ -37,8 +37,8 @@ export default function ProgressRing({ progress, size = 120, strokeWidth = 6 }: 
         />
         <defs>
           <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#00f0ff" />
-            <stop offset="100%" stopColor="#ff006e" />
+            <stop offset="0%" stopColor="var(--accent-cyan)" />
+            <stop offset="100%" stopColor="var(--accent-magenta)" />
           </linearGradient>
         </defs>
       </svg>

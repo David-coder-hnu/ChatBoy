@@ -6,7 +6,7 @@ import { ReactNode } from 'react'
 
 export function SkeletonCard({ className = '' }: { className?: string }) {
   return (
-    <div className={`bg-bg-500 border border-white/[0.06] rounded-2xl p-5 ${className}`}>
+    <div role="status" aria-busy="true" aria-label="加载中" className={`bg-bg-500 border border-white/[0.06] rounded-2xl p-5 ${className}`}>
       <div className="flex items-center gap-4 mb-4">
         <div className="w-12 h-12 rounded-full bg-white/5 animate-pulse" />
         <div className="flex-1 space-y-2">
